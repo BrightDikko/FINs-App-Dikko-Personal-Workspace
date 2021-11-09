@@ -19,47 +19,51 @@ export const storeHighScore = (score) => {
   //   };
   //   console.log(data);
   // });
-  firebase.database().ref('users/jack').set({
-    highscore: score
-  })
+  let ref = firebase.database().ref('recipe_list');
+  // Attach an asynchronous callback to read the data at our posts reference
+  ref.on('value', (snapshot) => {
+    console.log(snapshot.val());
+  }, (errorObject) => {
+    console.log('The read failed: ' + errorObject.name);
+  });
 }
 
 export const Example = () => {
-    return (
-      <>
-        <Button onPress={() => storeHighScore(10)}>Primary</Button>
-      </>
-    )
-  }
+  return (
+    <>
+      <Button onPress={() => storeHighScore(10)}>Primary Button</Button>
+    </>
+  )
+}
 
-  export default function TabOneScreen(navigation) {
+export default function TabOneScreen(navigation) {
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Home Screen</Text>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Home Screen</Text>
 
-        <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        <NativeBaseProvider>
-          <Example />
-        </NativeBaseProvider>
-      </View>
-    );
-  }
+      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <NativeBaseProvider>
+        <Example />
+      </NativeBaseProvider>
+    </View>
+  );
+}
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    separator: {
-      marginVertical: 30,
-      height: 1,
-      width: '80%',
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+});
