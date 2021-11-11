@@ -9,7 +9,7 @@ The Food Information Network System (FINS) project team is focused on creating s
 | Project                                                 | Description                                                                                                                                                                           |
 |:--------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [React Native Mobile App](food-app)                  | The React Native project for the FINS mobile app currently in development.                                                                   |
-| [API Reference](api)                            | API Tests and information relating to the Kroger and Walmart shopper API                                                                                          |
+| [API Reference](store-api)                            | API Tests and information relating to the Kroger and Walmart shopper API                                                                                          |
 
 # Install
 
