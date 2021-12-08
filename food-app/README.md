@@ -61,24 +61,24 @@ To gain access to the firebase project console, please contact Jack (jgordley@nd
 
 ## Suggested Resources
 If you are new to React-Native or this general workflow, we recommend following through one or more of the following tutorials:
-* [https://reactnative.dev/docs/tutorial](React Native Official Starter Tutorial (~15 min))
-* [https://thoughtbot.com/blog/structure-for-styling-in-react-native](React Native Styling Best Practices (~30 min))
-* [https://www.simplilearn.com/react-native-tutorial-article](Full Walkthrough - Todo list app (~1 hour))
-* [https://reactnative.dev/docs/components-and-apis](React Native Official Core Components Documentation)
-* [https://firebase.google.com/docs/firestore/query-data/get-data](Firebase Firestore offical documentation)
-* [https://reactnavigation.org/docs/getting-started](React Navigation official documentation (we use the drawer navigator))
+* [React Native Official Starter Tutorial (~15 min)](https://reactnative.dev/docs/tutorial)
+* [React Native Styling Best Practices (~30 min)](https://thoughtbot.com/blog/structure-for-styling-in-react-native)
+* [Full Walkthrough - Todo list app (~1 hour)](https://www.simplilearn.com/react-native-tutorial-article)
+* [React Native Official Core Components Documentation](https://reactnative.dev/docs/components-and-apis)
+* [Firebase Firestore offical documentation](https://firebase.google.com/docs/firestore/query-data/get-data)
+* [React Navigation official documentation (we use the drawer navigator)](https://reactnavigation.org/docs/getting-started)
 
 ## Important Next Steps
 
 ### Difficulty: Easy
-* Develop script in `Node.js` to import json data to Firebase so more advanced recipe and food information can be sent to Firebase. [https://levelup.gitconnected.com/firebase-import-json-to-firestore-ed6a4adc2b57](This tutorial) shows how to set this up.
+* Develop script in `Node.js` to import json data to Firebase so more advanced recipe and food information can be sent to Firebase. [This tutorial](https://levelup.gitconnected.com/firebase-import-json-to-firestore-ed6a4adc2b57) shows how to set this up.
 * Improve general styling of the app, possibly by implementing from the best practices tutorial above
 
 ### Difficult: Medium
 * Add a page that can render recipe data when clicked from the home page instead of taking the user to an external recipe link.
-* Improve styling of the home page by adding a health score indicator of some kind. Inspiration can be found [https://reactjsexample.com/react-component-to-display-a-score-with-a-steps-chart/](here with a doughnut style indicator)
+* Improve styling of the home page by adding a health score indicator of some kind. Inspiration can be found [here with a doughnut style indicator](https://reactjsexample.com/react-component-to-display-a-score-with-a-steps-chart/)
 * Finish the user settings page with specified 
 
 ### Difficulty: Hard
-* Implement and store a unique uuid using [https://www.npmjs.com/package/react-native-uuid](react-native-uuid) for each user that opens the app. Use this uuid to store user attributes in Firestore by uuid. This workflow aims to avoid having each user log in by remembering passwords, username, etc.
+* Implement and store a unique uuid using [react-native-uuid](https://www.npmjs.com/package/react-native-uuid) for each user that opens the app. Use this uuid to store user attributes in Firestore by uuid. This workflow aims to avoid having each user log in by remembering passwords, username, etc.
 * This section will be populated by things like querying the data received from firestore based on current user attributes in the settings page. More info to come.
