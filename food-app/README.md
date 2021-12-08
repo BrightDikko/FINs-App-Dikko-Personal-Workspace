@@ -49,15 +49,21 @@ This will start the project and bring up a list of options on where to run the a
 
 For the simplest workflow, it is recommended to install [Android Studio](https://developer.android.com/studio) and to add a virtual device to test on. The instructions to install android studio and set up an AVD (Android Virtual Device) can be found on the [Expo Tutorial Site](https://docs.expo.dev/workflow/android-studio-emulator/). You can also run this project on the web or a [physical device](https://docs.expo.dev/guides/testing-on-devices/).
 
-## Packages Used
+To test on a physical device, you must make an expo account and download the Expo Go app on your device. Then from the web console (once you have run `expo start`) you can navigate to the sidebar and click `Publish or republish project` where you will be able to log in to your expo account and publish the project. The app will then appear on your Expo Go app to be tested on your physical device.
+
+## Main Packages Used
 This project makes use of the following packages:
 * [React Navigation](https://reactnavigation.org/) - tab navigation
-* [NativeBase](https://nativebase.io/) - styling
-* [Google Firebase](https://firebase.google.com/) - backend interface
+* [Google Firebase](https://firebase.google.com/) - backend interface (uses Firestore Database instead of Realtime Database)
 
 ## Firebase Access
 To gain access to the firebase project console, please contact Jack (jgordley@nd.edu) and he will provide access.
 
 ## Suggested Resources
 If you are new to React-Native or this general workflow, we recommend following through one or more of the following tutorials:
-* [React Native Official Starter Tutorial (~15 min)] (https://reactnative.dev/docs/tutorial)
+* [https://reactnative.dev/docs/tutorial](React Native Official Starter Tutorial (~15 min))
+* [https://thoughtbot.com/blog/structure-for-styling-in-react-native](React Native Styling Best Practices (~30 min))
+* [https://www.simplilearn.com/react-native-tutorial-article](Full Walkthrough - Todo list app (~1 hour))
+* [https://reactnative.dev/docs/components-and-apis](React Native Official Core Components Documentation)
+* [https://firebase.google.com/docs/firestore/query-data/get-data](Firebase Firestore offical documentation)
+* [https://reactnavigation.org/docs/getting-started](React Navigation official documentation (we use the drawer navigator))
