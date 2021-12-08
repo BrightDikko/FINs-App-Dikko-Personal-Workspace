@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import {
     View,
@@ -8,7 +8,10 @@ import {
     FlatList,
     SafeAreaView,
     Alert,
-    Button
+    Button,
+    TouchableOpacity,
+    Image,
+    Linking
 } from 'react-native';
 
 const firebase = require('firebase');
@@ -29,7 +32,54 @@ const styles = StyleSheet.create({
         paddingBottom: 50,
         flex: 1, flexDirection: 'row', justifyContent: 'space-between'
     },
+    listItem: {
+        margin: 10,
+        padding: 10,
+        backgroundColor: "#FFF",
+        width: "80%",
+        flex: 1,
+        alignSelf: "center",
+        flexDirection: "row",
+        borderRadius: 5
+    }
 });
+
+const OpenURLButton = ({ url }) => {
+    const handlePress = useCallback(async () => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url);
+  
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url]);
+  
+    return (
+        <TouchableOpacity onPress={handlePress} style={{ height: 50, width: 50, justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ color: "green" }}>See Recipe</Text>
+        </TouchableOpacity>
+    )
+  };
+
+function Item({ item }) {
+    return (
+        <View style={styles.listItem}>
+            <Image source={{ uri: item.data().img }} style={{ width: 60, height: 60, borderRadius: 30 }} />
+            <View style={{ alignItems: "center", flex: 1 }}>
+                <Text style={{ fontWeight: "bold" }}>{item.id}</Text>
+                {/* <Text>{item.position}</Text> */}
+            </View>
+            {/* <TouchableOpacity onPress={() => {goToRecipe(item.data().url)}} style={{ height: 50, width: 50, justifyContent: "center", alignItems: "center" }}>
+                <Text style={{ color: "green" }}>Call</Text>
+            </TouchableOpacity> */}
+            <OpenURLButton url={item.data().url}></OpenURLButton>
+        </View>
+    );
+}
 
 
 const Home = ({ navigation, route }) => {
@@ -44,6 +94,7 @@ const Home = ({ navigation, route }) => {
                 data.forEach(doc => {
                     // console.log(doc.id, '=>', doc.data())
                     list.push(doc);
+                    console.log(doc.data().img)
                 })
             });
 
@@ -95,7 +146,8 @@ const Home = ({ navigation, route }) => {
                         <View style={styles.container}>
                             <FlatList
                                 data={recipes}
-                                renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}
+                                //renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}
+                                renderItem={({ item }) => <Item item={item} />}
                             />
                         </View>
 

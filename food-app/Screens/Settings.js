@@ -36,6 +36,21 @@ const Settings = ({ navigation, route }) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+    const [hasAirFryer, setHasAirFryer] = useState(false);
+    const toggleAirFryer = () => setHasAirFryer(previousState => !previousState);
+
+    const [hasOven, setHasOven] = useState(false);
+    const toggleOven = () => setHasOven(previousState => !previousState);
+
+    const [hasRefrigerator, setHasRefrigerator] = useState(false);
+    const toggleRefrigerator = () => setHasRefrigerator(previousState => !previousState);
+
+    const [hasGrill, setHasGrill] = useState(false);
+    const toggleGrill = () => setHasGrill(previousState => !previousState);
+
+    const [hasStove, setHasStove] = useState(false);
+    const toggleStove = () => setHasStove(previousState => !previousState);
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -60,18 +75,18 @@ const Settings = ({ navigation, route }) => {
             </View>
             <View style={{ flex: 5 }}>
                 <ScrollView>
-                    {['Air fryer', 'Oven', 'Refrigerator', 'Grill', 'Pantry', 'Stove'].map(item =>
-                        <View style={{ flex: 1, padding: 30 }} key={item}>
+                    {[['Air fryer', hasAirFryer, toggleAirFryer], ['Oven', hasOven, toggleOven], ['Refrigerator', hasRefrigerator, toggleRefrigerator], ['Grill', hasGrill, toggleGrill], ['Stove', hasStove, toggleStove]].map(item =>
+                        <View style={{ flex: 1, padding: 30 }} key={item[0]}>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text>{item}</Text>
+                                    <Text>{item[0]}</Text>
                                 </View>
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                     <Switch
                                         trackColor={{ false: "#767577", true: "#81b0ff" }}
                                         ios_backgroundColor="#3e3e3e"
-                                        onValueChange={toggleSwitch}
-                                        value={isEnabled}
+                                        onValueChange={item[2]}
+                                        value={item[1]}
                                     />
                                 </View>
                             </View>
