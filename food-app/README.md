@@ -57,3 +57,7 @@ This project makes use of the following packages:
 
 ## Firebase Access
 To gain access to the firebase project console, please contact Jack (jgordley@nd.edu) and he will provide access.
+
+## Suggested Resources
+If you are new to React-Native or this general workflow, we recommend following through one or more of the following tutorials:
+* [React Native Official Starter Tutorial (~15 min)] (https://reactnative.dev/docs/tutorial)
