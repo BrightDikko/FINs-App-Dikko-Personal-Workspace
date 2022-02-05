@@ -1,35 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
 import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
+import LoginScreen from './Screens/Login';
+import SignupScreen from './Screens/Signup';
+import WelcomeScreen from './Screens/Welcome';
 
-// import { initializeApp } from 'firebase/app';
-// import { getDatabase, ref, onValue, set } from 'firebase/database';
-
-const firebase = require('firebase');
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCchmgA1eZ02R2ujgR7mmH2H9LjDf8l2mc",
-  authDomain: "fins-app-1e96f.firebaseapp.com",
-  databaseURL: "https://fins-app-1e96f-default-rtdb.firebaseio.com",
-  projectId: "fins-app-1e96f",
-  storageBucket: "fins-app-1e96f.appspot.com",
-  messagingSenderId: "540945185583",
-  appId: "1:540945185583:web:1c211dc0818621ce37ffda"
-};
-
-const fireApp = firebase.initializeApp(firebaseConfig);
-if (fireApp != null) {
-  console.log('Firebase app up and running');
-}
-
+import firebase from './FirebaseConfig';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+  const auth = firebase.auth();
+  const [user, setUser] = useState(null);
+  const [initializing, setInitializing] = useState(true);
+
+  
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
 
   const getReq = () => {
     return new Promise((resolve, reject) => {
@@ -45,12 +39,35 @@ export default function App() {
 
   getReq();
 
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  );
+  useEffect(() => {
+    const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Log In">
+          <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
+          <Drawer.Screen name="Settings" component={SettingsScreen} />
+          <Drawer.Screen name="Log In" component={LoginScreen} />
+          <Drawer.Screen name="Sign Up" component={SignupScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  }
+
+  else {
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="My Account">
+          <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
+          <Drawer.Screen name="Settings" component={SettingsScreen} />
+          <Drawer.Screen name="My Account" component={WelcomeScreen} initialParams={{ existingUser: user }} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  }
 }

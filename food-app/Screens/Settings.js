@@ -99,4 +99,4 @@ const Settings = ({ navigation, route }) => {
         </View>
     )
 }
-export default Settings
+export default Settings;
