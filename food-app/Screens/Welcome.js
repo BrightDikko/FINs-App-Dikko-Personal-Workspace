@@ -1,5 +1,5 @@
 import React from 'react'
-import FirebaseAuthSerivce from '../FirebaseAuthService';
+import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
 import {
     View,
     Text,

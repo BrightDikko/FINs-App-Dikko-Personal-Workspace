@@ -8,7 +8,7 @@ import LoginScreen from './Screens/Login';
 import SignupScreen from './Screens/Signup';
 import WelcomeScreen from './Screens/Welcome';
 
-import firebase from './FirebaseConfig';
+import firebase from './firebase/FirebaseConfig';
 
 const Drawer = createDrawerNavigator();
 
