@@ -94,7 +94,7 @@ const Home = ({ navigation, route }) => {
                 data.forEach(doc => {
                     // console.log(doc.id, '=>', doc.data())
                     list.push(doc);
-                    console.log(doc.data().img)
+                    // console.log(doc.data().img)
                 })
             });
 

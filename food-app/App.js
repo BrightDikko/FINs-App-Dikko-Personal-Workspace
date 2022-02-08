@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native';
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';
 import SignupScreen from './Screens/Signup';
 import WelcomeScreen from './Screens/Welcome';
+import HomeStackScreen from './Screens/Navigation-Stacks/HomeStackScreen'
+import SettingsStackScreen from './Screens/Navigation-Stacks/SettingsStackScreen'
+import WelcomeStackScreen from './Screens/Navigation-Stacks/WelcomeStackScreen'
 
 import firebase from './firebase/FirebaseConfig';
 
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
 
@@ -30,7 +37,6 @@ export default function App() {
       let pizzaRef = firebase.firestore().collection('recipes');
       let doc = pizzaRef.get().then((data) => {
         data.forEach(doc => {
-          console.log(doc.id, '=>', doc.data())
           resolve(doc.id);
         })
       });
@@ -62,11 +68,31 @@ export default function App() {
   else {
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="My Account">
-          <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
-          <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="My Account" component={WelcomeScreen} initialParams={{ existingUser: user }} />
-        </Drawer.Navigator>
+        <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "Home") {
+              iconName = focused ? "home" : "home-outline";
+            } else if (route.name === "Settings") {
+              iconName = focused ? "settings" : "settings-outline";
+            } else if (route.name === "My Account") {
+              iconName = focused ? "person-circle" : "person-circle-outline";
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color="#53B175" />
+          },
+          tabBarActiveTintColor: "#53B175",
+          tabBarInactiveTintColor: "#53B175",
+        })}
+        >
+          <Tab.Screen name="Home" component={HomeStackScreen} initialParams={{ fb: firebase }}/>
+          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+          <Tab.Screen name="My Account" component={WelcomeStackScreen} initialParams={{ existingUser: user }}/>
+        </Tab.Navigator>
       </NavigationContainer>
     );
   }
