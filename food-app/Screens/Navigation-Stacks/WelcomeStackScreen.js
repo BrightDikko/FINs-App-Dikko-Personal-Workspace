@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import WelcomeScreen from '../Welcome';
+import ProfileDrawer from '../Profile-Screens/ProfileDrawer';
 
 const WelcomeStack = createNativeStackNavigator();
 
@@ -15,7 +15,7 @@ const WelcomeStackScreen = ({ navigation, route }) => {
     >
       <WelcomeStack.Screen 
         name="WelcomeScreen" 
-        component={WelcomeScreen} 
+        component={ProfileDrawer} 
         initialParams={ { existingUser: route.params.existingUser} }
         // options={{
         //   headerStyle: {

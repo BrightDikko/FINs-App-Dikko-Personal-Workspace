@@ -89,9 +89,32 @@ export default function App() {
           tabBarInactiveTintColor: "#53B175",
         })}
         >
-          <Tab.Screen name="Home" component={HomeStackScreen} initialParams={{ fb: firebase }}/>
-          <Tab.Screen name="Settings" component={SettingsStackScreen} />
-          <Tab.Screen name="My Account" component={WelcomeStackScreen} initialParams={{ existingUser: user }}/>
+          <Tab.Screen name="Home" 
+            component={HomeStackScreen} 
+            initialParams={{ fb: firebase }}
+            options={{ 
+              title: 'Home',
+              // headerTitleStyle: styles.tabBarHeaderStyle,
+              headerTintColor: '#53B175',
+            }}
+          />
+          <Tab.Screen name="Settings" 
+            component={SettingsStackScreen} 
+            options={{ 
+              title: 'Settings',
+              // headerTitleStyle: styles.tabBarHeaderStyle,
+              headerTintColor: '#53B175',
+            }}
+          />
+          <Tab.Screen name="My Account" 
+            component={WelcomeStackScreen} 
+            initialParams={{ existingUser: user }}
+            options={{ 
+              title: 'My Account',
+              // headerTitleStyle: styles.tabBarHeaderStyle,
+              headerTintColor: '#53B175',
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

@@ -51,17 +51,20 @@ const Welcome = ({ navigation, route }) => {
     }
 
         return(
+
+            
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
                         <View style={{ flex: 1 }}>
                             <Text>
-                                <Button
+                                {/* <Button
                                     onPress={() => navigation.openDrawer()}
                                     title='='
                                     color='black'
                                     accessibilityLabel='Toggle navigation drawer'
-                                />
+                                /> */}
+                                
                             </Text>
                         </View>
                         <View style={{ flex: 2, alignItems: 'center' }}>
