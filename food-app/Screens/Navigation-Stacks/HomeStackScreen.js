@@ -10,10 +10,15 @@ const HomeStackScreen = ({ navigation, route }) => {
   return (
     <HomeStack.Navigator
     screenOptions={{
-      headerShown: false
+      headerShown: true,
+      headerTintColor: '#53B175',
     }}
     >
-      <HomeStack.Screen name="HomeScreen" component={HomeScreen}/> 
+      <HomeStack.Screen 
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ title: 'Settings' }}
+      /> 
     </HomeStack.Navigator>
   );
 }

@@ -3,6 +3,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  Button,
+} from 'react-native';
 
 
 import HomeScreen from './Screens/Home';
@@ -71,6 +74,7 @@ export default function App() {
         <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -113,6 +117,13 @@ export default function App() {
               title: 'My Account',
               // headerTitleStyle: styles.tabBarHeaderStyle,
               headerTintColor: '#53B175',
+                headerLeft: () => (
+                  <Button
+                    onPress={() => alert('This is a button!')}
+                    title="Info"
+                    color="#00cc00"
+                  />
+                ),
             }}
           />
         </Tab.Navigator>

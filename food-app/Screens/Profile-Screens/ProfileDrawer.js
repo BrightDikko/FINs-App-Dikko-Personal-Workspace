@@ -1,29 +1,31 @@
 import * as React from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import FirebaseAuthSerivce from '../../firebase/FirebaseAuthService';
 
 import Welcome from '../Welcome';
-import Login from '../Login';
 import ListHistory from '../ListHistory';
-
 
 const Drawer = createDrawerNavigator();
 
 const ProfileDrawer = ({ navigation, route }) => {
+
+  function handleLogout() {
+    FirebaseAuthSerivce.logoutUser();
+  }
+
     return (
       <Drawer.Navigator initialRouteName="Welcome" 
       screenOptions={{
-        drawerActiveBackgroundColor: '#53B175',
-        drawerInactiveBackgroundColor: 'B2DFC2',
-        drawerLabelStyle: {
-          color: '#fff',
-        }
+        headerShown: true,
+        headerTintColor: '#53B175',
       }}
       drawerContent={props => {
         return (
           <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
-            <DrawerItem label="Logout"
-              // { onPress={() => props.navigation.navigate("Login")} 
+            <DrawerItem 
+              label="Logout"
+              onPress={() => {handleLogout()}}
             />
           </DrawerContentScrollView>
         )

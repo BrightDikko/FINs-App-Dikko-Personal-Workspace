@@ -103,8 +103,6 @@ const Home = ({ navigation, route }) => {
             if (loading) {
                 setLoading(false);
             }
-
-            // console.log('Posts: ', recipes);
         } catch (e) {
             console.log(e);
         }
@@ -116,26 +114,6 @@ const Home = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <View style={styles.title}>
-                    <View style={{ flex: 1 }}>
-                        <Text>
-                            <Button
-                                onPress={() => navigation.openDrawer()}
-                                title="="
-                                color="black"
-                                accessibilityLabel="Toggle navigation drawer"
-                            />
-                        </Text>
-                    </View>
-                    <View style={{ flex: 8, paddingRight: 10 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 30 }}>Firebase Recipes</Text>
-                    </View>
-                    <View
-                        style={{ flex: 1, paddingRight: 10 }}>
-                    </View>
-                </View>
-            </View>
             <View style={{ flex: 5 }}>
                 <ScrollView>
                     {loading ? (

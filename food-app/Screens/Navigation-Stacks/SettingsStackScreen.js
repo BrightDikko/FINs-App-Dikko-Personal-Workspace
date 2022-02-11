@@ -5,15 +5,20 @@ import SettingsScreen from '../Settings';
 
 const SettingsStack = createNativeStackNavigator();
 
-// took out passing fb in props for HomeStack.Screen "Home" because can't find where we're using it in Home.js but may need to add it back in
 const SettingsStackScreen = ({ navigation, route }) => {
   return (
     <SettingsStack.Navigator
     screenOptions={{
-      headerShown: false
+      headerShown: true,
+      headerTintColor: '#53B175',
     }}
     >
-      <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen}/> 
+      <SettingsStack.Screen 
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{ title: 'Settings' }}
+      /> 
+        
     </SettingsStack.Navigator>
   );
 }
