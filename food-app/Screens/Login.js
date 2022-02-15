@@ -66,7 +66,6 @@ const Login = ({ navigation, route }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -75,7 +74,6 @@ const Login = ({ navigation, route }) => {
             await FirebaseAuthSerivce.loginUser(username, password);
             setUsername('');
             setPassword('');
-            setIsLoaded(true);
         } catch (error) {
             alert(error.message);
         }

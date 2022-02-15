@@ -7,7 +7,6 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    Button,
     ScrollView,
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
@@ -80,28 +79,44 @@ const Welcome = ({ navigation, route }) => {
     const [isDairySelected, setDairySelection] = useState(false);
     const [isSeafoodSelected, setSeafoodSelection] = useState(false);
 
+    var contactInfo = {
+        firstName,
+        lastName,
+        phoneNumber
+    };
+
+    var healthGoals = {
+        isSugarSelected,
+        isSodiumSelected,
+        isFatSelected,
+        isMeatSelected,
+        isVeggiesSelected
+    };
+
+    var allergens = {
+        isGlutenSelected,
+        isDairySelected,
+        isNutsSelected,
+        isSeafoodSelected
+    };
+
+    var appliances = {
+        isOvenSelected,
+        isStovetopSelected,
+        isMicrowaveSelected,
+        isFryerSelected
+    };
+
     function handleLogout() {
         FirebaseAuthSerivce.logoutUser();
     }
 
     function handleUserInfoSubmit() {
         const newUserInfo = {
-            isDairySelected,
-            firstName,
-            isGlutenSelected,
-            isFryerSelected,
-            isMicrowaveSelected,
-            isOvenSelected,
-            isStovetopSelected,
-            lastName,
-            isFatSelected,
-            isMeatSelected,
-            isSodiumSelected,
-            isSugarSelected,
-            isVeggiesSelected,
-            isNutsSelected,
-            phoneNumber,
-            isSeafoodSelected
+            contactInfo,
+            healthGoals,
+            allergens,
+            appliances
         };
 
         route.params.addUserInfo(newUserInfo);
@@ -109,8 +124,6 @@ const Welcome = ({ navigation, route }) => {
     }
 
         return(
-
-            
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
