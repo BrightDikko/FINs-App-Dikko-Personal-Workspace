@@ -84,9 +84,7 @@ const Welcome = ({ navigation, route }) => {
         FirebaseAuthSerivce.logoutUser();
     }
 
-    function handleUserInfoSubmit(event) {
-        event.preventDefault();
-
+    function handleUserInfoSubmit() {
         const newUserInfo = {
             isDairySelected,
             firstName,
@@ -107,6 +105,7 @@ const Welcome = ({ navigation, route }) => {
         };
 
         route.params.addUserInfo(newUserInfo);
+        alert('User information successfully saved.');
     }
 
         return(
@@ -231,7 +230,7 @@ const Welcome = ({ navigation, route }) => {
                             checked={isSeafoodSelected}
                             onPress={() => setSeafoodSelection(!isSeafoodSelected)}
                         />
-                        <TouchableOpacity onPress={(event) => {handleUserInfoSubmit(event); navigation.navigate('Home');}} style={styles.loginBtn}>
+                        <TouchableOpacity onPress={() => {handleUserInfoSubmit(); navigation.navigate('Home');}} style={styles.loginBtn}>
                             <Text style={styles.loginText}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {handleLogout()}} style={styles.loginBtn}>
