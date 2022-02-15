@@ -6,7 +6,6 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
-    Button,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -51,18 +50,12 @@ const Welcome = ({ navigation, route }) => {
     }
 
         return(
+
+            
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <View style={{ flex: 1 }}>
-                            <Text>
-                                <Button
-                                    onPress={() => navigation.openDrawer()}
-                                    title='='
-                                    color='black'
-                                    accessibilityLabel='Toggle navigation drawer'
-                                />
-                            </Text>
+                    <View style={{ flex: 1 }}>
                         </View>
                         <View style={{ flex: 2, alignItems: 'center' }}>
                             <Image
