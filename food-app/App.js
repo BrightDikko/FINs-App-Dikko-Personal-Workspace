@@ -9,6 +9,7 @@ import SignupScreen from './Screens/Signup';
 import WelcomeScreen from './Screens/Welcome';
 
 import firebase from './firebase/FirebaseConfig';
+import FirestoreService from './firebase/FirestoreService';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,6 +25,17 @@ export default function App() {
     if (initializing) setInitializing(false);
   }
 
+  async function handleAddUserInfo(newUserInfo) {
+    try {
+      const response = await FirestoreService.createDocument(
+        'user-context',
+        newUserInfo
+      );
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   const getReq = () => {
     return new Promise((resolve, reject) => {
@@ -65,7 +77,7 @@ export default function App() {
         <Drawer.Navigator initialRouteName="My Account">
           <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="My Account" component={WelcomeScreen} initialParams={{ existingUser: user }} />
+          <Drawer.Screen name="My Account" component={WelcomeScreen} initialParams={{ existingUser: user, addUserInfo: handleAddUserInfo }} />
         </Drawer.Navigator>
       </NavigationContainer>
     );
