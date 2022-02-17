@@ -30,23 +30,15 @@ const ContextModal = ( displayModal, isRegisteredUser ) => {
                 </Text>
               </View>
               <ScrollView>
-              <TextInput
-                style={styles.budgetInput}
-                onChangeText={setBudget}
-                value={budget}
-                placeholder="Enter budget"
-                keyboardType="numeric"
-              />
-                {/* <View style={styles.contextItem}>
-                  <View style={{ alignItems: "left", flex: 1, padding: 2}}>
-                      <Text style={{ fontWeight: "bold" }}></Text>
-                  </View>
-                  <Image source={{ uri: item.data().img }} style={{ width: 60, height: 60, borderRadius: 30 }} />
-                    <View style={{ alignItems: "center", flex: 1 }}>
-                      <Text style={{ fontWeight: "bold" }}>{item.id}</Text>
-                    </View>
-                  <OpenURLButton url={item.data().url}></OpenURLButton>
-                </View> */}
+                <View>
+                  <TextInput
+                    style={styles.budgetInput}
+                    onChangeText={setBudget}
+                    value={budget}
+                    placeholder="Enter budget"
+                    keyboardType="numeric"
+                  />
+                </View>
               </ScrollView>
               <View style={styles.buttonView}>
                 <Pressable
@@ -74,7 +66,7 @@ const ContextModal = ( displayModal, isRegisteredUser ) => {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginTop: 10
+      marginTop: 5
     },
     contextTitleText: {
       color: '#53B175',
@@ -111,9 +103,6 @@ const ContextModal = ( displayModal, isRegisteredUser ) => {
       padding: 10,
       elevation: 2
     },
-    buttonOpen: {
-      backgroundColor: '#53B175',
-    },
     buttonClose: {
       backgroundColor: "#2196F3",
     },
@@ -122,14 +111,6 @@ const ContextModal = ( displayModal, isRegisteredUser ) => {
       fontWeight: "bold",
       textAlign: "center"
     },
-    modalText: {
-      marginBottom: 15,
-      textAlign: "center"
-    },
-    container: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight,
-    },
     scrollView: {
       backgroundColor: 'pink',
       marginHorizontal: 20,
@@ -137,18 +118,9 @@ const ContextModal = ( displayModal, isRegisteredUser ) => {
     text: {
       fontSize: 42,
     },
-    contextItem: {
-      margin: 10,
-      padding: 10,
-      backgroundColor: "#FFF",
-      width: "80%",
-      flex: 1,
-      alignSelf: "center",
-      flexDirection: "row",
-      borderRadius: 5
-    },
     budgetInput: {
-      height: 40,
+      // height: 40,
+      flex: 1,
       margin: 12,
       borderWidth: 1,
       padding: 10,
