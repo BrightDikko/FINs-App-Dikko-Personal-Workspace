@@ -7,17 +7,16 @@ import {
   Button,
 } from 'react-native';
 
-
 import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';
 import SignupScreen from './Screens/Signup';
-import WelcomeScreen from './Screens/Welcome';
 import HomeStackScreen from './Screens/Navigation-Stacks/HomeStackScreen'
 import SettingsStackScreen from './Screens/Navigation-Stacks/SettingsStackScreen'
 import WelcomeStackScreen from './Screens/Navigation-Stacks/WelcomeStackScreen'
 
 import firebase from './firebase/FirebaseConfig';
+import FirestoreService from './firebase/FirestoreService';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +33,17 @@ export default function App() {
     if (initializing) setInitializing(false);
   }
 
+  async function handleAddUserInfo(newUserInfo) {
+    try {
+      const response = await FirestoreService.createDocument(
+        'user-context',
+        newUserInfo
+      );
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   const getReq = () => {
     return new Promise((resolve, reject) => {
@@ -112,7 +122,7 @@ export default function App() {
           />
           <Tab.Screen name="My Account" 
             component={WelcomeStackScreen} 
-            initialParams={{ existingUser: user }}
+            initialParams={{ existingUser: user, addUserInfo: handleAddUserInfo }}
             options={{ 
               title: 'My Account',
               // headerTitleStyle: styles.tabBarHeaderStyle,
