@@ -46,6 +46,18 @@ export default function App() {
     }
   }
 
+  async function handleNewListContext(newListInfo) {
+    try {
+      const response = await FirestoreService.createDocument(
+        'list-context',
+        newListInfo
+      );
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   const getReq = () => {
     return new Promise((resolve, reject) => {
       let pizzaRef = firebase.firestore().collection('recipes');
@@ -106,10 +118,9 @@ export default function App() {
         >
           <Tab.Screen name="Home" 
             component={HomeStackScreen} 
-            initialParams={{ fb: firebase }}
+            initialParams={{ fb: firebase, addListContext:  handleNewListContext }}
             options={{ 
               title: 'Home',
-              // headerTitleStyle: styles.tabBarHeaderStyle,
               headerTintColor: '#53B175',
             }}
           />
@@ -117,7 +128,6 @@ export default function App() {
             component={SettingsStackScreen} 
             options={{ 
               title: 'Settings',
-              // headerTitleStyle: styles.tabBarHeaderStyle,
               headerTintColor: '#53B175',
             }}
           />

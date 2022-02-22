@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 });
 
 const List = ({ navigation, route }) => {
-
     const [modalVisible, setModalVisible] = useState(true);
 
     return(

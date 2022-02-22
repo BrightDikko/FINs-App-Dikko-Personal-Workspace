@@ -17,8 +17,6 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
     const [isMedSelected, setMedSelected] = useState(false);
     const [isGreekSelected, setGreekSelected] = useState(false);
     const [isJapaneseSelected, setJapaneseSelected] = useState(false);
-    // const [isAmericanSelected, setAmericanSelected] = useState(false);
-    // const [isFrenchSelected, setFrenchSelected] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     var paymentArray = ['PayPal', 'Credit', 'Debit'];
@@ -26,8 +24,28 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
 
     useEffect(() => {
       paymentMethod = paymentArray[selectedIndex];
-      console.log(selectedIndex)
     }, [selectedIndex]);
+
+    function checkFieldsHaveContent(){
+      var fieldsHaveContent = false;
+      if( budget == null){
+        alert('Please enter a budget')
+        return false;
+      }else if(isNaN(budget)){
+        alert('Invalid budget input')
+        return false;
+      }else{
+        fieldsHaveContent = true;
+      }
+  
+      if(fieldsHaveContent){
+        setModalVisible(!modalVisible)
+      }else{
+        alert('Please fill out all fields.')
+      }
+
+      return true;
+    }
 
     var cuisinePreferences = {
       isItalianSelected,
@@ -42,14 +60,21 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
     }
 
 
-    function handleSessionInfoSubmit() {
-      const listInfo = {
+    function handleListContextSubmit() {
+
+      const newListInfo = {
         cuisinePreferences, 
         budget,
         paymentMethod
       }
 
-      // route.params.add
+      try{
+        route.params.addListInfo(newListInfo);
+        alert('List information successfully saved.');
+      }catch(e){
+        console.log(e);
+        alert('Unable to save list information');
+      }
     }
     
     return (
@@ -144,7 +169,7 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
               <View style={styles.buttonView}>
                 <TouchableOpacity
                   style={[styles.button, styles.loginBtn]}
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={() => { checkFieldsHaveContent() }}
                 >
                   <Text style={styles.loginText}>Enter</Text>
                 </TouchableOpacity>
@@ -152,12 +177,12 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
             </View>
           </View>      
         </Modal>
-        {/* <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
+        <Pressable
+          style={styles.loginBtn}
+          onPress={() => { navigation.goBack(); /*handleListContextSubmit(); navigation.navigate('HomeScreen');*/ }}
         >
-          <Text style={styles.textStyle}>Show Modal</Text>
-        </Pressable> */}
+          <Text style={styles.textStyle}>Submit</Text>
+        </Pressable>
       </View>
     );
   };

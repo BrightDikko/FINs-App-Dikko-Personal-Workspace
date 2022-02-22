@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FirebaseAuthSerivce from '../../firebase/FirebaseAuthService';
 import { View,
   Text,
   Button,
@@ -11,12 +12,12 @@ import ListScreen from '../Home-Components/List'
 
 const HomeStack = createNativeStackNavigator();
 
-// HOW DO I PASS THE STATE DOWN? 
-
 // took out passing fb in props for HomeStack.Screen "Home" because can't find where we're using it in Home.js but may need to add it back in
 const HomeStackScreen = ({ navigation, route }) => {
 
-  // const [showContextModal, setShowContextModal] = useState(false);
+  function handleLogout() {
+    FirebaseAuthSerivce.logoutUser();
+}
 
   return (
     <HomeStack.Navigator
@@ -28,12 +29,23 @@ const HomeStackScreen = ({ navigation, route }) => {
       <HomeStack.Screen 
         name="HomeScreen"
         component={HomeScreen}
+        initialParams={ { fb: route.params.fb}}
         options={ ({ navigation }) => ({
             title: 'Home',
             headerRight: () => (
               <Button
-                onPress={ () => navigation.navigate('ListScreen') } 
+                onPress={ () => navigation.navigate('ListScreen', {
+                  fb: route.params.fb,
+                  addListContext: route.params.addListContext
+                }) } 
                 title="New List"
+                color='#53B175'
+              />
+            ),
+            headerLeft: () => (
+              <Button
+                onPress={ () => {handleLogout()} } 
+                title="Logout"
                 color='#53B175'
               />
           ),
@@ -41,6 +53,7 @@ const HomeStackScreen = ({ navigation, route }) => {
       /> 
       <HomeStack.Screen
         name="ListScreen"
+        // initialParams={ { fb: route.params.fb, addListContext: route.params.addListContext} }
         component={ListScreen}
         options={{ 
           title: 'New List'
