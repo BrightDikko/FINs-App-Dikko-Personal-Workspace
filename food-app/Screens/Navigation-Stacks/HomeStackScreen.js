@@ -36,7 +36,8 @@ const HomeStackScreen = ({ navigation, route }) => {
               <Button
                 onPress={ () => navigation.navigate('ListScreen', {
                   fb: route.params.fb,
-                  addListContext: route.params.addListContext
+                  addListContext: route.params.addListContext,
+                  // navigation={navigation}
                 }) } 
                 title="New List"
                 color='#53B175'
