@@ -26,7 +26,6 @@ export default function App() {
   const auth = firebase.auth();
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
-
   
   function onAuthStateChanged(user) {
     setUser(user);
@@ -38,6 +37,18 @@ export default function App() {
       const response = await FirestoreService.createDocument(
         'user-context',
         newUserInfo
+      );
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  async function handleAddList(list) {
+    try {
+      const response = await FirestoreService.createDocument(
+        'lists',
+        list
       );
 
     } catch (error) {
@@ -105,7 +116,7 @@ export default function App() {
         >
           <Tab.Screen name="Home" 
             component={HomeStackScreen} 
-            initialParams={{ fb: firebase }}
+            initialParams={{ fb: firebase }} // add addList as params here?
             options={{ 
               title: 'Home',
               // headerTitleStyle: styles.tabBarHeaderStyle,

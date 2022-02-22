@@ -8,7 +8,6 @@ import {
     FlatList,
     SafeAreaView,
     Alert,
-    Button,
     TouchableOpacity,
     Image,
     Linking
@@ -18,7 +17,7 @@ const firebase = require('firebase');
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     item: {
         padding: 10,
@@ -41,6 +40,18 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         flexDirection: "row",
         borderRadius: 5
+    },
+    loginText: {
+        color: '#FFFFFF'
+    },
+    loginBtn: {
+        width: '70%',
+        borderRadius: 25,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 40,
+        backgroundColor: '#53B175',
     }
 });
 
@@ -122,6 +133,9 @@ const Home = ({ navigation, route }) => {
                         </View>
                     ) : (
                         <View style={styles.container}>
+                            <TouchableOpacity onPress={() => navigation.navigate('CreateList')} style={styles.loginBtn}>
+                                <Text style={styles.loginText}>Create a List</Text>
+                            </TouchableOpacity>
                             <FlatList
                                 data={recipes}
                                 //renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}

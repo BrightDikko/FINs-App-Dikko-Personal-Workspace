@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from '../Home';
+import CreateList from '../CreateList';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -17,8 +18,14 @@ const HomeStackScreen = ({ navigation, route }) => {
       <HomeStack.Screen 
         name="HomeScreen"
         component={HomeScreen}
-        options={{ title: 'Settings' }}
-      /> 
+        options={{ title: 'Home' }}
+      />
+      <HomeStack.Screen
+        name="CreateList"
+        component={CreateList}
+        options={{ title: 'Your List' }}
+        initialParams={{ addList: route.params.addList, showList: route.params.showList }}
+      />
     </HomeStack.Navigator>
   );
 }

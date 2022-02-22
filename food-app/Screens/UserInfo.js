@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
         marginTop: 40,
         backgroundColor: '#53B175',
     },
+    buttonNormal: {
+        backgroundColor: "#8ee8ae",
+        
+    },
+    buttonPress: {
+        backgroundColor: "#53B175"
+    }
 });
 
 const Welcome = ({ navigation, route }) => {
@@ -74,10 +81,14 @@ const Welcome = ({ navigation, route }) => {
     const [isStovetopSelected, setStovetopSelection] = useState(false);
     const [isMicrowaveSelected, setMicrowaveSelection] = useState(false);
     const [isFryerSelected, setFryerSelection] = useState(false);
-    const [isGlutenSelected, setGlutenSelection] = useState(false);
-    const [isNutsSelected, setNutsSelection] = useState(false);
-    const [isDairySelected, setDairySelection] = useState(false);
-    const [isSeafoodSelected, setSeafoodSelection] = useState(false);
+    const [isMilkSelected, setMilkSelection] = useState(false);
+    const [isEggsSelected, setEggsSelection] = useState(false);
+    const [isFishSelected, setFishSelection] = useState(false);
+    const [isShellfishSelected, setShellfishSelection] = useState(false);
+    const [isPeanutsSelected, setPeanutsSelection] = useState(false);
+    const [isTreeNutsSelected, setTreeNutsSelection] = useState(false);
+    const [isWheatSelected, setWheatSelection] = useState(false);
+    const [isSoySelected, setSoySelection] = useState(false);
 
     var contactInfo = {
         firstName,
@@ -94,10 +105,14 @@ const Welcome = ({ navigation, route }) => {
     };
 
     var allergens = {
-        isGlutenSelected,
-        isDairySelected,
-        isNutsSelected,
-        isSeafoodSelected
+        isMilkSelected,
+        isFishSelected,
+        isEggsSelected,
+        isShellfishSelected,
+        isPeanutsSelected,
+        isTreeNutsSelected,
+        isWheatSelected,
+        isSoySelected
     };
 
     var appliances = {
@@ -224,24 +239,44 @@ const Welcome = ({ navigation, route }) => {
                         />
                         <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Do you have any allergies?</Text>
                         <CheckBox
-                            title="Gluten"
-                            checked={isGlutenSelected}
-                            onPress={() => setGlutenSelection(!isGlutenSelected)}
+                            title="Milk"
+                            checked={isMilkSelected}
+                            onPress={() => setMilkSelection(!isMilkSelected)}
                         />
                         <CheckBox
-                            title="Dairy"
-                            checked={isDairySelected}
-                            onPress={() => setDairySelection(!isDairySelected)}
+                            title="Fish"
+                            checked={isFishSelected}
+                            onPress={() => setFishSelection(!isFishSelected)}
                         />
                         <CheckBox
-                            title="Nuts"
-                            checked={isNutsSelected}
-                            onPress={() => setNutsSelection(!isNutsSelected)}
+                            title="Eggs"
+                            checked={isEggsSelected}
+                            onPress={() => setEggsSelection(!isEggsSelected)}
                         />
                         <CheckBox
                             title="Seafood"
-                            checked={isSeafoodSelected}
-                            onPress={() => setSeafoodSelection(!isSeafoodSelected)}
+                            checked={isShellfishSelected}
+                            onPress={() => setShellfishSelection(!isShellfishSelected)}
+                        />
+                        <CheckBox
+                            title="Peanuts"
+                            checked={isPeanutsSelected}
+                            onPress={() => setPeanutsSelection(!isPeanutsSelected)}
+                        />
+                        <CheckBox
+                            title="Tree Nuts"
+                            checked={isTreeNutsSelected}
+                            onPress={() => setTreeNutsSelection(!isTreeNutsSelected)}
+                        />
+                        <CheckBox
+                            title="Wheat"
+                            checked={isWheatSelected}
+                            onPress={() => setWheatSelection(!isWheatSelected)}
+                        />
+                        <CheckBox
+                            title="Soy"
+                            checked={isSoySelected}
+                            onPress={() => setSoySelection(!isSoySelected)}
                         />
                         <TouchableOpacity onPress={() => {handleUserInfoSubmit(); navigation.navigate('Home');}} style={styles.loginBtn}>
                             <Text style={styles.loginText}>Continue</Text>
