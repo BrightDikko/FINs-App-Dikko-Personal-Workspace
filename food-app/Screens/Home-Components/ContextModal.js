@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Modal, Style, StyleSheet, Text, Pressable, View, SafeAreaView, ScrollView, StatusBar, TextInput, TouchableOpacity } from 'react-native';
 import { ButtonGroup, CheckBox } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
-
-
-const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
+const ContextModal = ( displayModal, isRegisteredUser, route ) => {
 
     const [modalVisible, setModalVisible] = useState(true);
     const [budget, setBudget ] = useState(null);
@@ -18,6 +17,8 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
     const [isGreekSelected, setGreekSelected] = useState(false);
     const [isJapaneseSelected, setJapaneseSelected] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+
+    const navigation = useNavigation();
 
     var paymentArray = ['PayPal', 'Credit', 'Debit'];
     var paymentMethod;
@@ -179,7 +180,7 @@ const ContextModal = ( displayModal, isRegisteredUser, navigation, route ) => {
         </Modal>
         <Pressable
           style={styles.loginBtn}
-          onPress={() => { navigation.goBack(); /*handleListContextSubmit(); navigation.navigate('HomeScreen');*/ }}
+          onPress={() => { navigation.navigate('HomeScreen'); /*handleListContextSubmit(); navigation.navigate('HomeScreen');*/ }}
         >
           <Text style={styles.textStyle}>Submit</Text>
         </Pressable>
