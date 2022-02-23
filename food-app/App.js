@@ -44,18 +44,6 @@ export default function App() {
     }
   }
 
-  async function handleAddList(list) {
-    try {
-      const response = await FirestoreService.createDocument(
-        'lists',
-        list
-      );
-
-    } catch (error) {
-      alert(error.message);
-    }
-  }
-
   const getReq = () => {
     return new Promise((resolve, reject) => {
       let pizzaRef = firebase.firestore().collection('recipes');
