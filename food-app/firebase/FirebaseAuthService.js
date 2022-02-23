@@ -19,6 +19,10 @@ const loginWithGoogle = () => {
     return auth.signInWithPopup(provider);
 };
 
+const anonymousLogin = () => {
+    return auth.signInAnonymously();
+};
+
 const FirebaseAuthSerivce = {
     auth,
     registerUser,
@@ -26,6 +30,7 @@ const FirebaseAuthSerivce = {
     logoutUser,
     sendPasswordResetEmail,
     loginWithGoogle,
+    anonymousLogin
 };
 
 export default FirebaseAuthSerivce;

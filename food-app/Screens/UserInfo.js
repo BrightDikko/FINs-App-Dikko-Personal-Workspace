@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     TextInput: {
         height: 50,
         flex: 1,
-        width: '70%',
+        width: '80%',
     },
     login: {
         color: '#53B175',
@@ -216,7 +215,7 @@ const Welcome = ({ navigation, route }) => {
                 </View>
                 <View style={styles.container}>
                     <View style={{ flex: 1, paddingTop: 30 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 18 }}>Welcome, {route.params.existingUser.email}!</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 18 }}>{FirebaseAuthSerivce.auth.currentUser.isAnonymous ? `Welcome to FINs!` : `Welcome, ${route.params.existingUser.email}!`}</Text>
                         <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Before we get started, tell us about yourself:</Text>
                     </View>
                 </View>

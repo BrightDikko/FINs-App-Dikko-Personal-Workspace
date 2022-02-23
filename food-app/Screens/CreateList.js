@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FirestoreService from '../firebase/FirestoreService';
+import Autocomplete from 'react-native-autocomplete-input';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,9 +49,10 @@ const styles = StyleSheet.create({
 
 const CreateList = ({ navigation, route }) => {
 
-    const [listItem, setListItem] = useState('');
+    const [selectedItem, setSelectedItem] = useState('');
     const [listItems, setListItems] = useState([]);
     var listObject = {items: []};
+    const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils'];
 
     function handleAddList() {
         route.params.addList(listItems);
@@ -61,7 +63,7 @@ const CreateList = ({ navigation, route }) => {
         const tempList = listItems;
         tempList.push(item);
         setListItems(tempList);
-        setListItem('');
+        setSelectedItem('');
     }
 
     async function handleAddList(listItems) {
@@ -100,15 +102,23 @@ const CreateList = ({ navigation, route }) => {
         return(
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
-                    <TouchableHighlight onPress={() => {appendToList(listItem)}}>
+                    <TouchableHighlight underlayColor={'transparent'} onPress={() => {appendToList(selectedItem)}}>
                         <Ionicons style={{ padding: 10 }} name={"add-outline"} size={24} />
                     </TouchableHighlight>
                     <TextInput
                         style={styles.inputView}
-                        value={listItem}
+                        value={selectedItem}
                         placeholder='Add Item'
                         placeholderTextColor='#525252'
-                        onChangeText={(listItem) => setListItem(listItem)}
+                        onChangeText={(selectedItem) => setSelectedItem(selectedItem)}
+                    />
+                </View>
+                <View style={{ padding: 16, flex: 1 }}>
+                    <Autocomplete
+                        data={testItems}
+                        flatListProps={{
+                            renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
+                        }}
                     />
                 </View>
                 <View>

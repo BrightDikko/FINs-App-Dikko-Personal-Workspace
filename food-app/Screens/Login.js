@@ -92,6 +92,14 @@ const Login = ({ navigation, route }) => {
           alert(error.message);
         }
     }
+
+    async function handleAnonymousLogin() {
+        try {
+            await FirebaseAuthSerivce.anonymousLogin();
+        } catch (error) {
+            alert(error.message);
+        }
+    }
     
         return(
             <View style={{ flex: 1 }}>
@@ -156,7 +164,7 @@ const Login = ({ navigation, route }) => {
                         {'\n'}{'\n'}OR{'\n'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Text style={styles.login} onPress={() => navigation.navigate('Home')}>Process as Guest</Text>
+                        <Text style={styles.login} onPress={() => {handleAnonymousLogin();}}>Process as Guest</Text>
                     </TouchableOpacity>
                 </View>
             </View>
