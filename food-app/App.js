@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 
-import HomeScreen from './Screens/Home-Components/Home';
+import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';
 import SignupScreen from './Screens/Signup';
