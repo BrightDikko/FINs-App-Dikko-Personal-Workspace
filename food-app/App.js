@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   Button,
@@ -21,6 +22,7 @@ import FirestoreService from './firebase/FirestoreService';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+const LoginStack = createNativeStackNavigator();
 
 export default function App() {
 
@@ -81,12 +83,31 @@ export default function App() {
   if (!user) {
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Log In">
+        {/* <Drawer.Navigator initialRouteName="Log In">
           <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
           <Drawer.Screen name="Log In" component={LoginScreen} initialParams={{ fb: firebase, hello: "hello" }}/>
           <Drawer.Screen name="Sign Up" component={SignupScreen} />
-        </Drawer.Navigator>
+        </Drawer.Navigator> */}
+        <LoginStack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}
+        >
+          <LoginStack.Screen
+            name = "LoginScreen"
+            component={LoginScreen}
+          />
+          <LoginStack.Screen
+            name = "HomeNavigation"
+            component={HomeStackScreen}
+            initialParams={{ fb: firebase, addListContext:  handleNewListContext, isRegistered: false }}
+            options={{ 
+              title: 'Home',
+              headerTintColor: '#53B175',
+            }}
+          />
+        </LoginStack.Navigator>
       </NavigationContainer>
     );
   }
@@ -118,7 +139,7 @@ export default function App() {
         >
           <Tab.Screen name="Home" 
             component={HomeStackScreen} 
-            initialParams={{ fb: firebase, addListContext:  handleNewListContext }}
+            initialParams={{ fb: firebase, addListContext:  handleNewListContext, isRegistered: true }}
             options={{ 
               title: 'Home',
               headerTintColor: '#53B175',

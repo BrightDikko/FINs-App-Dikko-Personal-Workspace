@@ -129,6 +129,7 @@ const List = ({ navigation, route }) => {
     const [isGreekSelected, setGreekSelected] = useState(false);
     const [isJapaneseSelected, setJapaneseSelected] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [firstName, setFirstName] = useState('');
 
     function checkFieldsHaveContent() {
         var fieldsHaveContent = false;
@@ -204,6 +205,24 @@ const List = ({ navigation, route }) => {
                         </View>
                         <View style={{ flex: 5, alignItems: 'center' }}>
                             <ScrollView>
+                                <View>
+                                    {
+                                        !route.params.isRegistered ? (
+                                            <View style={styles.inputView}>
+                                                <TextInput
+                                                    style={styles.TextInput}
+                                                    value={firstName}
+                                                    placeholder='First Name'
+                                                    placeholderTextColor='#525252'
+                                                    onChangeText={(firstName) => setFirstName(firstName)}
+                                                />
+                                            </View>
+                                        ) : (
+                                            <View></View>
+                                        )
+                                    }
+                                </View>
+
                                 <View style={styles.inputView}>
                                     <TextInput
                                         style={styles.TextInput}
