@@ -20,6 +20,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    searchContainer: {
+        backgroundColor: '#f0f0f0',
+        flex: 1,
+        padding: 10,
+        marginTop: 40
+    },
+    autocompleteContainer: {
+        backgroundColor: '#ffffff',
+        borderWidth: 0,
+        marginLeft: 30,
+        marginRight: 10
+    },
     inputView: {
         backgroundColor: '#E6E6E6',
         borderRadius: 30,
@@ -45,13 +57,35 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#53B175',
       },
+      searchSection: {
+        flex: 1,
+        height: 50,
+        borderRadius: 10,
+        marginLeft: '5%',
+        marginRight: '5%',
+        backgroundColor: '#fff',
+      },
+      inputContainer: {
+        backgroundColor: 'transparent',
+        borderBottomWidth: 1,
+        borderColor: 'transparent',
+        paddingLeft: 35
+      },
+      searchIcon: {
+        paddingLeft: 5,
+        paddingTop: 5,
+        backgroundColor: 'transparent',
+      },
 });
 
 const CreateList = ({ navigation, route }) => {
 
     const [selectedItem, setSelectedItem] = useState('');
     const [listItems, setListItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
     var listObject = {items: []};
+
+    // In the future, fetch complete list of items from API instead of hardcoding test list
     const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils'];
 
     function handleAddList() {
@@ -80,6 +114,22 @@ const CreateList = ({ navigation, route }) => {
         }
       }
 
+      /*
+      useEffect(() => {
+          setListItems(testItems);
+      }, []);*/
+
+      const findItem = (query) => {
+          if(query) {
+              const regex = new RegExp(`${query.trim()}`, 'i');
+              setFilteredItems(testItems.filter((item) => item.search(regex) >= 0));
+          }
+          else {
+              setFilteredItems([]); // no matches
+          }
+      };
+
+    // In future implementations, fetch items from API as the base list of items to match while user is typing
     /*
     useEffect(() => {
         fetchListItems().then((fetchedListItems) => {
@@ -113,14 +163,35 @@ const CreateList = ({ navigation, route }) => {
                         onChangeText={(selectedItem) => setSelectedItem(selectedItem)}
                     />
                 </View>
-                <View style={{ padding: 16, flex: 1 }}>
-                    <Autocomplete
-                        data={testItems}
-                        flatListProps={{
-                            renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
-                        }}
-                    />
-                </View>
+                {/*<View style={{ padding: 10, flex: 1 }}>
+                        <TouchableHighlight onPress={() => {appendToList(selectedItem)}}>
+                            <Ionicons style={styles.searchIcon} name={"add-outline"} size={24} />
+                        </TouchableHighlight>
+                        <Autocomplete
+                            autoCapitalize="none"
+                            autoCorrect={false}    
+                            containerStyle={styles.autocompleteContainer}                    
+                            data={filteredItems}
+                            defaultValue={JSON.stringify(selectedItem) === '{}' ? '' : selectedItem}                
+                            flatListProps={{
+                                renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
+                            }}
+                            //inputContainerStyle={styles.inputContainer}
+                            onChangeText={(text) => findItem(text)}
+                            placeholder="Enter an item"
+                            renderItem={({item}) => (
+                                <TouchableOpacity
+                                onPress={() => {
+                                    console.log(item);
+                                    setSelectedItem(item);
+                                    setFilteredItems([]);
+                                    appendToList(item);
+                                }}>
+                                <Text>{item}</Text>
+                                </TouchableOpacity>
+                            )}              
+                        />
+                </View>*/}
                 <View>
                     <FlatList 
                         data={listItems}
