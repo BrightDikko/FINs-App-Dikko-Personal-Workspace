@@ -82,9 +82,9 @@ export default function App() {
     return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Log In">
-          <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
+          <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Log In" component={LoginScreen} />
+          <Drawer.Screen name="Log In" component={LoginScreen} initialParams={{ fb: firebase, hello: "hello" }}/>
           <Drawer.Screen name="Sign Up" component={SignupScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
