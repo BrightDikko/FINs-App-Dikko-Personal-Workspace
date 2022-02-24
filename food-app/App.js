@@ -7,6 +7,7 @@ import {
   Button,
 } from 'react-native';
 
+
 import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';
@@ -45,6 +46,18 @@ export default function App() {
     }
   }
 
+  async function handleNewListContext(newListInfo) {
+    try {
+      const response = await FirestoreService.createDocument(
+        'list-context',
+        newListInfo
+      );
+
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   const getReq = () => {
     return new Promise((resolve, reject) => {
       let pizzaRef = firebase.firestore().collection('recipes');
@@ -69,9 +82,9 @@ export default function App() {
     return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Log In">
-          <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ fb: firebase }} />
+          <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
           <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Log In" component={LoginScreen} />
+          <Drawer.Screen name="Log In" component={LoginScreen} initialParams={{ fb: firebase, hello: "hello" }}/>
           <Drawer.Screen name="Sign Up" component={SignupScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
@@ -105,10 +118,9 @@ export default function App() {
         >
           <Tab.Screen name="Home" 
             component={HomeStackScreen} 
-            initialParams={{ fb: firebase }}
+            initialParams={{ fb: firebase, addListContext:  handleNewListContext }}
             options={{ 
               title: 'Home',
-              // headerTitleStyle: styles.tabBarHeaderStyle,
               headerTintColor: '#53B175',
             }}
           />
@@ -116,7 +128,6 @@ export default function App() {
             component={SettingsStackScreen} 
             options={{ 
               title: 'Settings',
-              // headerTitleStyle: styles.tabBarHeaderStyle,
               headerTintColor: '#53B175',
             }}
           />
