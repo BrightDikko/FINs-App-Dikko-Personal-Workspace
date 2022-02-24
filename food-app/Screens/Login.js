@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Button,
 } from 'react-native';
+// import { useRoute } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -164,7 +165,11 @@ const Login = ({ navigation, route }) => {
                         {'\n'}{'\n'}OR{'\n'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
+<<<<<<< HEAD
                         <Text style={styles.login} onPress={() => {handleAnonymousLogin();}}>Process as Guest</Text>
+=======
+                        <Text style={styles.login} onPress={() => navigation.navigate('HomeStack', { fb: route.params.fb }) }>Process as Guest</Text>
+>>>>>>> origin/main
                     </TouchableOpacity>
                 </View>
             </View>

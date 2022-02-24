@@ -13,6 +13,7 @@ import {
     Linking
 } from 'react-native';
 
+
 const firebase = require('firebase');
 
 const styles = StyleSheet.create({
