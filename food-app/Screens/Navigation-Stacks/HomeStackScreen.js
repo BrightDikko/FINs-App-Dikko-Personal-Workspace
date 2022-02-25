@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FirebaseAuthSerivce from '../../firebase/FirebaseAuthService';
 import {
@@ -13,45 +13,50 @@ const HomeStack = createNativeStackNavigator();
 const HomeStackScreen = ({ navigation, route }) => {
 
   function handleLogout() {
-    FirebaseAuthSerivce.logoutUser();
-}
+    if(route.params.isRegistered){
+      FirebaseAuthSerivce.logoutUser();
+    }else{
+      navigation.navigate('LoginScreen');
+    }
+    
+  }
 
   return (
     <HomeStack.Navigator
-    screenOptions={{
-      headerShown: true,
-      headerTintColor: '#53B175',
-    }}
+      screenOptions={{
+        headerShown: true,
+        headerTintColor: '#53B175',
+      }}
     >
-      <HomeStack.Screen 
+      <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        initialParams={ { fb: route.params.fb}}
-        options={ ({ navigation }) => ({
-            title: 'Home',
-            headerRight: () => (
-              <Button
-                onPress={ () => navigation.navigate('ListScreen', {
-                  addListContext: route.params.addListContext,
-                  
-                }) } 
-                title="New List"
-                color='#53B175'
-              />
-            ),
-            headerLeft: () => (
-              <Button
-                onPress={ () => {handleLogout()} } 
-                title="Logout"
-                color='#53B175'
-              />
+        initialParams={{ fb: route.params.fb, isRegistered: route.params.isRegistered }}
+        options={({ navigation }) => ({
+          title: 'Home',
+          headerRight: () => (
+            <Button
+              onPress={() => navigation.navigate('ListScreen', {
+                addListContext: route.params.addListContext,
+                isRegistered: route.params.isRegistered
+              })}
+              title="New List"
+              color='#53B175'
+            />
+          ),
+          headerLeft: () => (
+            <Button
+              onPress={() => { handleLogout() }}
+              title="Logout"
+              color='#53B175'
+            />
           ),
         })}
-      /> 
+      />
       <HomeStack.Screen
         name="ListScreen"
         component={ListScreen}
-        options={{ 
+        options={{
           title: 'New List'
         }}
       />

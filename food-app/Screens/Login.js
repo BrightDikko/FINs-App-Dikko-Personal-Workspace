@@ -98,17 +98,7 @@ const Login = ({ navigation, route }) => {
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <View style={{ flex: 1 }}>
-                            <Text>
-                                <Button
-                                    onPress={() => navigation.openDrawer()}
-                                    title='='
-                                    color='black'
-                                    accessibilityLabel='Toggle navigation drawer'
-                                />
-                            </Text>
-                        </View>
-                        <View style={{ flex: 2, alignItems: 'center' }}>
+                        <View style={{ flex: 30, alignItems: 'center' }}>
                         <Image
                             style={styles.carrotIcon}
                             source={require('../assets/Carrot.png')}
@@ -157,7 +147,7 @@ const Login = ({ navigation, route }) => {
                         {'\n'}{'\n'}OR{'\n'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Text style={styles.login} onPress={() => navigation.navigate('HomeStack', { fb: route.params.fb }) }>Process as Guest</Text>
+                        <Text style={styles.login} onPress={() => navigation.navigate('HomeNavigation') }>Process as Guest</Text>
                     </TouchableOpacity>
                 </View>
             </View>
