@@ -98,7 +98,7 @@ const Login = ({ navigation, route }) => {
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <View style={{ flex: 2, alignItems: 'center' }}>
+                        <View style={{ flex: 30, alignItems: 'center' }}>
                         <Image
                             style={styles.carrotIcon}
                             source={require('../assets/Carrot.png')}

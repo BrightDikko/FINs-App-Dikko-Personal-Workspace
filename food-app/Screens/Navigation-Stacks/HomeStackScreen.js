@@ -12,14 +12,6 @@ const HomeStack = createNativeStackNavigator();
 
 const HomeStackScreen = ({ navigation, route }) => {
 
-  // useEffect(() => {
-  //   if (route.params.isRegistered) {
-  //     buttonTitle = "Logout";
-  //   } else {
-  //     buttonTitle = "Login";
-  //   }
-  // });
-
   function handleLogout() {
     if(route.params.isRegistered){
       FirebaseAuthSerivce.logoutUser();

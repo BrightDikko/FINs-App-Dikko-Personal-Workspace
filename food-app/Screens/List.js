@@ -491,6 +491,7 @@ const List = ({ navigation, route }) => {
                                             checked={isSeafoodSelected}
                                             onPress={() => setSeafoodSelection(!isSeafoodSelected)}
                                         />
+                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What is your budget?</Text>
                                         <View style={styles.inputView}>
                                             <TextInput
                                                 style={styles.TextInput}
