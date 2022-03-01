@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
         flex: 0.15,
         flexDirection: 'row',
         alignItems: 'center',
+        height: "100%"
     },
     searchContainer: {
         backgroundColor: '#f0f0f0',
@@ -151,6 +152,7 @@ const CreateList = ({ navigation, route }) => {
 
         return(
             <View style={{ flex: 1 }}>
+                {/*
                 <View style={styles.container}>
                     <TouchableHighlight underlayColor={'transparent'} onPress={() => {appendToList(selectedItem)}}>
                         <Ionicons style={{ padding: 10 }} name={"add-outline"} size={24} />
@@ -162,8 +164,8 @@ const CreateList = ({ navigation, route }) => {
                         placeholderTextColor='#525252'
                         onChangeText={(selectedItem) => setSelectedItem(selectedItem)}
                     />
-                </View>
-                {/*<View style={{ padding: 10, flex: 1 }}>
+                </View>*/}
+                <View style={{ padding: 10, flex: 1 }}>
                         <TouchableHighlight onPress={() => {appendToList(selectedItem)}}>
                             <Ionicons style={styles.searchIcon} name={"add-outline"} size={24} />
                         </TouchableHighlight>
@@ -182,6 +184,7 @@ const CreateList = ({ navigation, route }) => {
                             renderItem={({item}) => (
                                 <TouchableOpacity
                                 onPress={() => {
+                                    alert('pressed');
                                     console.log(item);
                                     setSelectedItem(item);
                                     setFilteredItems([]);
@@ -191,7 +194,7 @@ const CreateList = ({ navigation, route }) => {
                                 </TouchableOpacity>
                             )}              
                         />
-                </View>*/}
+                </View>
                 <View>
                     <FlatList 
                         data={listItems}

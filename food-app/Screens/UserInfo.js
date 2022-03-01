@@ -180,10 +180,6 @@ const Welcome = ({ navigation, route }) => {
         isFryerSelected
     };
 
-    function handleLogout() {
-        FirebaseAuthSerivce.logoutUser();
-    }
-
     function handleUserInfoSubmit() {
         const newUserInfo = {
             contactInfo,
@@ -317,10 +313,7 @@ const Welcome = ({ navigation, route }) => {
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity onPress={() => {handleUserInfoSubmit(); navigation.navigate('Home');}} style={styles.loginBtn}>
-                            <Text style={styles.loginText}>Continue</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {handleLogout()}} style={styles.loginBtn}>
-                            <Text style={styles.loginText}>Log Out</Text>
+                            <Text style={styles.loginText}>Submit</Text>
                         </TouchableOpacity>
                     </ScrollView>
                 </View>

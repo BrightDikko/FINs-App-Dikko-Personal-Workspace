@@ -138,9 +138,6 @@ const Home = ({ navigation, route }) => {
                         </View>
                     ) : (
                         <View style={styles.container}>
-                            <TouchableOpacity onPress={() => navigation.navigate('CreateList')} style={styles.loginBtn}>
-                                <Text style={styles.loginText}>Create a List</Text>
-                            </TouchableOpacity>
                             <FlatList
                                 data={recipes}
                                 //renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}
