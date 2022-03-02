@@ -639,6 +639,7 @@ const List = ({ navigation, route }) => {
             }
             <Autocomplete
                 autoCorrect={false}
+                clearButtonMode={'always'}
                 containerStyle={styles.autocompleteContainer}
                 data={filteredItems}
                 defaultValue={JSON.stringify(selectedItem) === '{}' ?
