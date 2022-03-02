@@ -6,16 +6,26 @@ import {
     View,
     Alert,
     Modal,
-    Pressable,
     ScrollView,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList
 
 } from 'react-native';
 
 import { ButtonGroup, CheckBox } from 'react-native-elements';
+import Autocomplete from 'react-native-autocomplete-input';
+
+import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
+import FirestoreService from '../firebase/FirestoreService';
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 0.15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingBottom: 50
+    },
     title: {
         color: '#53B175',
         textAlign: 'center'
@@ -34,6 +44,10 @@ const styles = StyleSheet.create({
     },
     contextTitleView: {
         padding: 10
+    },
+    items: {
+        paddingLeft: 30,
+        lineHeight: 30
     },
     buttonView: {
         padding: 10
@@ -85,7 +99,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     loginBtn: {
-        width: '100%',
+        width: '90%',
         borderRadius: 25,
         height: 50,
         alignItems: 'center',
@@ -94,7 +108,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#53B175',
     },
     loginText: {
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+        fontWeight: "bold",
     },
     TextInput: {
         height: 50,
@@ -111,6 +126,45 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    autocompleteContainer: {
+        backgroundColor: '#ffffff',
+        borderWidth: 0,
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    inputContainer: {
+        backgroundColor: 'transparent',
+        borderColor: '#ababab',
+        paddingLeft: 20
+    },
+    contextQuestions: {
+        textAlign: 'center', 
+        fontSize: 14, 
+        marginBottom: 10
+    },
+    buttonNormalGoals: {
+        backgroundColor: "#d5edd9",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '65%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonPressGoals: {
+        backgroundColor: "#88cf99",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '65%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    }
 });
 
 
@@ -141,15 +195,62 @@ const List = ({ navigation, route }) => {
     const [isStovetopSelected, setStovetopSelection] = useState(false);
     const [isMicrowaveSelected, setMicrowaveSelection] = useState(false);
     const [isFryerSelected, setFryerSelection] = useState(false);
-    const [isGlutenSelected, setGlutenSelection] = useState(false);
-    const [isNutsSelected, setNutsSelection] = useState(false);
-    const [isDairySelected, setDairySelection] = useState(false);
-    const [isSeafoodSelected, setSeafoodSelection] = useState(false);
+    const [isMilkSelected, setMilkSelection] = useState(false);
+    const [isEggsSelected, setEggsSelection] = useState(false);
+    const [isFishSelected, setFishSelection] = useState(false);
+    const [isShellfishSelected, setShellfishSelection] = useState(false);
+    const [isPeanutsSelected, setPeanutsSelection] = useState(false);
+    const [isTreeNutsSelected, setTreeNutsSelection] = useState(false);
+    const [isWheatSelected, setWheatSelection] = useState(false);
+    const [isSoySelected, setSoySelection] = useState(false);
+
+    const [selectedItem, setSelectedItem] = useState('');
+    const [listItems, setListItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
+    var listObject = { items: [] };
+
+    // In the future, fetch complete list of items from API instead of hardcoding test list
+    const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils', 'Bread', 'Butter', 'Eggs', 'Yogurt', 'Sour Cream', 'Apples', 'Avocado', 'Bananas', 'Cauliflower', 'Garlic', 'Onion', 'Mushrooms', 'Spinach', 'Tomato', 'Squash', 'Ketchup', 'Mustard', 'Mayonnaise', 'Black Beans', 'Milk', 'Rice', 'Quinoa', 'Bell Peppers', 'Potatoes', 'Chicken', 'Ground Beef', 'Pork'];
+
+    function handleAddList() {
+        route.params.addList(listItems);
+        alert('Initial list successfully created.');
+    }
+
+    function appendToList(item) {
+        const tempList = listItems;
+        tempList.push(item);
+        setListItems(tempList);
+    }
+
+    async function handleAddList(listItems) {
+        try {
+            listObject.items = listItems;
+            const response = await FirestoreService.createDocument(
+                'lists',
+                listObject
+            );
+            setListItems([]);
+
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
+    const findItem = (query) => {
+        if (query) {
+            const regex = new RegExp(`${query.trim()}`, 'i');
+            setFilteredItems(testItems.filter((item) => item.search(regex) >= 0));
+        }
+        else {
+            setFilteredItems([]); // no matches
+        }
+    };
 
     function checkFieldsHaveContent() {
-        if( !route.params.isRegistered && firstName == '' | lastName == '' ){
+        if (!route.params.isRegistered && firstName == '' | lastName == '') {
             alert('Please enter a first and last name');
-            if(phoneNumber == ''){
+            if (phoneNumber == '') {
                 alert('Please enter a phone number.');
             }
             return false;
@@ -278,7 +379,7 @@ const List = ({ navigation, route }) => {
     return (
         <View>
             {
-                route.params.isRegistered ? (
+                FirebaseAuthSerivce.auth.currentUser.isAnonymous ? (
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -297,6 +398,95 @@ const List = ({ navigation, route }) => {
                                 </View>
                                 <View style={{ flex: 5, alignItems: 'center' }}>
                                     <ScrollView>
+                                        <Text style={styles.contextQuestions}>{'\n'}Before we get started, tell us about yourself:</Text>
+                                        <View style={styles.inputView}>
+                                            <TextInput
+                                                style={styles.TextInput}
+                                                value={firstName}
+                                                placeholder='First Name'
+                                                placeholderTextColor='#525252'
+                                                onChangeText={(firstName) => setFirstName(firstName)}
+                                            />
+                                        </View>
+                                        <View style={styles.inputView}>
+                                            <TextInput
+                                                style={styles.TextInput}
+                                                value={lastName}
+                                                placeholder='Last Name'
+                                                placeholderTextColor='#525252'
+                                                onChangeText={(lastName) => setLastName(lastName)}
+                                            />
+                                        </View>
+                                        <View style={styles.inputView}>
+                                            <TextInput
+                                                style={styles.TextInput}
+                                                value={phoneNumber}
+                                                placeholder='Phone Number'
+                                                placeholderTextColor='#525252'
+                                                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
+                                            />
+                                        </View>
+                                        <Text style={styles.contextQuestions}>{'\n'}What are some of your health goals?</Text>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <TouchableOpacity activeOpacity={1} style={isSugarSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSugarSelection(!isSugarSelected)}}>
+                                                <Text>Eat less sugar</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isFatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFatSelection(!isFatSelected)}}>
+                                                <Text>Eat less saturated fat</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isSodiumSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSodiumSelection(!isSodiumSelected)}}>
+                                                <Text>Eat less sodium</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMeatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMeatSelection(!isMeatSelected)}}>
+                                                <Text>Eat less red meat</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isVeggiesSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setVeggiesSelection(!isVeggiesSelected)}}>
+                                                <Text>Eat more vegetables</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Text style={styles.contextQuestions}>{'\n'}Which appliances are available to you?</Text>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <TouchableOpacity activeOpacity={1} style={isOvenSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setOvenSelection(!isOvenSelected)}}>
+                                                <Text>Oven</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isStovetopSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setStovetopSelection(!isStovetopSelected)}}>
+                                                <Text>Stovetop</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMicrowaveSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMicrowaveSelection(!isMicrowaveSelected)}}>
+                                                <Text>Microwave</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isFryerSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFryerSelection(!isFryerSelected)}}>
+                                                <Text>Air Fryer</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Text style={styles.contextQuestions}>{'\n'}Do you have any allergies?</Text>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <TouchableOpacity activeOpacity={1} style={isMilkSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMilkSelection(!isMilkSelected)}}>
+                                                <Text>Milk</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isFishSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFishSelection(!isFishSelected)}}>
+                                                <Text>Fish</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isEggsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setEggsSelection(!isEggsSelected)}}>
+                                                <Text>Eggs</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isShellfishSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setShellfishSelection(!isShellfishSelected)}}>
+                                                <Text>Shellfish</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isPeanutsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setPeanutsSelection(!isPeanutsSelected)}}>
+                                                <Text>Peanuts</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isTreeNutsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setTreeNutsSelection(!isTreeNutsSelected)}}>
+                                                <Text>Tree Nuts</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isWheatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setWheatSelection(!isWheatSelected)}}>
+                                                <Text>Wheat</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isSoySelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSoySelection(!isSoySelected)}}>
+                                                <Text>Soy</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <Text style={styles.contextQuestions}>{'\n'}What is your budget?</Text>
                                         <View style={styles.inputView}>
                                             <TextInput
                                                 style={styles.TextInput}
@@ -307,52 +497,36 @@ const List = ({ navigation, route }) => {
                                                 onChangeText={(budget) => setBudget(budget)}
                                             />
                                         </View>
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What cuisine would you like to shop for?</Text>
-                                        <CheckBox
-                                            title="Italian"
-                                            checked={isItalianSelected}
-                                            onPress={() => setItalianSelected(!isItalianSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Indian"
-                                            checked={isIndianSelected}
-                                            onPress={() => setIndianSelected(!isIndianSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Mexican"
-                                            checked={isMexicanSelected}
-                                            onPress={() => setMexicanSelected(!isMexicanSelected)}
-                                        />
-                                        <CheckBox
-                                            title="American"
-                                            checked={isAmericanSelected}
-                                            onPress={() => setAmericanSelected(!isAmericanSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Chinese"
-                                            checked={isChineseSelected}
-                                            onPress={() => setChineseSelected(!isChineseSelected)}
-                                        />
-                                        <CheckBox
-                                            title="French"
-                                            checked={isFrenchSelected}
-                                            onPress={() => setFrenchSelected(!isFrenchSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Mediterranean"
-                                            checked={isMedSelected}
-                                            onPress={() => setMedSelected(!isMedSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Greek"
-                                            checked={isGreekSelected}
-                                            onPress={() => setGreekSelected(!isGreekSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Japanese"
-                                            checked={isJapaneseSelected}
-                                            onPress={() => setJapaneseSelected(!isJapaneseSelected)}
-                                        />
+                                        <Text style={styles.contextQuestions}>{'\n'}What cuisine would you like to shop for?</Text>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setItalianSelected(!isItalianSelected)}}>
+                                                <Text>Italian</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setIndianSelected(!isIndianSelected)}}>
+                                                <Text>Indian</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
+                                                <Text>Mexican</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
+                                                <Text>American</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setChineseSelected(!isChineseSelected)}}>
+                                                <Text>Chinese</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
+                                                <Text>French</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMedSelected(!isMedSelected)}}>
+                                                <Text>Mediterranean</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setGreekSelected(!isGreekSelected)}}>
+                                                <Text>Greek</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
+                                                <Text>Japanese</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                         <ButtonGroup
                                             style={{
                                                 margin: 20
@@ -394,104 +568,9 @@ const List = ({ navigation, route }) => {
                                         Enter List Constraints
                                     </Text>
                                 </View>
+                                <Text style={styles.contextQuestions}>{'\n'}What is your budget?</Text>
                                 <View style={{ flex: 5, alignItems: 'center' }}>
                                     <ScrollView>
-                                        <View style={styles.inputView}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                                value={firstName}
-                                                placeholder='First Name'
-                                                placeholderTextColor='#525252'
-                                                onChangeText={(firstName) => setFirstName(firstName)}
-                                            />
-                                        </View>
-                                        <View style={styles.inputView}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                                value={lastName}
-                                                placeholder='Last Name'
-                                                placeholderTextColor='#525252'
-                                                onChangeText={(lastName) => setLastName(lastName)}
-                                            />
-                                        </View>
-                                        <View style={styles.inputView}>
-                                            <TextInput
-                                                style={styles.TextInput}
-                                                value={phoneNumber}
-                                                placeholder='Phone Number'
-                                                placeholderTextColor='#525252'
-                                                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-                                            />
-                                        </View>
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What are some of your health goals?</Text>
-                                        <CheckBox
-                                            title="Eat less sugar"
-                                            checked={isSugarSelected}
-                                            onPress={() => setSugarSelection(!isSugarSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Eat less saturated fat"
-                                            checked={isFatSelected}
-                                            onPress={() => setFatSelection(!isFatSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Eat less sodium"
-                                            checked={isSodiumSelected}
-                                            onPress={() => setSodiumSelection(!isSodiumSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Eat less red meat"
-                                            checked={isMeatSelected}
-                                            onPress={() => setMeatSelection(!isMeatSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Eat more fruits and vegetables"
-                                            checked={isVeggiesSelected}
-                                            onPress={() => setVeggiesSelection(!isVeggiesSelected)}
-                                        />
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Which appliances are available to you?</Text>
-                                        <CheckBox
-                                            title="Oven"
-                                            checked={isOvenSelected}
-                                            onPress={() => setOvenSelection(!isOvenSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Stovetop"
-                                            checked={isStovetopSelected}
-                                            onPress={() => setStovetopSelection(!isStovetopSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Microwave"
-                                            checked={isMicrowaveSelected}
-                                            onPress={() => setMicrowaveSelection(!isMicrowaveSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Air Fryer"
-                                            checked={isFryerSelected}
-                                            onPress={() => setFryerSelection(!isFryerSelected)}
-                                        />
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Do you have any allergies?</Text>
-                                        <CheckBox
-                                            title="Gluten"
-                                            checked={isGlutenSelected}
-                                            onPress={() => setGlutenSelection(!isGlutenSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Dairy"
-                                            checked={isDairySelected}
-                                            onPress={() => setDairySelection(!isDairySelected)}
-                                        />
-                                        <CheckBox
-                                            title="Nuts"
-                                            checked={isNutsSelected}
-                                            onPress={() => setNutsSelection(!isNutsSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Seafood"
-                                            checked={isSeafoodSelected}
-                                            onPress={() => setSeafoodSelection(!isSeafoodSelected)}
-                                        />
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What is your budget?</Text>
                                         <View style={styles.inputView}>
                                             <TextInput
                                                 style={styles.TextInput}
@@ -502,52 +581,36 @@ const List = ({ navigation, route }) => {
                                                 onChangeText={(budget) => setBudget(budget)}
                                             />
                                         </View>
-                                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What cuisine would you like to shop for?</Text>
-                                        <CheckBox
-                                            title="Italian"
-                                            checked={isItalianSelected}
-                                            onPress={() => setItalianSelected(!isItalianSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Indian"
-                                            checked={isIndianSelected}
-                                            onPress={() => setIndianSelected(!isIndianSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Mexican"
-                                            checked={isMexicanSelected}
-                                            onPress={() => setMexicanSelected(!isMexicanSelected)}
-                                        />
-                                        <CheckBox
-                                            title="American"
-                                            checked={isAmericanSelected}
-                                            onPress={() => setAmericanSelected(!isAmericanSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Chinese"
-                                            checked={isChineseSelected}
-                                            onPress={() => setChineseSelected(!isChineseSelected)}
-                                        />
-                                        <CheckBox
-                                            title="French"
-                                            checked={isFrenchSelected}
-                                            onPress={() => setFrenchSelected(!isFrenchSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Mediterranean"
-                                            checked={isMedSelected}
-                                            onPress={() => setMedSelected(!isMedSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Greek"
-                                            checked={isGreekSelected}
-                                            onPress={() => setGreekSelected(!isGreekSelected)}
-                                        />
-                                        <CheckBox
-                                            title="Japanese"
-                                            checked={isJapaneseSelected}
-                                            onPress={() => setJapaneseSelected(!isJapaneseSelected)}
-                                        />
+                                        <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 20 }}>{'\n'}What cuisine would you like to shop for?</Text>
+                                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setItalianSelected(!isItalianSelected)}}>
+                                                <Text>Italian</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setIndianSelected(!isIndianSelected)}}>
+                                                <Text>Indian</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
+                                                <Text>Mexican</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
+                                                <Text>American</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setChineseSelected(!isChineseSelected)}}>
+                                                <Text>Chinese</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
+                                                <Text>French</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMedSelected(!isMedSelected)}}>
+                                                <Text>Mediterranean</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setGreekSelected(!isGreekSelected)}}>
+                                                <Text>Greek</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
+                                                <Text>Japanese</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                         <ButtonGroup
                                             style={{
                                                 margin: 20
@@ -574,26 +637,44 @@ const List = ({ navigation, route }) => {
                     </Modal>
                 )
             }
-
-
-
-
-            <View>
-                <Text style={styles.title}>
-                    Shopping List
-                </Text>
-                <Pressable
-                    style={styles.loginBtn}
-                    onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <Text style={styles.textStyle}>Edit List Context</Text>
-                </Pressable>
-                <Pressable
-                    style={styles.loginBtn}
-                    onPress={() => { handleListContextSubmit(); navigation.navigate('HomeScreen'); }}
-                >
-                    <Text style={styles.textStyle}>Submit</Text>
-                </Pressable>
+            <Autocomplete
+                autoCorrect={false}
+                clearButtonMode={'always'}
+                containerStyle={styles.autocompleteContainer}
+                data={filteredItems}
+                defaultValue={JSON.stringify(selectedItem) === '{}' ?
+                '' : selectedItem}
+                flatListProps={{
+                    keyboardShouldPersistTaps: 'always',
+                    renderItem: ({ item }) => (
+                        <TouchableOpacity onPress={() => {
+                            setSelectedItem(item);
+                            setFilteredItems([]);
+                            appendToList(item);
+                        }}>
+                            <Text style={styles.items}>{item}</Text>
+                        </TouchableOpacity>
+                    ),            
+                }}
+                inputContainerStyle={styles.inputContainer}
+                onChangeText={(text) => findItem(text)}
+                placeholder="Enter an item"
+            />
+            <View style={{ marginTop: 15 }}>
+                <Text style={styles.contextQuestions}>{listItems.length > 0 ? `Current List:` : ``}</Text>
+                <FlatList
+                    data={listItems}
+                    renderItem={({ item }) => <Text style={styles.items}>{item}</Text>}
+                />
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => { 
+                        handleListContextSubmit(); 
+                        handleAddList(listItems); 
+                        navigation.navigate('HomeScreen');
+                        }} style={styles.loginBtn}>
+                        <Text style={styles.loginText}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );

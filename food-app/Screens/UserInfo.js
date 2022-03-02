@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     ScrollView,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     TextInput: {
         height: 50,
         flex: 1,
-        width: '70%',
+        width: '80%',
     },
     login: {
         color: '#53B175',
@@ -58,6 +57,72 @@ const styles = StyleSheet.create({
         marginTop: 40,
         backgroundColor: '#53B175',
     },
+    buttonNormalGoals: {
+        backgroundColor: "#d5edd9",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '55%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonPressGoals: {
+        backgroundColor: "#88cf99",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '55%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonNormalAppliances: {
+        backgroundColor: "#d5edd9",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '40%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonPressAppliances: {
+        backgroundColor: "#88cf99",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '40%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonNormalAllergens: {
+        backgroundColor: "#d5edd9",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '40%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    buttonPressAllergens: {
+        backgroundColor: "#88cf99",
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: "#b5d5bd",
+        width: '40%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    }
 });
 
 const Welcome = ({ navigation, route }) => {
@@ -74,10 +139,14 @@ const Welcome = ({ navigation, route }) => {
     const [isStovetopSelected, setStovetopSelection] = useState(false);
     const [isMicrowaveSelected, setMicrowaveSelection] = useState(false);
     const [isFryerSelected, setFryerSelection] = useState(false);
-    const [isGlutenSelected, setGlutenSelection] = useState(false);
-    const [isNutsSelected, setNutsSelection] = useState(false);
-    const [isDairySelected, setDairySelection] = useState(false);
-    const [isSeafoodSelected, setSeafoodSelection] = useState(false);
+    const [isMilkSelected, setMilkSelection] = useState(false);
+    const [isEggsSelected, setEggsSelection] = useState(false);
+    const [isFishSelected, setFishSelection] = useState(false);
+    const [isShellfishSelected, setShellfishSelection] = useState(false);
+    const [isPeanutsSelected, setPeanutsSelection] = useState(false);
+    const [isTreeNutsSelected, setTreeNutsSelection] = useState(false);
+    const [isWheatSelected, setWheatSelection] = useState(false);
+    const [isSoySelected, setSoySelection] = useState(false);
 
     var contactInfo = {
         firstName,
@@ -94,10 +163,14 @@ const Welcome = ({ navigation, route }) => {
     };
 
     var allergens = {
-        isGlutenSelected,
-        isDairySelected,
-        isNutsSelected,
-        isSeafoodSelected
+        isMilkSelected,
+        isFishSelected,
+        isEggsSelected,
+        isShellfishSelected,
+        isPeanutsSelected,
+        isTreeNutsSelected,
+        isWheatSelected,
+        isSoySelected
     };
 
     var appliances = {
@@ -106,10 +179,6 @@ const Welcome = ({ navigation, route }) => {
         isMicrowaveSelected,
         isFryerSelected
     };
-
-    function handleLogout() {
-        FirebaseAuthSerivce.logoutUser();
-    }
 
     function handleUserInfoSubmit() {
         const newUserInfo = {
@@ -142,7 +211,7 @@ const Welcome = ({ navigation, route }) => {
                 </View>
                 <View style={styles.container}>
                     <View style={{ flex: 1, paddingTop: 30 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 18 }}>Welcome, {route.params.existingUser.email}!</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 18 }}>{FirebaseAuthSerivce.auth.currentUser.isAnonymous ? `Welcome to FINs!` : `Welcome, ${route.params.existingUser.email}!`}</Text>
                         <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Before we get started, tell us about yourself:</Text>
                     </View>
                 </View>
@@ -175,79 +244,76 @@ const Welcome = ({ navigation, route }) => {
                                 onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
                             />
                         </View>
-                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}What are some of your health goals?</Text>
-                        <CheckBox
-                            title="Eat less sugar"
-                            checked={isSugarSelected}
-                            onPress={() => setSugarSelection(!isSugarSelected)}
-                        />
-                        <CheckBox
-                            title="Eat less saturated fat"
-                            checked={isFatSelected}
-                            onPress={() => setFatSelection(!isFatSelected)}
-                        />
-                        <CheckBox
-                            title="Eat less sodium"
-                            checked={isSodiumSelected}
-                            onPress={() => setSodiumSelection(!isSodiumSelected)}
-                        />
-                        <CheckBox
-                            title="Eat less red meat"
-                            checked={isMeatSelected}
-                            onPress={() => setMeatSelection(!isMeatSelected)}
-                        />
-                        <CheckBox
-                            title="Eat more fruits and vegetables"
-                            checked={isVeggiesSelected}
-                            onPress={() => setVeggiesSelection(!isVeggiesSelected)}
-                        />
-                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Which appliances are available to you?</Text>
-                        <CheckBox
-                            title="Oven"
-                            checked={isOvenSelected}
-                            onPress={() => setOvenSelection(!isOvenSelected)}
-                        />
-                        <CheckBox
-                            title="Stovetop"
-                            checked={isStovetopSelected}
-                            onPress={() => setStovetopSelection(!isStovetopSelected)}
-                        />
-                        <CheckBox
-                            title="Microwave"
-                            checked={isMicrowaveSelected}
-                            onPress={() => setMicrowaveSelection(!isMicrowaveSelected)}
-                        />
-                        <CheckBox
-                            title="Air Fryer"
-                            checked={isFryerSelected}
-                            onPress={() => setFryerSelection(!isFryerSelected)}
-                        />
-                        <Text style={{ textAlign: 'center', fontSize: 14 }}>{'\n'}Do you have any allergies?</Text>
-                        <CheckBox
-                            title="Gluten"
-                            checked={isGlutenSelected}
-                            onPress={() => setGlutenSelection(!isGlutenSelected)}
-                        />
-                        <CheckBox
-                            title="Dairy"
-                            checked={isDairySelected}
-                            onPress={() => setDairySelection(!isDairySelected)}
-                        />
-                        <CheckBox
-                            title="Nuts"
-                            checked={isNutsSelected}
-                            onPress={() => setNutsSelection(!isNutsSelected)}
-                        />
-                        <CheckBox
-                            title="Seafood"
-                            checked={isSeafoodSelected}
-                            onPress={() => setSeafoodSelection(!isSeafoodSelected)}
-                        />
+                        <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 20 }}>{'\n'}What are some of your health goals?</Text>
+                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <TouchableOpacity activeOpacity={1} style={isSugarSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSugarSelection(!isSugarSelected)}}>
+                                <Text>Eat less sugar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isFatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFatSelection(!isFatSelected)}}>
+                                <Text>Eat less saturated fat</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isSodiumSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSodiumSelection(!isSodiumSelected)}}>
+                                <Text>Eat less sodium</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isMeatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMeatSelection(!isMeatSelected)}}>
+                                <Text>Eat less red meat</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isVeggiesSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setVeggiesSelection(!isVeggiesSelected)}}>
+                                <Text>Eat more vegetables</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 20 }}>{'\n'}Which appliances are available to you?</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isOvenSelected ? styles.buttonPressAppliances : styles.buttonNormalAppliances} onPress={() => {setOvenSelection(!isOvenSelected)}}>
+                                <Text>Oven</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isStovetopSelected ? styles.buttonPressAppliances : styles.buttonNormalAppliances} onPress={() => {setStovetopSelection(!isStovetopSelected)}}>
+                                <Text>Stovetop</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isMicrowaveSelected ? styles.buttonPressAppliances : styles.buttonNormalAppliances} onPress={() => {setMicrowaveSelection(!isMicrowaveSelected)}}>
+                                <Text>Microwave</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isFryerSelected ? styles.buttonPressAppliances : styles.buttonNormalAppliances} onPress={() => {setFryerSelection(!isFryerSelected)}}>
+                                <Text>Air Fryer</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 20 }}>{'\n'}Do you have any allergies?</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isMilkSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setMilkSelection(!isMilkSelected)}}>
+                                <Text>Milk</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isFishSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setFishSelection(!isFishSelected)}}>
+                                <Text>Fish</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isEggsSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setEggsSelection(!isEggsSelected)}}>
+                                <Text>Eggs</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isShellfishSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setShellfishSelection(!isShellfishSelected)}}>
+                                <Text>Shellfish</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isPeanutsSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setPeanutsSelection(!isPeanutsSelected)}}>
+                                <Text>Peanuts</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isTreeNutsSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setTreeNutsSelection(!isTreeNutsSelected)}}>
+                                <Text>Tree Nuts</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <TouchableOpacity activeOpacity={1} style={isWheatSelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setWheatSelection(!isWheatSelected)}}>
+                                <Text>Wheat</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={1} style={isSoySelected ? styles.buttonPressAllergens : styles.buttonNormalAllergens} onPress={() => {setSoySelection(!isSoySelected)}}>
+                                <Text>Soy</Text>
+                            </TouchableOpacity>
+                        </View>
                         <TouchableOpacity onPress={() => {handleUserInfoSubmit(); navigation.navigate('Home');}} style={styles.loginBtn}>
-                            <Text style={styles.loginText}>Continue</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {handleLogout()}} style={styles.loginBtn}>
-                            <Text style={styles.loginText}>Log Out</Text>
+                            <Text style={styles.loginText}>Submit</Text>
                         </TouchableOpacity>
                     </ScrollView>
                 </View>

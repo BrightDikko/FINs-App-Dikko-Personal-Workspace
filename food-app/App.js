@@ -29,7 +29,6 @@ export default function App() {
   const auth = firebase.auth();
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
-
   
   function onAuthStateChanged(user) {
     setUser(user);

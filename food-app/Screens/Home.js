@@ -6,9 +6,7 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    SafeAreaView,
     Alert,
-    Button,
     TouchableOpacity,
     Image,
     Linking
@@ -19,7 +17,7 @@ const firebase = require('firebase');
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     item: {
         padding: 10,
@@ -42,6 +40,18 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         flexDirection: "row",
         borderRadius: 5
+    },
+    loginText: {
+        color: '#FFFFFF'
+    },
+    loginBtn: {
+        width: '70%',
+        borderRadius: 25,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 40,
+        backgroundColor: '#53B175',
     }
 });
 
