@@ -176,7 +176,7 @@ const List = ({ navigation, route }) => {
     const [selectedItem, setSelectedItem] = useState('');
     const [listItems, setListItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
-    var listObject = {items: []};
+    var listObject = { items: [] };
 
     // In the future, fetch complete list of items from API instead of hardcoding test list
     const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils'];
@@ -195,20 +195,20 @@ const List = ({ navigation, route }) => {
 
     async function handleAddList(listItems) {
         try {
-          listObject.items = listItems;
-          const response = await FirestoreService.createDocument(
-            'lists',
-            listObject
-          );
-          setListItems([]);
-    
+            listObject.items = listItems;
+            const response = await FirestoreService.createDocument(
+                'lists',
+                listObject
+            );
+            setListItems([]);
+
         } catch (error) {
-          alert(error.message);
+            alert(error.message);
         }
-      }
+    }
 
     const findItem = (query) => {
-        if(query) {
+        if (query) {
             const regex = new RegExp(`${query.trim()}`, 'i');
             setFilteredItems(testItems.filter((item) => item.search(regex) >= 0));
         }
@@ -218,9 +218,9 @@ const List = ({ navigation, route }) => {
     };
 
     function checkFieldsHaveContent() {
-        if( !route.params.isRegistered && firstName == '' | lastName == '' ){
+        if (!route.params.isRegistered && firstName == '' | lastName == '') {
             alert('Please enter a first and last name');
-            if(phoneNumber == ''){
+            if (phoneNumber == '') {
                 alert('Please enter a phone number.');
             }
             return false;
@@ -645,74 +645,49 @@ const List = ({ navigation, route }) => {
                     </Modal>
                 )
             }
-                <View style={{ flex: 1 }}>
-                    <View style={styles.container}>
-                        <TouchableHighlight underlayColor={'transparent'} onPress={() => {appendToList(selectedItem)}}>
-                            <Ionicons style={{ padding: 10 }} name={"add-outline"} size={24} />
-                        </TouchableHighlight>
-                        <TextInput
-                            style={styles.inputView}
-                            value={selectedItem}
-                            placeholder='Add Item'
-                            placeholderTextColor='#525252'
-                            onChangeText={(selectedItem) => setSelectedItem(selectedItem)}
-                        />
-                    </View>
-                    {/*<View style={{ padding: 10, flex: 1 }}>
-                            <TouchableHighlight onPress={() => {appendToList(selectedItem)}}>
-                                <Ionicons style={styles.searchIcon} name={"add-outline"} size={24} />
-                            </TouchableHighlight>
-                            <Autocomplete
-                                autoCapitalize="none"
-                                autoCorrect={false}    
-                                containerStyle={styles.autocompleteContainer}                    
-                                data={filteredItems}
-                                defaultValue={JSON.stringify(selectedItem) === '{}' ? '' : selectedItem}                
-                                flatListProps={{
-                                    renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
-                                }}
-                                //inputContainerStyle={styles.inputContainer}
-                                onChangeText={(text) => findItem(text)}
-                                placeholder="Enter an item"
-                                renderItem={({item}) => (
-                                    <TouchableOpacity
-                                    onPress={() => {
-                                        console.log(item);
-                                        setSelectedItem(item);
-                                        setFilteredItems([]);
-                                        appendToList(item);
-                                    }}>
-                                    <Text>{item}</Text>
-                                    </TouchableOpacity>
-                                )}              
-                            />
-                                </View>*/}
-                    <View>
-                        <FlatList 
-                            data={listItems}
-                            renderItem={({item}) => <Text style={styles.items}>{item}</Text>}
-                        />
-                        <View style={{ alignItems: 'center' }}>
-                            <TouchableOpacity onPress={() => {handleAddList(listItems)}} style={styles.loginBtn}>
-                                <Text style={styles.loginText}>Submit</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+            <TouchableHighlight onPress={() => { appendToList(selectedItem) }}>
+                <Ionicons style={styles.searchIcon} name={"add-outline"} size={24} />
+            </TouchableHighlight>
+            <Autocomplete
+                autoCapitalize="none"
+                autoCorrect={false}
+                containerStyle={styles.autocompleteContainer}
+                data={filteredItems}
+                defaultValue={JSON.stringify(selectedItem) === '{}' ? '' : selectedItem}
+                flatListProps={{
+                    renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
+                }}
+                //inputContainerStyle={styles.inputContainer}
+                onChangeText={(text) => findItem(text)}
+                placeholder="Enter an item"
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        onPress={() => {
+                            alert('pressed');
+                            console.log(item);
+                            setSelectedItem(item);
+                            setFilteredItems([]);
+                            appendToList(item);
+                        }}>
+                        <Text>{item}</Text>
+                    </TouchableOpacity>
+                )}
+            />
+            <View>
+                <FlatList
+                    data={listItems}
+                    renderItem={({ item }) => <Text style={styles.items}>{item}</Text>}
+                />
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => { 
+                        handleListContextSubmit(); 
+                        handleAddList(listItems); 
+                        navigation.navigate('HomeScreen');
+                        }} style={styles.loginBtn}>
+                        <Text style={styles.loginText}>Submit</Text>
+                    </TouchableOpacity>
                 </View>
-                {/*<View style={{alignItems: 'center', paddingTop: 100}}>
-                <Pressable
-                    style={styles.loginBtn}
-                    onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <Text style={styles.textStyle}>Edit List Context</Text>
-                </Pressable>
-                <Pressable
-                    style={styles.loginBtn}
-                    onPress={() => { handleListContextSubmit(); navigation.navigate('HomeScreen'); }}
-                >
-                    <Text style={styles.textStyle}>Submit</Text>
-                </Pressable>
-                                </View>*/}
+            </View>
         </View>
     );
 };
