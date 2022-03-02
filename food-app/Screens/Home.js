@@ -6,7 +6,6 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    SafeAreaView,
     Alert,
     TouchableOpacity,
     Image,

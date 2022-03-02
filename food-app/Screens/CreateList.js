@@ -176,11 +176,19 @@ const CreateList = ({ navigation, route }) => {
                             data={filteredItems}
                             defaultValue={JSON.stringify(selectedItem) === '{}' ? '' : selectedItem}                
                             flatListProps={{
-                                renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
+                                keyboardShouldPersistTaps: 'always',
+                                renderItem: ({ item }) => (
+                                  <TouchableOpacity onPress={() => setSelectedItem(item)}>
+                                    <Text style={styles.items}>{item}</Text>
+                                  </TouchableOpacity>
+                                ),
+                    
+                                //renderItem: ({ item }) => <Text style={styles.items}>{item}</Text>,
                             }}
                             //inputContainerStyle={styles.inputContainer}
                             onChangeText={(text) => findItem(text)}
                             placeholder="Enter an item"
+                            /*
                             renderItem={({item}) => (
                                 <TouchableOpacity
                                 onPress={() => {
@@ -192,7 +200,7 @@ const CreateList = ({ navigation, route }) => {
                                 }}>
                                 <Text>{item}</Text>
                                 </TouchableOpacity>
-                            )}              
+                            )}          */    
                         />
                 </View>
                 <View>

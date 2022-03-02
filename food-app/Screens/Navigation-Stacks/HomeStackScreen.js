@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FirebaseAuthSerivce from '../../firebase/FirebaseAuthService';
 import {
@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import HomeScreen from '../Home';
-import CreateList from '../CreateList';
 import ListScreen from '../List';
 
 const HomeStack = createNativeStackNavigator();
