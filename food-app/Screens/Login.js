@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Button,
 } from 'react-native';
+// import { useRoute } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -66,7 +67,6 @@ const Login = ({ navigation, route }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -75,7 +75,6 @@ const Login = ({ navigation, route }) => {
             await FirebaseAuthSerivce.loginUser(username, password);
             setUsername('');
             setPassword('');
-            setIsLoaded(true);
         } catch (error) {
             alert(error.message);
         }
@@ -94,22 +93,20 @@ const Login = ({ navigation, route }) => {
           alert(error.message);
         }
     }
+
+    async function handleAnonymousLogin() {
+        try {
+            await FirebaseAuthSerivce.anonymousLogin();
+        } catch (error) {
+            alert(error.message);
+        }
+    }
     
         return(
             <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <View style={{ flex: 1 }}>
-                            <Text>
-                                <Button
-                                    onPress={() => navigation.openDrawer()}
-                                    title='='
-                                    color='black'
-                                    accessibilityLabel='Toggle navigation drawer'
-                                />
-                            </Text>
-                        </View>
-                        <View style={{ flex: 2, alignItems: 'center' }}>
+                        <View style={{ flex: 30, alignItems: 'center' }}>
                         <Image
                             style={styles.carrotIcon}
                             source={require('../assets/Carrot.png')}
@@ -158,7 +155,8 @@ const Login = ({ navigation, route }) => {
                         {'\n'}{'\n'}OR{'\n'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Text style={styles.login} onPress={() => navigation.navigate('Home')}>Process as Guest</Text>
+                        <Text style={styles.login} onPress={() => {handleAnonymousLogin(); navigation.navigate('HomeNavigation');}}>Process as Guest</Text>
+                        {/*navigation.navigate('HomeStack', { fb: route.params.fb }) */}
                     </TouchableOpacity>
                 </View>
             </View>

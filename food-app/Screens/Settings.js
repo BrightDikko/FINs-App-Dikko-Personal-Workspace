@@ -4,10 +4,6 @@ import {
     ScrollView,
     Text,
     StyleSheet,
-    FlatList,
-    SafeAreaView,
-    Alert,
-    Button,
     Switch
 } from 'react-native';
 
@@ -55,16 +51,6 @@ const Settings = ({ navigation, route }) => {
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={styles.title}>
-                    <View style={{ flex: 1 }}>
-                        <Text>
-                            <Button
-                                onPress={() => navigation.openDrawer()}
-                                title="="
-                                color="black"
-                                accessibilityLabel="Toggle navigation drawer"
-                            />
-                        </Text>
-                    </View>
                     <View style={{ flex: 8, paddingRight: 10 }}>
                         <Text style={{ textAlign: 'center', fontSize: 30 }}>User Info</Text>
                     </View>
