@@ -82,12 +82,6 @@ export default function App() {
   if (!user) {
     return (
       <NavigationContainer>
-        {/* <Drawer.Navigator initialRouteName="Log In">
-          <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
-          <Drawer.Screen name="Settings" component={SettingsScreen} />
-          <Drawer.Screen name="Log In" component={LoginScreen} initialParams={{ fb: firebase, hello: "hello" }}/>
-          <Drawer.Screen name="Sign Up" component={SignupScreen} />
-        </Drawer.Navigator> */}
         <LoginStack.Navigator
           screenOptions={{
             headerShown: false

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Cart from './Cart.js';
-import PurchaseInfo from './PurchaseInfo.js'
-import ReviewCart from './ReviewCart.js'
+import Cart from '../Cart.js';
+import PurchaseInfo from '../PurchaseInfo.js'
+import ReviewCart from '../ReviewCart.js'
 
-const CartStack = createNativeStackNavigator();
+const CartStackNav = createNativeStackNavigator();
 
 const CartStack = ({ navigation, route }) => {
 

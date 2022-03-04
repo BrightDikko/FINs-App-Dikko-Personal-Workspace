@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     Button,
 } from 'react-native';
-// import { useRoute } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
