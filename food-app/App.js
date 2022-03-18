@@ -13,9 +13,9 @@ import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';
 import SignupScreen from './Screens/Signup';
-import HomeStackScreen from './Screens/Navigation-Stacks/HomeStackScreen'
-import SettingsStackScreen from './Screens/Navigation-Stacks/SettingsStackScreen'
-import WelcomeStackScreen from './Screens/Navigation-Stacks/WelcomeStackScreen'
+import HomeStackScreen from './Screens/Navigators/HomeStackScreen'
+import SettingsStackScreen from './Screens/Navigators/SettingsStackScreen'
+import WelcomeStackScreen from './Screens/Navigators/WelcomeStackScreen'
 
 import firebase from './firebase/FirebaseConfig';
 import FirestoreService from './firebase/FirestoreService';
@@ -32,6 +32,7 @@ export default function App() {
   
   function onAuthStateChanged(user) {
     setUser(user);
+    console.log(user);
     if (initializing) setInitializing(false);
   }
 
