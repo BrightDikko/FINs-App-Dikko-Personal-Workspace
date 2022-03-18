@@ -5,7 +5,7 @@ import Cart from '../Cart.js';
 import PurchaseInfo from '../PurchaseInfo.js'
 import ReviewCart from '../ReviewCart.js'
 
-const CartStackNav = createNativeStackNavigator();
+const CartStack = createNativeStackNavigator();
 
 const CartStack = ({ navigation, route }) => {
 
