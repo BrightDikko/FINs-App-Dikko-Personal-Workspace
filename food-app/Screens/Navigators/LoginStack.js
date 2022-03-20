@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 // currently includes:
 //  - Login Screen
 //  - Sign Up Screen    if this becomes a new nav flow, replace with the new navigator  
-const Login = ({ navigation, route }) => {
+const LoginStack = ({ navigation, route }) => {
 
     return (
         <NavigationContainer>

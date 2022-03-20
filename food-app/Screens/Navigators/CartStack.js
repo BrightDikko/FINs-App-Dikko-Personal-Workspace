@@ -5,29 +5,29 @@ import Cart from '../Cart.js';
 import PurchaseInfo from '../PurchaseInfo.js'
 import ReviewCart from '../ReviewCart.js'
 
-const CartStack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const CartStack = ({ navigation, route }) => {
 
     return (
-        <CartStack.Navigator
+        <Stack.Navigator
             screenOptions={{
                 headerShown: false
             }}
         >
-            <CartStack.Screen
+            <Stack.Screen
                 name="CartScreen"
                 component={Cart}
             />
-            <CartStack.Screen
+            <Stack.Screen
                 name="PurchaseInfoScreen"
                 component={PurchaseInfo}
             />
-            <CartStack.Screen
+            <Stack.Screen
                 name="ReviewCartScreen"
                 component={ReviewCart}
-            /> 
-    </CartStack.Navigator>
+            />
+        </Stack.Navigator>
     );
 }
 

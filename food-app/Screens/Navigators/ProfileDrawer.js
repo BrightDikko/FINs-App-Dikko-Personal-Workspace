@@ -17,26 +17,24 @@ const Drawer = createDrawerNavigator();
 
 const ProfileDrawer = ({ navigation, route }) => {
   return (
-    <NavigationContainer>
       <Drawer.Navigator initialRouteName="UserInfo">
         <Drawer.Screen 
-            name="UserInfoScreen"
+            name="User Info"
             component={UserInfo} 
         />
         <Drawer.Screen 
-            name="PastListsScreen"
+            name="Past Lists"
             component={PastLists}
         />
         <Drawer.Screen 
-            name="FavoriteListsScreen"
+            name="Favorite Lists"
             component={FavoriteLists}
         />
         <Drawer.Screen 
-            name="PreferencesScreen"
+            name="Preferences"
             component={Preferences}
         />
       </Drawer.Navigator>
-    </NavigationContainer>
   );
 }
 

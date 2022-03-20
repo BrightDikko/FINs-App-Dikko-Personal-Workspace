@@ -7,6 +7,7 @@ import {
 
 import HomeScreen from '../Home';
 import ListScreen from '../List';
+import NewList from '../NewList'
 
 const Stack = createNativeStackNavigator();
 
@@ -28,11 +29,10 @@ const HomeStack = ({ navigation, route }) => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: true,
-        headerTintColor: '#53B175',
+        headerShown: false
       }}
     >
-      <Stack.Screen
+      {/* <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
         initialParams={{ fb: route.params.fb, isRegistered: route.params.isRegistered }}
@@ -56,10 +56,10 @@ const HomeStack = ({ navigation, route }) => {
             />
           ),
         })}
-      />
+      /> */}
       <Stack.Screen
-        name="ListScreen"
-        component={ListScreen}
+        name="NewList"
+        component={NewList}
         options={{
           title: 'New List'
         }}

@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import ProfileStack from './ProfileStack.js';
+import ProfileStack from './ProfileDrawer.js';
 import CartStack from './CartStack.js'
 import HomeStack from './HomeStack.js'
 
-const BottonTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 /*
 In this section:
  - these are the main tabs of the app once a user authenticates
@@ -19,12 +19,13 @@ TODO:
 */
 
 const MainTab = ({ navigation, route, isRegistered }) => {
+    console.log("Main Tab: " + isRegistered)
     return (
         <NavigationContainer>
             <BottomTab.Navigator
                 initialRouteName="HomeStack"
                 screenOptions={({ route }) => ({
-                    // headerShown: false,
+                    headerShown: false,
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
 
@@ -35,12 +36,7 @@ const MainTab = ({ navigation, route, isRegistered }) => {
                         } else if (route.name === "ProfileStack") {
                             iconName = focused ? "person-circle" : "person-circle-outline";
                         }
-                        if (route.name == "CartStack") {
-                            // not entirley sure if this is going to work or i need to import something for ion-icon
-                            return <ion-icon name={iconName} size={size} color="#53B175" />
-                        } else {
-                            return <Ionicons name={iconName} size={size} color="#53B175" />
-                        }
+                        return <Ionicons name={iconName} size={size} color="#53B175" />
                     },
                     tabBarActiveTintColor: "#53B175",
                     tabBarInactiveTintColor: "#53B175",
