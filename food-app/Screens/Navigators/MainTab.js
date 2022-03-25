@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import ProfileStack from './ProfileDrawer.js';
+import ProfileDrawer from './ProfileDrawer.js';
 import CartStack from './CartStack.js'
 import HomeStack from './HomeStack.js'
 
@@ -18,8 +18,9 @@ TODO:
  - check that ion-icon works for Cart Stack
 */
 
-const MainTab = ({ navigation, route, isRegistered }) => {
+const MainTab = ({ navigation, route, isRegistered, existingUser }) => {
     console.log("Main Tab: " + isRegistered)
+    console.log("Main Tab existing user: " + existingUser.email)
     return (
         <NavigationContainer>
             <BottomTab.Navigator
@@ -48,8 +49,9 @@ const MainTab = ({ navigation, route, isRegistered }) => {
                 <BottomTab.Screen name="CartStack"
                     component={CartStack}
                 />
-                <BottomTab.Screen name="ProfileStack"
-                    component={ProfileStack}
+                <BottomTab.Screen name="ProfileDrawer"
+                    component={ProfileDrawer}
+                    initialParams={ { existingUser: existingUser } }
                 />
             </BottomTab.Navigator >
         </NavigationContainer>

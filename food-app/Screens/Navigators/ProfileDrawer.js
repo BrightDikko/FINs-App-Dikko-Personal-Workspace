@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem
+} from '@react-navigation/drawer';
+
+import FirebaseAuthService from '../../firebase/FirebaseAuthService';
 
 import UserInfo from '../UserInfo.js';
 import PastLists from '../PastLists.js'
@@ -16,26 +22,33 @@ In this section:
 const Drawer = createDrawerNavigator();
 
 const ProfileDrawer = ({ navigation, route }) => {
+  console.log("Profile Drawer: " + route.params.existingUser)
   return (
-      <Drawer.Navigator initialRouteName="UserInfo">
-        <Drawer.Screen 
-            name="User Info"
-            component={UserInfo} 
-        />
-        <Drawer.Screen 
-            name="Past Lists"
-            component={PastLists}
-        />
-        <Drawer.Screen 
-            name="Favorite Lists"
-            component={FavoriteLists}
-        />
-        <Drawer.Screen 
-            name="Preferences"
-            component={Preferences}
-        />
-      </Drawer.Navigator>
+    <Drawer.Navigator drawerContent={props => {
+      return (
+        <DrawerContentScrollView>
+          <DrawerItem label="Logout" onPress={() => FirebaseAuthService.logoutUser()} />
+        </DrawerContentScrollView>
+      )
+    }}>
+      <Drawer.Screen
+        name="User Info"
+        component={UserInfo}
+        initialParams= { { existingUser: route.params.existingUser}}
+      />
+      <Drawer.Screen
+        name="Past Lists"
+        component={PastLists}
+      />
+      <Drawer.Screen
+        name="Favorite Lists"
+        component={FavoriteLists}
+      />
+      <Drawer.Screen
+        name="Preferences"
+        component={Preferences}
+      />
+    </Drawer.Navigator>
   );
 }
-
 export default ProfileDrawer;
