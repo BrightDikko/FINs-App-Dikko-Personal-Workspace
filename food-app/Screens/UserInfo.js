@@ -180,8 +180,11 @@ const Welcome = ({ navigation, route }) => {
         isFryerSelected
     };
 
+    var userID = FirebaseAuthSerivce.auth.currentUser.uid;
+
     function handleUserInfoSubmit() {
         const newUserInfo = {
+            userID,
             contactInfo,
             healthGoals,
             allergens,
