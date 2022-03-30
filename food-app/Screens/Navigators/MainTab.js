@@ -19,8 +19,6 @@ TODO:
 */
 
 const MainTab = ({ navigation, route, isRegistered, existingUser }) => {
-    console.log("Main Tab: " + isRegistered)
-    console.log("Main Tab existing user: " + existingUser.email)
     return (
         <NavigationContainer>
             <BottomTab.Navigator

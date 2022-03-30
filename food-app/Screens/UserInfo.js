@@ -331,7 +331,7 @@ const Welcome = ({ navigation, route, existingUser }) => {
                             <Text>Soy</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => { handleAddUserInfo(); navigation.navigate('Home'); }} style={styles.loginBtn}>
+                    <TouchableOpacity onPress={() => { handleAddUserInfo() }} style={styles.loginBtn}>
                         <Text style={styles.loginText}>Submit</Text>
                     </TouchableOpacity>
                 </ScrollView>

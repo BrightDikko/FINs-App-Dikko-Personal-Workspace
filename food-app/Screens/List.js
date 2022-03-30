@@ -237,6 +237,18 @@ const List = ({ navigation, route }) => {
         }
     }
 
+    async function handleNewListContext(newListInfo) {
+        try {
+          const response = await FirestoreService.createDocument(
+            'list-context',
+            newListInfo
+          );
+    
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
     const findItem = (query) => {
         if (query) {
             const regex = new RegExp(`${query.trim()}`, 'i');

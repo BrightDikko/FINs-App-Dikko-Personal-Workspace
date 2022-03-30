@@ -9,7 +9,6 @@ import {
   Button,
 } from 'react-native';
 
-
 import HomeScreen from './Screens/Home';
 import SettingsScreen from './Screens/Settings';
 import LoginScreen from './Screens/Login';

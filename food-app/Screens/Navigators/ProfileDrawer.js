@@ -22,7 +22,6 @@ In this section:
 const Drawer = createDrawerNavigator();
 
 const ProfileDrawer = ({ navigation, route }) => {
-  console.log("Profile Drawer: " + route.params.existingUser)
   return (
     <Drawer.Navigator drawerContent={props => {
       return (

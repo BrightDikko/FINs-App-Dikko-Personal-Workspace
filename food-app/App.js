@@ -59,7 +59,7 @@ export default function App() {
       <MainTab
         name = "MainTab"
         isRegistered={!user.isAnonymous}
-        existingUser={user.isAnonymous ? None : user}
+        existingUser={user.isAnonymous ? null : user}
       />
     );
   }
