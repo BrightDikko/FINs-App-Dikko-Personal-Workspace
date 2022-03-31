@@ -10,8 +10,8 @@ from Crypto.Signature import PKCS1_v1_5
 # Load env variables.
 load_dotenv()
 
-consumer_id = os.getenv('WALMART_CONSUMER_ID')
-key_version = os.getenv('WALMART_PROD_KEY_VERSION')
+consumer_id = os.getenv('WALMART_CONSUMER_ID') #read your consumer id from .env
+key_version = os.getenv('WALMART_PROD_KEY_VERSION') # read your key version from .env
 time_in_ms = str(int(time.time() * 1000))
 
 dict_for_hashing = {
@@ -26,7 +26,7 @@ hash_str = dict_for_hashing['WM_CONSUMER.ID'] + '\n' + \
                    dict_for_hashing['WM_SEC.KEY_VERSION'] + '\n'
 encodedHashString = hash_str.encode()
 
-# Read the private key from wherever you stored it - mine was in ./id_rsa.
+# Read the private key from ./WM_IO_private_key.pem, or wherever you stored it
 try:
     with open('./WM_IO_private_key.pem', 'r') as f:
         key = RSA.importKey(f.read())
@@ -35,7 +35,7 @@ except IOError as err:
 
 # Get the auth signature required for request header
 hasher = SHA256.new(encodedHashString)
-signer = PKCS1_v1_5.new(key)
+signer = PKCS1_v1_5.new(key) # use key we created with private key here
 signature = signer.sign(hasher)
 encoded_signature = str(base64.b64encode(signature), 'utf-8')
 
@@ -58,6 +58,7 @@ headers = {
 desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/items/4837473'
 parameters = {
     # 'zip': 46556
+    # these will be used in the future, but this product lookup doesn't have any required parameters
 }
 request = requests.get(desired_api_url, params=parameters, headers=headers)
 print(request.json())
