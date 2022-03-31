@@ -53,7 +53,6 @@ headers = {
     'WM_SHOW_REASON_CODES' : 'ALL',
 }
 
-
 # Attempt to run a test request.
 desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/items/4837473'
 parameters = {
