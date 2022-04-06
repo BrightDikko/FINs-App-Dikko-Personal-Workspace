@@ -6,8 +6,6 @@ import {
 } from 'react-native';
 
 import Home from '../Home';
-import ListScreen from '../List';
-import NewList from '../NewList'
 import List from '../List'
 
 const Stack = createNativeStackNavigator();

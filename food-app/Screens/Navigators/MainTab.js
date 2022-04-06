@@ -18,7 +18,7 @@ TODO:
  - check that ion-icon works for Cart Stack
 */
 
-const MainTab = ({ navigation, route, isRegistered, existingUser }) => {
+const MainTab = ({ isRegistered, existingUser }) => {
     return (
         <NavigationContainer>
             <BottomTab.Navigator
