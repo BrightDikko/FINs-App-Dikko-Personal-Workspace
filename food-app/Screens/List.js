@@ -212,10 +212,10 @@ const List = ({ navigation, route }) => {
     // In the future, fetch complete list of items from API instead of hardcoding test list
     const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils', 'Bread', 'Butter', 'Eggs', 'Yogurt', 'Sour Cream', 'Apples', 'Avocado', 'Bananas', 'Cauliflower', 'Garlic', 'Onion', 'Mushrooms', 'Spinach', 'Tomato', 'Squash', 'Ketchup', 'Mustard', 'Mayonnaise', 'Black Beans', 'Milk', 'Rice', 'Quinoa', 'Bell Peppers', 'Potatoes', 'Chicken', 'Ground Beef', 'Pork'];
 
-    function handleAddList() {
-        route.params.addList(listItems);
-        alert('Initial list successfully created.');
-    }
+    // function handleAddList() {
+    //     route.params.addList(listItems);
+    //     alert('Initial list successfully created.');
+    // }
 
     function appendToList(item) {
         const tempList = listItems;
@@ -230,6 +230,7 @@ const List = ({ navigation, route }) => {
                 'lists',
                 listObject
             );
+            alert('Initial list successfully created.')
             setListItems([]);
 
         } catch (error) {
@@ -237,11 +238,11 @@ const List = ({ navigation, route }) => {
         }
     }
 
-    async function handleNewListContext(newListInfo) {
+    async function handleAddListContext(listContext) {
         try {
           const response = await FirestoreService.createDocument(
             'list-context',
-            newListInfo
+            listContext
           );
     
         } catch (error) {
@@ -290,6 +291,8 @@ const List = ({ navigation, route }) => {
 
     function handleListContextSubmit() {
 
+        var listContext;
+
         if (route.params.isRegistered) {
             var budgetNumber = Number(budget);
 
@@ -307,18 +310,10 @@ const List = ({ navigation, route }) => {
                 isJapaneseSelected
             }
 
-            const newListInfo = {
+            listContext = {
                 cuisinePreferences,
                 budgetNumber,
                 paymentMethod
-            }
-
-            try {
-                route.params.addListContext(newListInfo);
-                alert('List information successfully saved.');
-            } catch (e) {
-                console.log(e);
-                alert('Unable to save list information');
             }
         } else {
             var budgetNumber = Number(budget);
@@ -352,10 +347,14 @@ const List = ({ navigation, route }) => {
             };
 
             var allergens = {
-                isGlutenSelected,
-                isDairySelected,
-                isNutsSelected,
-                isSeafoodSelected
+                isMilkSelected,
+                isFishSelected,
+                isEggsSelected,
+                isShellfishSelected,
+                isPeanutsSelected,
+                isTreeNutsSelected,
+                isWheatSelected,
+                isSoySelected
             };
 
             var appliances = {
@@ -365,7 +364,7 @@ const List = ({ navigation, route }) => {
                 isFryerSelected
             };
 
-            const newListInfo = {
+            listContext = {
                 cuisinePreferences,
                 budgetNumber,
                 paymentMethod,
@@ -374,15 +373,12 @@ const List = ({ navigation, route }) => {
                 allergens,
                 appliances
             }
+        }
 
-            try {
-                // not able to upload info to firebase yet
-                // route.params.addListContext(newListInfo);
-                alert('List information successfully saved.');
-            } catch (e) {
-                console.log(e);
-                alert('Unable to save list information');
-            }
+        try {
+            handleAddListContext(listContext)
+        } catch (e) {
+            console.log(e);
         }
 
 
@@ -682,7 +678,7 @@ const List = ({ navigation, route }) => {
                     <TouchableOpacity onPress={() => { 
                         handleListContextSubmit(); 
                         handleAddList(listItems); 
-                        navigation.navigate('HomeScreen');
+                        navigation.navigate('Home');
                         }} style={styles.loginBtn}>
                         <Text style={styles.loginText}>Submit</Text>
                     </TouchableOpacity>

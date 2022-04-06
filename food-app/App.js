@@ -17,31 +17,6 @@ export default function App() {
     if (initializing) setInitializing(false);
   }
 
-  //   async function handleAddUserInfo(newUserInfo) {
-  //     try {
-  //       const response = await FirestoreService.createDocument(
-  //         'user-context',
-  //         newUserInfo
-  //       );
-
-  //     } catch (error) {
-  //       alert(error.message);
-  //     }
-  //   }
-
-  //   async function handleNewListContext(newListInfo) {
-  //     try {
-  //       const response = await FirestoreService.createDocument(
-  //         'list-context',
-  //         newListInfo
-  //       );
-
-  //     } catch (error) {
-  //       alert(error.message);
-  //     }
-  //   }
-
-
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
     return subscriber; 
@@ -53,8 +28,6 @@ export default function App() {
       <LoginStack/>
     )
   } else {
-    console.log(user.isAnonymous)
-    console.log(user)
     return (
       <MainTab
         name = "MainTab"

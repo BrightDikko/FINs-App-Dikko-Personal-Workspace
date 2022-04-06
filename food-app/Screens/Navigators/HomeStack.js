@@ -5,7 +5,7 @@ import {
   Button,
 } from 'react-native';
 
-import HomeScreen from '../Home';
+import Home from '../Home';
 import ListScreen from '../List';
 import NewList from '../NewList'
 import List from '../List'
@@ -27,12 +27,11 @@ const HomeStack = ({ navigation, route }) => {
         headerTintColor: '#53B175',
       }}
     >
-      <HomeStack.Screen
-        name="NewList"
-        component={NewList}
-        initialParams={{ fb: route.params.fb, isRegistered: route.params.isRegistered }}
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        initialParams={{ existingUser: route.params.existingUser, isRegistered: route.params.isRegistered }}
         options={({ navigation }) => ({
-          title: 'NewList',
           headerRight: () => (
             <Button
               onPress={() => navigation.navigate('List', {
@@ -48,6 +47,7 @@ const HomeStack = ({ navigation, route }) => {
       <Stack.Screen
         name="List"
         component={List}
+        initialParams={{ existingUser: route.params.existingUser, isRegistered: route.params.isRegistered }}
       />
     </Stack.Navigator>
   );

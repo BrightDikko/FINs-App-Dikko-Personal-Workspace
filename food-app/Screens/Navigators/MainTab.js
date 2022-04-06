@@ -32,7 +32,7 @@ const MainTab = ({ navigation, route, isRegistered, existingUser }) => {
                             iconName = focused ? "home" : "home-outline";
                         } else if (route.name === "CartStack") {
                             iconName = focused ? "cart" : "cart-outline";
-                        } else if (route.name === "ProfileStack") {
+                        } else if (route.name === "ProfileDrawer") {
                             iconName = focused ? "person-circle" : "person-circle-outline";
                         }
                         return <Ionicons name={iconName} size={size} color="#53B175" />
@@ -43,9 +43,11 @@ const MainTab = ({ navigation, route, isRegistered, existingUser }) => {
             >
                 <BottomTab.Screen name="HomeStack"
                     component={HomeStack}
+                    initialParams={ { isRegistered: isRegistered, existingUser: existingUser } }
                 />
                 <BottomTab.Screen name="CartStack"
                     component={CartStack}
+                    initialParams={ { isRegistered: isRegistered, existingUser: existingUser } }
                 />
                 <BottomTab.Screen name="ProfileDrawer"
                     component={ProfileDrawer}
