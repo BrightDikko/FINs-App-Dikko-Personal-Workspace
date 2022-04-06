@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         fontSize: 14, 
         marginBottom: 10
     },
-    buttonNormalGoals: {
+    buttonUnpressed: {
         backgroundColor: "#d5edd9",
         borderRadius: 15,
         borderWidth: 1,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 10
     },
-    buttonPressGoals: {
+    buttonPressed: {
         backgroundColor: "#88cf99",
         borderRadius: 15,
         borderWidth: 1,
@@ -207,7 +207,10 @@ const List = ({ navigation, route }) => {
     const [selectedItem, setSelectedItem] = useState('');
     const [listItems, setListItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
-    var listObject = { items: [] };
+    var listObject = { 
+        items: [], 
+        userID: '' 
+    };
 
     // In the future, fetch complete list of items from API instead of hardcoding test list
     const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils', 'Bread', 'Butter', 'Eggs', 'Yogurt', 'Sour Cream', 'Apples', 'Avocado', 'Bananas', 'Cauliflower', 'Garlic', 'Onion', 'Mushrooms', 'Spinach', 'Tomato', 'Squash', 'Ketchup', 'Mustard', 'Mayonnaise', 'Black Beans', 'Milk', 'Rice', 'Quinoa', 'Bell Peppers', 'Potatoes', 'Chicken', 'Ground Beef', 'Pork'];
@@ -226,6 +229,7 @@ const List = ({ navigation, route }) => {
     async function handleAddList(listItems) {
         try {
             listObject.items = listItems;
+            listObject.userID = FirebaseAuthSerivce.auth.currentUser.uid;
             const response = await FirestoreService.createDocument(
                 'lists',
                 listObject
@@ -310,7 +314,10 @@ const List = ({ navigation, route }) => {
                 isJapaneseSelected
             }
 
+            var userID = FirebaseAuthSerivce.auth.currentUser.uid;
+
             listContext = {
+                userID,
                 cuisinePreferences,
                 budgetNumber,
                 paymentMethod
@@ -436,61 +443,61 @@ const List = ({ navigation, route }) => {
                                         </View>
                                         <Text style={styles.contextQuestions}>{'\n'}What are some of your health goals?</Text>
                                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <TouchableOpacity activeOpacity={1} style={isSugarSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSugarSelection(!isSugarSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isSugarSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setSugarSelection(!isSugarSelected)}}>
                                                 <Text>Eat less sugar</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isFatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFatSelection(!isFatSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isFatSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setFatSelection(!isFatSelected)}}>
                                                 <Text>Eat less saturated fat</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isSodiumSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSodiumSelection(!isSodiumSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isSodiumSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setSodiumSelection(!isSodiumSelected)}}>
                                                 <Text>Eat less sodium</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMeatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMeatSelection(!isMeatSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMeatSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMeatSelection(!isMeatSelected)}}>
                                                 <Text>Eat less red meat</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isVeggiesSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setVeggiesSelection(!isVeggiesSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isVeggiesSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setVeggiesSelection(!isVeggiesSelected)}}>
                                                 <Text>Eat more vegetables</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <Text style={styles.contextQuestions}>{'\n'}Which appliances are available to you?</Text>
                                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <TouchableOpacity activeOpacity={1} style={isOvenSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setOvenSelection(!isOvenSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isOvenSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setOvenSelection(!isOvenSelected)}}>
                                                 <Text>Oven</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isStovetopSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setStovetopSelection(!isStovetopSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isStovetopSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setStovetopSelection(!isStovetopSelected)}}>
                                                 <Text>Stovetop</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMicrowaveSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMicrowaveSelection(!isMicrowaveSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMicrowaveSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMicrowaveSelection(!isMicrowaveSelected)}}>
                                                 <Text>Microwave</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isFryerSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFryerSelection(!isFryerSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isFryerSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setFryerSelection(!isFryerSelected)}}>
                                                 <Text>Air Fryer</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <Text style={styles.contextQuestions}>{'\n'}Do you have any allergies?</Text>
                                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <TouchableOpacity activeOpacity={1} style={isMilkSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMilkSelection(!isMilkSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMilkSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMilkSelection(!isMilkSelected)}}>
                                                 <Text>Milk</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isFishSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFishSelection(!isFishSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isFishSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setFishSelection(!isFishSelected)}}>
                                                 <Text>Fish</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isEggsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setEggsSelection(!isEggsSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isEggsSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setEggsSelection(!isEggsSelected)}}>
                                                 <Text>Eggs</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isShellfishSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setShellfishSelection(!isShellfishSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isShellfishSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setShellfishSelection(!isShellfishSelected)}}>
                                                 <Text>Shellfish</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isPeanutsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setPeanutsSelection(!isPeanutsSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isPeanutsSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setPeanutsSelection(!isPeanutsSelected)}}>
                                                 <Text>Peanuts</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isTreeNutsSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setTreeNutsSelection(!isTreeNutsSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isTreeNutsSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setTreeNutsSelection(!isTreeNutsSelected)}}>
                                                 <Text>Tree Nuts</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isWheatSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setWheatSelection(!isWheatSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isWheatSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setWheatSelection(!isWheatSelected)}}>
                                                 <Text>Wheat</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isSoySelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setSoySelection(!isSoySelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isSoySelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setSoySelection(!isSoySelected)}}>
                                                 <Text>Soy</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -507,31 +514,31 @@ const List = ({ navigation, route }) => {
                                         </View>
                                         <Text style={styles.contextQuestions}>{'\n'}What cuisine would you like to shop for?</Text>
                                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setItalianSelected(!isItalianSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setItalianSelected(!isItalianSelected)}}>
                                                 <Text>Italian</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setIndianSelected(!isIndianSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setIndianSelected(!isIndianSelected)}}>
                                                 <Text>Indian</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
                                                 <Text>Mexican</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
                                                 <Text>American</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setChineseSelected(!isChineseSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setChineseSelected(!isChineseSelected)}}>
                                                 <Text>Chinese</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
                                                 <Text>French</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMedSelected(!isMedSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMedSelected(!isMedSelected)}}>
                                                 <Text>Mediterranean</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setGreekSelected(!isGreekSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setGreekSelected(!isGreekSelected)}}>
                                                 <Text>Greek</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
                                                 <Text>Japanese</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -591,31 +598,31 @@ const List = ({ navigation, route }) => {
                                         </View>
                                         <Text style={{ textAlign: 'center', fontSize: 14, marginBottom: 20 }}>{'\n'}What cuisine would you like to shop for?</Text>
                                         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setItalianSelected(!isItalianSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isItalianSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setItalianSelected(!isItalianSelected)}}>
                                                 <Text>Italian</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setIndianSelected(!isIndianSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isIndianSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setIndianSelected(!isIndianSelected)}}>
                                                 <Text>Indian</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMexicanSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMexicanSelected(!isMexicanSelected)}}>
                                                 <Text>Mexican</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isAmericanSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setAmericanSelected(!isAmericanSelected)}}>
                                                 <Text>American</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setChineseSelected(!isChineseSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isChineseSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setChineseSelected(!isChineseSelected)}}>
                                                 <Text>Chinese</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isFrenchSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setFrenchSelected(!isFrenchSelected)}}>
                                                 <Text>French</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setMedSelected(!isMedSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isMedSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setMedSelected(!isMedSelected)}}>
                                                 <Text>Mediterranean</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setGreekSelected(!isGreekSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isGreekSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setGreekSelected(!isGreekSelected)}}>
                                                 <Text>Greek</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressGoals : styles.buttonNormalGoals} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
+                                            <TouchableOpacity activeOpacity={1} style={isJapaneseSelected ? styles.buttonPressed : styles.buttonUnpressed} onPress={() => {setJapaneseSelected(!isJapaneseSelected)}}>
                                                 <Text>Japanese</Text>
                                             </TouchableOpacity>
                                         </View>

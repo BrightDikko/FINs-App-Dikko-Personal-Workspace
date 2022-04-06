@@ -181,20 +181,11 @@ const Welcome = ({ navigation, route, existingUser }) => {
         isFryerSelected
     };
 
-    // function handleUserInfoSubmit() {
-    //     const newUserInfo = {
-    //         contactInfo,
-    //         healthGoals,
-    //         allergens,
-    //         appliances
-    //     };
-
-    //     route.params.addUserInfo(newUserInfo);
-    //     alert('User information successfully saved.');
-    // }
+    var userID = FirebaseAuthSerivce.auth.currentUser.uid;
 
     async function handleAddUserInfo() {
         const newUserInfo = {
+            userID,
             contactInfo,
             healthGoals,
             allergens,
