@@ -59,5 +59,7 @@ parameters = {
     # 'zip': 46556
     # these will be used in the future, but this product lookup doesn't have any required parameters
 }
+
+# make the request and print to console
 request = requests.get(desired_api_url, params=parameters, headers=headers)
 print(request.json())
