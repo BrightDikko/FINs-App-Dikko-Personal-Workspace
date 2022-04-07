@@ -120,11 +120,7 @@ const Home = ({ navigation, route }) => {
     };
 
     useEffect(() => {
-        if(route.params.isRegistered){
-            fetchPosts();
-        }else{
-            
-        }
+        fetchPosts();
     }, []);
 
     return (
