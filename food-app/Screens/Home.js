@@ -6,19 +6,18 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    SafeAreaView,
     Alert,
-    Button,
     TouchableOpacity,
     Image,
     Linking
 } from 'react-native';
 
+
 const firebase = require('firebase');
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     item: {
         padding: 10,
@@ -41,6 +40,18 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         flexDirection: "row",
         borderRadius: 5
+    },
+    loginText: {
+        color: '#FFFFFF'
+    },
+    loginBtn: {
+        width: '70%',
+        borderRadius: 25,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 40,
+        backgroundColor: '#53B175',
     }
 });
 
@@ -94,7 +105,7 @@ const Home = ({ navigation, route }) => {
                 data.forEach(doc => {
                     // console.log(doc.id, '=>', doc.data())
                     list.push(doc);
-                    console.log(doc.data().img)
+                    // console.log(doc.data().img)
                 })
             });
 
@@ -103,8 +114,6 @@ const Home = ({ navigation, route }) => {
             if (loading) {
                 setLoading(false);
             }
-
-            // console.log('Posts: ', recipes);
         } catch (e) {
             console.log(e);
         }
@@ -116,26 +125,6 @@ const Home = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <View style={styles.title}>
-                    <View style={{ flex: 1 }}>
-                        <Text>
-                            <Button
-                                onPress={() => navigation.openDrawer()}
-                                title="="
-                                color="black"
-                                accessibilityLabel="Toggle navigation drawer"
-                            />
-                        </Text>
-                    </View>
-                    <View style={{ flex: 8, paddingRight: 10 }}>
-                        <Text style={{ textAlign: 'center', fontSize: 30 }}>Firebase Recipes</Text>
-                    </View>
-                    <View
-                        style={{ flex: 1, paddingRight: 10 }}>
-                    </View>
-                </View>
-            </View>
             <View style={{ flex: 5 }}>
                 <ScrollView>
                     {loading ? (
