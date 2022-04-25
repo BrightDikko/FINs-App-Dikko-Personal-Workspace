@@ -57,10 +57,10 @@ headers = {
 # NOW ATTEMPT TO LOOK UP A PRODUCT
 
 # Request for a certain item using item id
-desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/items/10818466'
+desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/items'
 parameters = {
-    # 'zip': 46556
-    # these will be used in the future, but this product lookup doesn't have any required parameters
+    'ids': [10818466]
+    # 'upc': 
 }
 request = requests.get(desired_api_url, params=parameters, headers=headers)
 print(request.json())

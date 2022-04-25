@@ -54,13 +54,28 @@ headers = {
     'WM_SHOW_REASON_CODES' : 'ALL',
 }
 
-# NOW CALL CATALOG ENDPOINT
+# RUN A CATALOG SEARCH ON WALMART FOOD CATEGORY
 
 # Request for a certain item using item id
 desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/paginated/items'
 parameters = {
-    'category': 976759
+    'category': 976759 # food department id
     # these will be used in the future, but this product lookup doesn't have any required parameters
 }
 request = requests.get(desired_api_url, params=parameters, headers=headers)
-print(request.json())
+pageResponse = request.json() # dictionary of the first page of the catalog
+for item in pageResponse["items"]:
+    if "upc" in item:
+        print(item["upc"]) # can access all fields of information for items, but make sure to check key is in there because not always included in every item; itemId and name will always be included
+
+
+# this loop continues making api calls to read through paginated catalog retrun
+while pageResponse["nextPageExist"]:
+    desired_api_url = 'https://developer.api.walmart.com' + pageResponse["nextPage"]
+    request = requests.get(desired_api_url, params=parameters, headers=headers)
+    pageResponse = request.json() # dictionary of new page of catalog
+    if not pageResponse["items"]: # terminate if the list is empty- sort of a walmart bug to include next page with empty list
+        continue
+    else:
+        for item in pageResponse["items"]:
+            print(item["itemId"])
