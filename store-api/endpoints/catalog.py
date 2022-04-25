@@ -59,8 +59,7 @@ headers = {
 # Request for a certain item using item id
 desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/paginated/items'
 parameters = {
-    'category': 976759 # food department id
-    # these will be used in the future, but this product lookup doesn't have any required parameters
+    'category': 976759 # food department ids
 }
 request = requests.get(desired_api_url, params=parameters, headers=headers)
 pageResponse = request.json() # dictionary of the first page of the catalog

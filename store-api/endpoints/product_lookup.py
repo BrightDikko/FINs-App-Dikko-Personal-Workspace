@@ -59,8 +59,8 @@ headers = {
 # Request for a certain item using item id
 desired_api_url = 'https://developer.api.walmart.com/api-proxy/service/affil/product/v2/items'
 parameters = {
-    'ids': [10818466]
-    # 'upc': 
+    'ids': [10818466] # can make a list of ids or just 1
+    # 'upc': # can send upc instead of id
 }
 request = requests.get(desired_api_url, params=parameters, headers=headers)
 print(request.json())

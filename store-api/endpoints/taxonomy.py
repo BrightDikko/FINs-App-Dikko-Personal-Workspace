@@ -61,6 +61,7 @@ parameters = {}
 # dictionary with key: the names of walmart departments as appearing on walmart.com, and value: associated id to use in other api calls
 departments = dict()
 # dictionary with key: the names of walmart food subdepartments as appearing on walmart.com, and value: associated id to use in other api calls
+# these structures are what we will want to build on the back end, refreshing every so often, rather than on each phone
 food_departments = dict()
 pantry_subcategories = dict()
 snacks_cookies_chips_subcategories = dict()
@@ -101,10 +102,8 @@ if taxonomy_response:
     taxonomy_json = taxonomy_response.json()
     categories_list = taxonomy_json["categories"]
     for dep in categories_list:
-        # should id be saved instead or some sort of dict?
         departments[dep["name"]] = dep["id"]
         if(dep["name"] == "Food"):
-            # for subdep in dep["food"]:
             for subdep in dep["children"]:
                 food_departments[subdep["name"]] = subdep["id"]
                 if (subdep["name"] == "Pantry"):
