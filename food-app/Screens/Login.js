@@ -155,7 +155,6 @@ const Login = ({ navigation, route }) => {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text style={styles.login} onPress={() => {handleAnonymousLogin(); }}>Process as Guest</Text>
-                        {/*navigation.navigate('HomeStack', { fb: route.params.fb }) */}
                     </TouchableOpacity>
                 </View>
             </View>
