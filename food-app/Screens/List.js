@@ -13,7 +13,6 @@ import {
 
 } from 'react-native';
 
-import { ButtonGroup, CheckBox } from 'react-native-elements';
 import Autocomplete from 'react-native-autocomplete-input';
 
 import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
@@ -168,8 +167,6 @@ const styles = StyleSheet.create({
 });
 
 
-var paymentArray = ['PayPal', 'Credit', 'Debit'];
-
 const List = ({ navigation, route }) => {
     const [modalVisible, setModalVisible] = useState(true);
     const [budget, setBudget] = useState(null);
@@ -182,7 +179,6 @@ const List = ({ navigation, route }) => {
     const [isMedSelected, setMedSelected] = useState(false);
     const [isGreekSelected, setGreekSelected] = useState(false);
     const [isJapaneseSelected, setJapaneseSelected] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -300,7 +296,7 @@ const List = ({ navigation, route }) => {
         if (route.params.isRegistered) {
             var budgetNumber = Number(budget);
 
-            var paymentMethod = paymentArray[selectedIndex];
+            var paymentMethod = 'credit';
 
             var cuisinePreferences = {
                 isItalianSelected,
@@ -325,7 +321,7 @@ const List = ({ navigation, route }) => {
         } else {
             var budgetNumber = Number(budget);
 
-            var paymentMethod = paymentArray[selectedIndex];
+            var paymentMethod = 'credit';
 
             var cuisinePreferences = {
                 isItalianSelected,
@@ -542,17 +538,6 @@ const List = ({ navigation, route }) => {
                                                 <Text>Japanese</Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <ButtonGroup
-                                            style={{
-                                                margin: 20
-                                            }}
-                                            buttons={paymentArray}
-                                            selectedIndex={selectedIndex}
-                                            onPress={(value) => {
-                                                setSelectedIndex(value);
-                                            }}
-                                            containerStyle={{ marginBottom: 20 }}
-                                        />
                                     </ScrollView>
                                 </View>
                                 <View style={styles.buttonView}>
@@ -626,17 +611,6 @@ const List = ({ navigation, route }) => {
                                                 <Text>Japanese</Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <ButtonGroup
-                                            style={{
-                                                margin: 20
-                                            }}
-                                            buttons={paymentArray}
-                                            selectedIndex={selectedIndex}
-                                            onPress={(value) => {
-                                                setSelectedIndex(value);
-                                            }}
-                                            containerStyle={{ marginBottom: 20 }}
-                                        />
                                     </ScrollView>
                                 </View>
                                 <View style={styles.buttonView}>

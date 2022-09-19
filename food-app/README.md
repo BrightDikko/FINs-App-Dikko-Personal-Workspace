@@ -27,7 +27,7 @@ npm install
 To run the project using the [expo-cli](https://expo.dev/tools#cli), run the following:
 
 ```bash
-expo start
+npx expo start
 
 OR
 
@@ -49,7 +49,7 @@ This will start the project and bring up a list of options on where to run the a
 
 For the simplest workflow, it is recommended to install [Android Studio](https://developer.android.com/studio) and to add a virtual device to test on. The instructions to install android studio and set up an AVD (Android Virtual Device) can be found on the [Expo Tutorial Site](https://docs.expo.dev/workflow/android-studio-emulator/). You can also run this project on the web or a [physical device](https://docs.expo.dev/guides/testing-on-devices/).
 
-To test on a physical device, you must make an expo account and download the Expo Go app on your device. Then from the web console (once you have run `expo start`) you can navigate to the sidebar and click `Publish or republish project` where you will be able to log in to your expo account and publish the project. The app will then appear on your Expo Go app to be tested on your physical device.
+To test on a physical device, you must make an expo account and download the Expo Go app on your device. Then from the web console (once you have run `npx expo start`) you can navigate to the sidebar and click `Publish or republish project` where you will be able to log in to your expo account and publish the project. The app will then appear on your Expo Go app to be tested on your physical device.
 
 ## Main Packages Used
 This project makes use of the following packages:
