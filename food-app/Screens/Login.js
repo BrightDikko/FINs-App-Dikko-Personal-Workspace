@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
+import firebase from "firebase";
 import {
     View,
     Text,
@@ -9,6 +10,12 @@ import {
     TouchableOpacity,
     Button,
 } from 'react-native';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+import { ResponseType } from 'expo-auth-session';
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 const styles = StyleSheet.create({
     container: {
@@ -63,6 +70,37 @@ const styles = StyleSheet.create({
 });
 
 const Login = ({ navigation, route }) => {
+
+
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        reponseType: ResponseType.Token,
+        //clientId: "968003055714-qii3aknffflov3qm5a0r377leu7or733.apps.googleusercontent.com",
+        expoClientId: "540945185583-4b8jmm81jnrp7l17fn4o5md2loknkcah.apps.googleusercontent.com",
+        webClientId: "540945185583-jtmvg8fq01oga48hubhg9han6numm4ko.apps.googleusercontent.com",
+        scopes: ["openid", "profile"]
+      });
+
+     
+     React.useEffect(() => {
+        firebase.auth().on
+    }
+    )
+    React.useEffect(() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        console.log("USER: ", user);
+      });
+    }, []);
+  
+    React.useEffect(() => {
+      if (response && response.type === "success") {
+        const credential = new firebase.auth.GoogleAuthProvider.credential(
+          null, // Pass the access_token as the second property
+          response.params.access_token
+        );
+        firebase.auth().signInWithCredential(credential);
+      }
+    }, [response]);
+    
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -148,9 +186,14 @@ const Login = ({ navigation, route }) => {
                         <Text style={styles.loginText}>Log In</Text>
                     </TouchableOpacity>
                     <Text>{'\n'}</Text>
+                    <TouchableOpacity onPress={() => {
+                         promptAsync();
+                        }}>
+                        <Image source={require('../assets/signin-button.png')} style={{width: 250, height: 40}} />
+                    </TouchableOpacity>
                     <TouchableOpacity>
                         <Text style={{textAlign: 'center'}}>Don't have an account?
-                            <Text style={styles.login} onPress={() => navigation.navigate('Sign Up')}> Sign up</Text>
+                            <Text style={styles.login} onPress={() => navigation.navigate('SignUp')}> Sign up</Text>
                         {'\n'}{'\n'}OR{'\n'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>

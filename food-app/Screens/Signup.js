@@ -135,7 +135,7 @@ const Signup = ({ navigation, route }) => {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text>{'\n'}Already have an account?
-                            <Text style={styles.login} onPress={() => navigation.navigate('Log In')}> Log In</Text>
+                            <Text style={styles.login} onPress={() => navigation.navigate('Login')}> Log In</Text>
                         </Text>
                     </TouchableOpacity>
                 </View>
