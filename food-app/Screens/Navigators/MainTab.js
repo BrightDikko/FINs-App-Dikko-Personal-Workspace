@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import ProfileDrawer from './ProfileDrawer.js';
 import CartStack from './CartStack.js'
-import HomeStack from './HomeStack.js'
+import ListStack from './ListStack.js'
 
 const BottomTab = createBottomTabNavigator();
 /*
@@ -20,29 +20,28 @@ TODO:
 
 const MainTab = ({ isRegistered, existingUser }) => {
     return (
-        <NavigationContainer>
             <BottomTab.Navigator
-                initialRouteName="HomeStack"
+                initialRouteName="My List"
                 screenOptions={({ route }) => ({
                     headerShown: false,
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
 
-                        if (route.name === "HomeStack") {
+                        if (route.name === "My List") {
                             iconName = focused ? "home" : "home-outline";
                         } else if (route.name === "CartStack") {
                             iconName = focused ? "cart" : "cart-outline";
                         } else if (route.name === "ProfileDrawer") {
                             iconName = focused ? "person-circle" : "person-circle-outline";
                         }
-                        return <Ionicons name={iconName} size={size} color="#53B175" />
+                        return <Ionicons name={iconName} size={size} color={focused ? "#F2AE2E" : "#2E3A59"}/>
                     },
-                    tabBarActiveTintColor: "#53B175",
-                    tabBarInactiveTintColor: "#53B175",
+                    tabBarActiveTintColor: "#F2AE2E",
+                    tabBarInactiveTintColor: "#2E3A59",
                 })}
             >
-                <BottomTab.Screen name="HomeStack"
-                    component={HomeStack}
+                <BottomTab.Screen name="My List"
+                    component={ListStack}
                     initialParams={ { isRegistered: isRegistered, existingUser: existingUser } }
                 />
                 <BottomTab.Screen name="CartStack"
@@ -54,8 +53,6 @@ const MainTab = ({ isRegistered, existingUser }) => {
                     initialParams={ { existingUser: existingUser } }
                 />
             </BottomTab.Navigator >
-        </NavigationContainer>
-
     )
 }
 
