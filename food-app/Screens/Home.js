@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import {
     View,
     ScrollView,
     Text,
     StyleSheet,
-    FlatList,
     Alert,
     TouchableOpacity,
     Image,
@@ -84,9 +83,6 @@ function Item({ item }) {
                 <Text style={{ fontWeight: "bold" }}>{item.id}</Text>
                 {/* <Text>{item.position}</Text> */}
             </View>
-            {/* <TouchableOpacity onPress={() => {goToRecipe(item.data().url)}} style={{ height: 50, width: 50, justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ color: "green" }}>Call</Text>
-            </TouchableOpacity> */}
             <OpenURLButton url={item.data().url}></OpenURLButton>
         </View>
     );
@@ -94,53 +90,14 @@ function Item({ item }) {
 
 
 const Home = ({ navigation, route }) => {
-    const [recipes, setRecipes] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    const fetchPosts = async () => {
-        try {
-            const list = [];
-
-            await firebase.firestore().collection('recipes').get().then((data) => {
-                data.forEach(doc => {
-                    // console.log(doc.id, '=>', doc.data())
-                    list.push(doc);
-                    // console.log(doc.data().img)
-                })
-            });
-
-            setRecipes(list);
-
-            if (loading) {
-                setLoading(false);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    useEffect(() => {
-        fetchPosts();
-    }, []);
 
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 5 }}>
                 <ScrollView>
-                    {loading ? (
-                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text>Loading...</Text>
+                        <View style={{ padding: 10, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text>Home page</Text>
                         </View>
-                    ) : (
-                        <View style={styles.container}>
-                            <FlatList
-                                data={recipes}
-                                //renderItem={({ item }) => <Text style={styles.item}>{item.id}</Text>}
-                                renderItem={({ item }) => <Item item={item} />}
-                            />
-                        </View>
-
-                    )}
                 </ScrollView>
             </View>
         </View>

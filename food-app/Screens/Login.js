@@ -87,7 +87,6 @@ const Login = ({ navigation, route }) => {
     )
     React.useEffect(() => {
       firebase.auth().onAuthStateChanged((user) => {
-        console.log("USER: ", user);
       });
     }, []);
   
@@ -198,7 +197,6 @@ const Login = ({ navigation, route }) => {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Text style={styles.login} onPress={() => {handleAnonymousLogin(); }}>Process as Guest</Text>
-                        {/*navigation.navigate('HomeStack', { fb: route.params.fb }) */}
                     </TouchableOpacity>
                 </View>
             </View>
