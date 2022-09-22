@@ -1,12 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import FirebaseAuthSerivce from '../../firebase/FirebaseAuthService';
+import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
 import {
   Button,
 } from 'react-native';
 
-import YourList from '../YourList';
-import SetGoals from '../SetGoals'
+import YourList from '../Screens/YourList';
+import SetGoals from '../Screens/SetGoals'
 
 const Stack = createNativeStackNavigator();
 

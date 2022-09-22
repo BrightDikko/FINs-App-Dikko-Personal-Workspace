@@ -16,13 +16,21 @@ import {
 import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
 import FirestoreService from '../firebase/FirestoreService';
 
+import { goalCategories } from '../Constants/Goals';
+
 
 const SetGoals = ({ navigation, route }) => {
 
 
     return (
         <View>
-            <Text>Set Goals</Text>
+            <ScrollView>
+                <Text>Goals</Text>
+                {goalCategories.map(category => (
+                    <Text key={category}>{category}</Text>
+                ))}
+            </ScrollView>
+
         </View>
     );
 };

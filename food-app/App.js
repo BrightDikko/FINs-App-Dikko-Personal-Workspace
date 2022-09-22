@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import MainTab from './Screens/Navigators/MainTab';
-import LoginStack from './Screens/Navigators/LoginStack';
-import { MainTheme } from './Screens/Themes/MainTheme'
+import MainTab from './Navigators/MainTab';
+import LoginStack from './Navigators/LoginStack';
+import { MainTheme } from './Themes/MainTheme'
 
 import firebase from './firebase/FirebaseConfig';
 import FirestoreService from './firebase/FirestoreService';
