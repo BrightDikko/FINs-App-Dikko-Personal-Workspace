@@ -8,10 +8,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-
 import SelectButton from './SelectButton';
 
-const ChipCard = ({ type, choices, setChoices, include }) => {
+const ChipCard = ({ choices, setChoices, include }) => {
 
     const [ addChoiceActive, setAddChoiceActive ] = useState(false)
     const [ addChoice, setAddChoice ] = useState()
@@ -92,8 +91,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         padding: 3,
-        margin: 5,
-        
+        margin: 5
     }, 
     unselectedChip: {
         borderRadius: 10.5,

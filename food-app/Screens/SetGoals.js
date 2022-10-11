@@ -107,7 +107,7 @@ const SetGoals = ({ navigation }) => {
                                 <Text style={{fontWeight: "bold"}}> LESS </Text>
                                  of...
                             </Text>
-                            <ChipCard type={'Preferences'} include={lessOfOptions} choices={less} setChoices={setLess}/>
+                            <ChipCard include={lessOfOptions} choices={less} setChoices={setLess}/>
                         </View>
                         <View style={styles.goalSection}>
                             <Text style={styles.goalLabel}>
@@ -115,7 +115,7 @@ const SetGoals = ({ navigation }) => {
                                 <Text style={{fontWeight: "bold"}}> MORE </Text>
                                  of...
                             </Text>
-                            <ChipCard type={'Preferences'} include={moreOfOptions} choices={more} setChoices={setMore}/>
+                            <ChipCard include={moreOfOptions} choices={more} setChoices={setMore}/>
                         </View>
                         <View style={styles.goalSection}>
                             <Text style={styles.goalLabel}>
@@ -123,13 +123,10 @@ const SetGoals = ({ navigation }) => {
                                 <Text style={{fontWeight: "bold"}}> AVOID</Text>
                                 ...
                             </Text>
-                            <ChipCard type={'Preferences'} include={avoidOptions} choices={avoid} setChoices={setAvoid}/>
+                            <ChipCard include={avoidOptions} choices={avoid} setChoices={setAvoid}/>
                         </View>
-                        <TouchableOpacity
-                            styles={styles.submitButton}
-                            onPress={handleSubmitGoals}
-                        >
-                            <Text style={styles.submitText}>Submit</Text>
+                        <TouchableOpacity onPress={handleSubmitGoals} style={styles.continueButton}>
+                            <Text style={styles.continueText}>CONTINUE</Text>
                         </TouchableOpacity>
                     </View>
                 }
@@ -166,20 +163,21 @@ const styles = StyleSheet.create({
         color: '#3D2E3D',
         paddingBottom: 10
     },
-    submitButton : {
+    continueButton: {
         width: 226,
         height: 45,
-        backgroundColor: '#70518A',
-    },
-    submitText : {
-        fontStyle: 'normal',
-        fontSize: 16,
-        lineHeight: 22,
-        textTransform: 'uppercase',
-        display: 'flex',
+        borderRadius: 12,
         alignItems: 'center',
-        textAlign: 'center',
-        color: '#FFFFFF'
+        justifyContent: 'center',
+        backgroundColor: '#70518A',
+        alignSelf: 'center'
+    },
+    continueText: {
+        color: '#FFFFFF',
+        fontStyle: 'normal',
+        fontWeight: "600",
+        fontSize: 16,
+        lineHeight: 22
     }
 });
 
