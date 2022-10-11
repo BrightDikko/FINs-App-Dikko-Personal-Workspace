@@ -1,38 +1,186 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
     Text,
     StyleSheet,
     View,
-    Alert,
-    Modal,
     ScrollView,
-    TextInput,
-    TouchableOpacity,
-    FlatList
-
+    TouchableOpacity
 } from 'react-native';
 
-import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
-import FirestoreService from '../firebase/FirestoreService';
+import firebase from '../firebase/FirebaseConfig'
+import "firebase/firestore";
 
-import { goalCategories } from '../Constants/Goals';
+import ChipCard from '../Components/ChipCard'
+import BudgetCard from '../Components/BudgetCard';
+import { Payment } from '../Classes/Payment'
+import { Goals, lessOfOptions, moreOfOptions, avoidOptions } from '../Classes/Goals'
 
+const db = firebase.firestore();
 
-const SetGoals = ({ navigation, route }) => {
+var goalConverter = {
+    toFirestore: function(goal) {
+        return {
+            payment: {
+                cashCredit: goal.payment.cashCredit,
+                pebt: goal.payment.pebt,
+                snap: goal.payment.snap,
+                wic: goal.payment.wic
+            },
+            avoid: goal.avoid,
+            less: goal.less,
+            more: goal.more
+        };
+    },
+    fromFirestore: function(snapshot, options){
+        const data = snapshot.data(options);
+        let curPayment = new Payment(data.payment.cashCredit, data.payment.pebt, data.payment.snap, data.payment.wic)
+        let theirGoals = new Goals(curPayment, data.avoid, data.less, data.more);
+        return theirGoals;
+    }
+};
 
+const SetGoals = ({ navigation }) => {
+    
+    const [ userId, setUserId ] = useState()
+    const [ payment, setPayment ] = useState()
+    const [ less, setLess ] = useState()
+    const [ more, setMore ] = useState()
+    const [ avoid, setAvoid ] = useState()
+    const [ loading, setLoading ] = useState(true)
+
+    useEffect(() => {
+        setUserId(null)
+        try {
+            const user = firebase.auth().currentUser;
+            setUserId(user.uid)
+        } catch {
+            console.log("There has been an error");
+        }
+    }, [])
+
+    useEffect(() => {
+        if(userId){
+            db.collection("user-goals").doc(userId)
+                .withConverter(goalConverter)
+                .get().then((doc) => {
+                    if (doc.exists) {
+                        setPayment(doc.data().payment)
+                        setLess(doc.data().less)
+                        setMore(doc.data().more)
+                        setAvoid(doc.data().avoid)
+                    } else {
+                        let defPayment = new Payment()
+                        setPayment(defPayment)
+                        setLess(lessOfOptions)
+                        setMore(moreOfOptions)
+                        setAvoid(avoidOptions)
+                    }
+                    setLoading(false)
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });
+        }
+    }, [userId])
+
+    const handleSubmitGoals = () => {
+        let updatedGoals = new Goals( payment, avoid, less, more)
+        db.collection("user-goals").doc(userId)
+            .withConverter(goalConverter)
+            .set(updatedGoals)
+        navigation.navigate('Your List')
+    }
 
     return (
-        <View>
-            <ScrollView>
-                <Text>Goals</Text>
-                {goalCategories.map(category => (
-                    <Text key={category}>{category}</Text>
-                ))}
+        <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {
+                    !loading &&
+                    <View style={styles.scrollContainer}>
+                        <View style={styles.budgetSection}>
+                            <Text style={styles.goalLabel}>My Budget</Text>
+                            <BudgetCard payment={payment} setPayment={setPayment}/>
+                        </View>
+                        <View style={styles.goalSection}>
+                            <Text style={styles.goalLabel}>
+                                Get 
+                                <Text style={{fontWeight: "bold"}}> LESS </Text>
+                                 of...
+                            </Text>
+                            <ChipCard type={'Preferences'} include={lessOfOptions} choices={less} setChoices={setLess}/>
+                        </View>
+                        <View style={styles.goalSection}>
+                            <Text style={styles.goalLabel}>
+                                Get 
+                                <Text style={{fontWeight: "bold"}}> MORE </Text>
+                                 of...
+                            </Text>
+                            <ChipCard type={'Preferences'} include={moreOfOptions} choices={more} setChoices={setMore}/>
+                        </View>
+                        <View style={styles.goalSection}>
+                            <Text style={styles.goalLabel}>
+                                I'd like to
+                                <Text style={{fontWeight: "bold"}}> AVOID</Text>
+                                ...
+                            </Text>
+                            <ChipCard type={'Preferences'} include={avoidOptions} choices={avoid} setChoices={setAvoid}/>
+                        </View>
+                        <TouchableOpacity
+                            styles={styles.submitButton}
+                            onPress={handleSubmitGoals}
+                        >
+                            <Text style={styles.submitText}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
             </ScrollView>
 
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20
+    },
+    scrollContainer: {
+        flex: 1
+        
+    },
+    budgetSection: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        paddingBottom: 70
+    },
+    goalSection: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        paddingBottom: 40
+    },
+    goalLabel: {
+        fontStyle: 'normal',
+        fontWeight: "600",
+        fontSize: 22,
+        lineHeight: 34,
+        color: '#3D2E3D',
+        paddingBottom: 10
+    },
+    submitButton : {
+        width: 226,
+        height: 45,
+        backgroundColor: '#70518A',
+    },
+    submitText : {
+        fontStyle: 'normal',
+        fontSize: 16,
+        lineHeight: 22,
+        textTransform: 'uppercase',
+        display: 'flex',
+        alignItems: 'center',
+        textAlign: 'center',
+        color: '#FFFFFF'
+    }
+});
 
 export default SetGoals;

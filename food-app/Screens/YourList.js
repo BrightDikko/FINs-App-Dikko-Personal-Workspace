@@ -1,14 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 
 import {
     View,
-    ScrollView,
     Text,
     StyleSheet,
-    Alert,
     TouchableOpacity,
-    Image,
-    Linking,
     FlatList
 } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
@@ -208,14 +204,7 @@ const YourList = ({ navigation, route }) => {
         items: [], 
         userID: '' 
     };
-
-    // In the future, fetch complete list of items from API instead of hardcoding test list
     const testItems = ['Broccoli', 'Cheese', 'Bacon', 'Chips', 'Pasta', 'Peanuts', 'Lemon', 'Lettuce', 'Lentils', 'Bread', 'Butter', 'Eggs', 'Yogurt', 'Sour Cream', 'Apples', 'Avocado', 'Bananas', 'Cauliflower', 'Garlic', 'Onion', 'Mushrooms', 'Spinach', 'Tomato', 'Squash', 'Ketchup', 'Mustard', 'Mayonnaise', 'Black Beans', 'Milk', 'Rice', 'Quinoa', 'Bell Peppers', 'Potatoes', 'Chicken', 'Ground Beef', 'Pork'];
-
-    // function handleAddList() {
-    //     route.params.addList(listItems);
-    //     alert('Initial list successfully created.');
-    // }
 
     function appendToList(item) {
         const tempList = listItems;
