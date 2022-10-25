@@ -2,8 +2,7 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import Signup from '../Signup.js';
-import Login from '../Login.js'
+import Welcome from '../Welcome.js'
 
 const Stack = createNativeStackNavigator();
 
@@ -22,13 +21,10 @@ const LoginStack = ({ navigation, route }) => {
                 }}
             >
                 <Stack.Screen
-                    name="Login"
-                    component={Login}
+                    name="Welcome"
+                    component={Welcome}
                 />
-                <Stack.Screen
-                    name="SignUp"
-                    component={Signup}
-                />
+    
             </Stack.Navigator>
         </NavigationContainer>
 

@@ -9,6 +9,7 @@ import {
     Image,
     TouchableOpacity,
     Button,
+    ImageBackground,
 } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -21,26 +22,36 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //backgroundColor: '#70518A'
+    },
+    overlay: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain'
     },
     title: {
         textAlign: 'center',
         fontSize: 30,
         paddingTop: 60,
-        flex: 1, flexDirection: 'row', 
+        flex: 1, 
+        flexDirection: 'row', 
         justifyContent: 'space-between'
     },
     loginText: {
-        color: '#FFFFFF'
+        color: '#FFFFFFFF',
     },
     inputView: {
-        backgroundColor: '#E6E6E6',
+        backgroundColor: '#E8E8E8',
         borderRadius: 30,
-        width: '70%',
+        width: '90%',
         height: 45,
         marginBottom: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: '#BDBDBD'
       },
       TextInput: {
         height: 50,
@@ -48,25 +59,37 @@ const styles = StyleSheet.create({
         padding: 10,
         marginLeft: 20,
         width: '70%',
-        textAlign: 'center'
+        textAlign: 'left',
       },
       login: {
-        color: '#53B175',
+        color: '#080040',
         textAlign: 'center'
       },
-      carrotIcon: {
+      prompts: {
+        color: '#080040',
+        textAlign: 'left'
+      },
+      createAccount: {
+        color: '#080040',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline'
+      },
+      appIcon: {
           height: 70,
-          width: 70
+          width: 70,
       },
       loginBtn: {
-        width: '70%',
-        borderRadius: 25,
+        width: '50%',
+        borderRadius: 24,
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 40,
-        backgroundColor: '#53B175',
+        backgroundColor: '#70518A',
       },
+      GoogleBtn: {
+        
+      }
 });
 
 const Login = ({ navigation, route }) => {
@@ -74,7 +97,6 @@ const Login = ({ navigation, route }) => {
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         reponseType: ResponseType.Token,
-        //clientId: "968003055714-qii3aknffflov3qm5a0r377leu7or733.apps.googleusercontent.com",
         expoClientId: "540945185583-4b8jmm81jnrp7l17fn4o5md2loknkcah.apps.googleusercontent.com",
         webClientId: "540945185583-jtmvg8fq01oga48hubhg9han6numm4ko.apps.googleusercontent.com",
         scopes: ["openid", "profile"]
@@ -137,69 +159,68 @@ const Login = ({ navigation, route }) => {
             alert(error.message);
         }
     }
-    
         return(
-            <View style={{ flex: 1 }}>
+            <View style={{flex:1}}>
+
                 <View style={styles.container}>
                     <View style={styles.title}>
-                        <View style={{ flex: 30, alignItems: 'center' }}>
-                        <Image
-                            style={styles.carrotIcon}
-                            source={require('../assets/Carrot.png')}
-                        />
-                        </View>
-                        <View
-                            style={{ flex: 1, paddingRight: 10 }}>
+                        <View style={{flex: 50, alignItems: 'center' }}>
+                            <Image style={styles.appIcon} source={require('../assets/app-icon.png')}/>
+                            <Text style={{textAlign: 'center', fontSize: 30 }}>Sign in to your FINs account</Text>
                         </View>
                     </View>
                 </View>
+
                 <View style={styles.container}>
-                    <View style={{ flex: 1, paddingTop: 30, }}>
-                        <Text style={{ textAlign: 'center', fontSize: 30 }}>Log In</Text>
+                    <View>
+                        <Text style={styles.prompts}>Email</Text>
                     </View>
-                </View>
-                <View style={{ flex: 5, alignItems: 'center' }}>
                     <View style={styles.inputView}>
                         <TextInput
                         style={styles.TextInput}
                         value={username}
-                        placeholder='Email'
-                        placeholderTextColor='#525252'
+                        placeholder='Enter email address'
+                        placeholderTextColor='#BDBDBD'
                         onChangeText={(username) => setUsername(username)}
                         />
+                    </View>
+                    <View>
+                        <Text style={styles.prompts}>Password</Text>
                     </View>
                     <View style={styles.inputView}>
                         <TextInput
                         style={styles.TextInput}
                         value={password}
-                        placeholder='Password'
-                        placeholderTextColor='#525252'
+                        placeholder='Pick a strong password'
+                        placeholderTextColor='#BDBDBD'
                         secureTextEntry={true}
                         onChangeText={(password) => setPassword(password)}
                         />
                     </View>
-                    <TouchableOpacity>
-                        <Text style={styles.login} onPress={() => {handleSendResetPasswordEmail()}}>Reset Password</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={(event) => {handleSubmit(event)}} style={styles.loginBtn}>
-                        <Text style={styles.loginText}>Log In</Text>
-                    </TouchableOpacity>
-                    <Text>{'\n'}</Text>
-                    <TouchableOpacity onPress={() => {
-                         promptAsync();
-                        }}>
-                        <Image source={require('../assets/signin-button.png')} style={{width: 250, height: 40}} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={{textAlign: 'center'}}>Don't have an account?
-                            <Text style={styles.login} onPress={() => navigation.navigate('SignUp')}> Sign up</Text>
-                        {'\n'}{'\n'}OR{'\n'}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.login} onPress={() => {handleAnonymousLogin(); }}>Process as Guest</Text>
-                    </TouchableOpacity>
                 </View>
+
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={(event) => {handleSubmit(event)}} style={styles.loginBtn}>
+                        <Text style={styles.loginText}>Sign in</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                            <Text style={styles.login} onPress={() => {handleSendResetPasswordEmail()}}>{'\n'}Forgot your password?</Text>
+                        </TouchableOpacity>
+                        <Text></Text>
+                        <TouchableOpacity>
+                            <Text style={{textAlign: 'center'}}>New to FINs?<Text> </Text>
+                                <Text style={styles.createAccount} onPress={() => navigation.navigate('SignUp')}>Create an account</Text>
+                            </Text>
+                        </TouchableOpacity>
+                        <Text></Text>
+                        <TouchableOpacity onPress={() => {promptAsync();}}>
+                            <Image style={styles.GoogleBtn} source={require('../assets/google-signin.png')}></Image>
+                        </TouchableOpacity>
+
+                </View>
+
             </View>
+            
         );
 }
 export default Login;
