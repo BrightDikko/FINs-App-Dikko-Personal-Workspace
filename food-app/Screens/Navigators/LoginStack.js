@@ -24,7 +24,6 @@ const LoginStack = ({ navigation, route }) => {
                     name="Welcome"
                     component={Welcome}
                 />
-    
             </Stack.Navigator>
         </NavigationContainer>
 
