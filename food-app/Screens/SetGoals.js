@@ -5,7 +5,8 @@ import {
     StyleSheet,
     View,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 
 import firebase from '../firebase/FirebaseConfig'
@@ -87,10 +88,14 @@ const SetGoals = ({ navigation }) => {
         let updatedGoals = new Goals( payment, avoid, less, more)
         db.collection("user-goals").doc(userId)
             .withConverter(goalConverter)
-            .set(updatedGoals)
-        navigation.navigate('Your List')
+            .set(updatedGoals).then(() => {
+                navigation.navigate('Your List')
+            })
+        .catch((error) => {
+            Alert.alert("An error occurred.", error.message);
+        })
     }
-
+    
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
