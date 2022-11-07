@@ -1,4 +1,7 @@
 import React from 'react';
+import Icon from 'react-native-vector-icons/AntDesign'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+
 import {
     View,
     Text,
@@ -9,70 +12,67 @@ import {
     Modal
 } from 'react-native';
 
-const LoginModal = (props) => {
+const LoginModal = ({show, username, password, hidePassword, 
+                    setshowLoginModal, setUsername, setPassword, handleVisibility, 
+                    handleSubmit, promptAsync, handleResetPassword}) => {
     return(
         <Modal
             animationType="slide"
-            visible={props.show}
+            visible={show}
             transparent={true}
         >
             <View style={styles.loginModal}>
                 <View style={{flexDirection:"row"}}>
                     <Image style={styles.appIcon} source={require('../assets/app-icon.png')}/>
-                    <TouchableOpacity onPress={() => props.setshowLoginModal(false)}>
-                            <Image style={styles.X} source={require('../assets/X.png')}></Image>
+                    <TouchableOpacity onPress={() => setshowLoginModal(false)}>
+                        <Icon style={styles.X} name='close' size={30} color="#080040"/>
                     </TouchableOpacity>
-                    </View>
-                        <View style={styles.centeredView}>
-                            <Text></Text>
-                            <Text style={{color: "#080040", fontSize: 25}}>Sign in to your FINs account</Text> 
-                        </View>
-
-                        <Text></Text>
-                        <Text></Text>
-                        <View>
-                            <View>
-                                <Text style={styles.prompts}>  Email{'\n'}</Text>
-                            </View>
-                            <View style={styles.inputView}>
-                                <TextInput
-                                    style={styles.TextInput}
-                                    value={props.username}
-                                    placeholder='Enter email address'
-                                    placeholderTextColor='#BDBDBD'
-                                    onChangeText={(username) => props.setUsername(username)}
-                                />    
-                            </View>
-                            <View>
-                                <Text style={styles.prompts}>  Password {'\n'}</Text>
-                            </View>
-                            <View style={styles.inputView}>
-                                <TextInput
-                                    style={styles.TextInput}
-                                    value={props.password}
-                                    placeholder='Pick a strong password'
-                                    placeholderTextColor='#BDBDBD'
-                                    secureTextEntry={props.hidePassword}
-                                    onChangeText={(password) => props.setPassword(password)}
-                                />   
-                                <TouchableOpacity onPress={() => {props.handleVisibility()}}>
-                                    <Image style={styles.visibilityBtn} source={props.hidePassword ? require('../assets/eye.png') : require('../assets/hidden.png') }></Image>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.centeredView}>
-                                <TouchableOpacity onPress={(event) => {props.handleSubmit(event)}} style={styles.LoginBtn}>
-                                    <Text style={styles.loginText}>Sign in</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => {props.handleResetPassword()}}>
-                                    <Text>{'\n'}Forgot your password?</Text>
-                                </TouchableOpacity>
-                                <Text> {'\n\n'}</Text>
-                                <TouchableOpacity onPress={() => {props.promptAsync();}}>
-                                    <Image style={styles.GoogleBtn} source={require('../assets/google-signin.png')}></Image>
-                                </TouchableOpacity>
-                            </View>
-                        </View>     
                 </View>
+                <View style={styles.centeredView}>
+                    <Text style={styles.title}>Sign in to your FINs account</Text> 
+                </View>
+                <View>
+                    <View>
+                        <Text style={styles.prompts}>  Email</Text>
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
+                            value={username}
+                            placeholder='Enter email address'
+                            placeholderTextColor='#BDBDBD'
+                            onChangeText={(username) => setUsername(username)}
+                        />    
+                    </View>
+                    <View>
+                        <Text style={styles.prompts}>  Password </Text>
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
+                            value={password}
+                            placeholder='Enter password'
+                            placeholderTextColor='#BDBDBD'
+                            secureTextEntry={hidePassword}
+                            onChangeText={(password) => setPassword(password)}
+                        />   
+                        <TouchableOpacity onPress={() => {handleVisibility()}}>
+                            <Ionicons style={styles.visibilityBtn} size={20} name={hidePassword ? 'eye': 'ios-eye-off' }></Ionicons>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.centeredView}>
+                        <TouchableOpacity onPress={(event) => {handleSubmit(event)}} style={styles.LoginBtn}>
+                            <Text style={styles.loginText}>Sign in</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {handleResetPassword()}}>
+                            <Text>Forgot your password?</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {promptAsync();}}>
+                            <Image style={styles.GoogleBtn} source={require('../assets/google-signin.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
+                </View>     
+            </View>
         </Modal>
     )
 }
@@ -80,10 +80,18 @@ const LoginModal = (props) => {
 const styles = StyleSheet.create({
     prompts: {
         color: '#080040',
-        textAlign: 'left'
+        textAlign: 'left',
+        paddingTop: 15,
+        paddingBottom: 10
+      },
+      title: {
+        color: "#080040", 
+        fontSize: 25,
+        paddingTop: 15,
+        paddingBottom: 10
       },
       X: {
-        marginLeft: 110
+        marginLeft: 110,
       },
       appIcon: {
         height: 70,
@@ -97,6 +105,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
+        marginBottom: 7,
         backgroundColor: '#70518A',
       },
       centeredView: {
@@ -104,12 +113,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
       inputView: {
-        flex:.24,
         flexDirection:'row',
         backgroundColor: '#E8E8E8',
         borderRadius: 10,
         width: 360,
-        height: "20%",
+        height: 54,
         marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -120,9 +128,8 @@ const styles = StyleSheet.create({
         height: 50,
         flex: 1,
         padding: 10,
-        marginLeft: 20,
+        marginLeft: 10,
         width: '70%',
-        textAlign: 'left',
       },
       loginText: {
         color: '#FFFFFFFF',
@@ -137,10 +144,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'
       },
+      GoogleBtn: {
+          marginTop: 20
+      },
       visibilityBtn: {
         opacity: 0.3,
         right: 9,
-        height: 20,
+        height: 25,
         width: 20,
         marginRight: 12,
         marginTop: 5

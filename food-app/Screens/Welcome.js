@@ -11,11 +11,20 @@ import {
 } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
 
 
 const Welcome = () => {
+
+    const [showLoginModal, setshowLoginModal] = useState(false);
+    const [showSignupModal, setshowSignupModal] = useState(false);
+    const [hidePassword, sethidePassword] = useState(true);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstname] = useState('');
+    const [lastName, setLastname] = useState('');
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         reponseType: ResponseType.Token,
@@ -23,8 +32,27 @@ const Welcome = () => {
         webClientId: "540945185583-jtmvg8fq01oga48hubhg9han6numm4ko.apps.googleusercontent.com",
         scopes: ["openid", "profile"]
       });
-     
 
+
+    React.useEffect(() => {
+        firebase.auth().on
+    }
+    )
+    React.useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+        });
+    }, []); 
+    React.useEffect(() => {
+        if (response && response.type === "success") {
+            const credential = new firebase.auth.GoogleAuthProvider.credential(
+            null, // Pass the access_token as the second property
+            response.params.access_token
+        );
+        firebase.auth().signInWithCredential(credential);
+        }
+    }, [response]);
+
+      
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -77,34 +105,8 @@ const Welcome = () => {
         }
     }
 
-    React.useEffect(() => {
-        firebase.auth().on
-    }
-    )
-    React.useEffect(() => {
-        firebase.auth().onAuthStateChanged((user) => {
-        });
-    }, []); 
-    React.useEffect(() => {
-        if (response && response.type === "success") {
-            const credential = new firebase.auth.GoogleAuthProvider.credential(
-            null, // Pass the access_token as the second property
-            response.params.access_token
-        );
-        firebase.auth().signInWithCredential(credential);
-        }
-    }, [response]);
-
-    const [showLoginModal, setshowLoginModal] = useState(false);
-    const [showSignupModal, setshowSignupModal] = useState(false);
-    const [hidePassword, sethidePassword] = useState(true);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstName, setFirstname] = useState('');
-    const [lastName, setLastname] = useState('');
-
         return(
-            <View style={{ flex: 1 }}>
+            <View style={{flex:1}}>
                 <LoginModal
                     show={showLoginModal} 
                     username={username}
@@ -150,27 +152,24 @@ const Welcome = () => {
                         <Text style={styles.description}>
                             Sign in to track orders and rewards, check in for faster pickup and get personalized shopping recommendations
                         </Text>
-                    <View style={styles.container}>
-                        <TouchableOpacity onPress={() => setshowLoginModal(true)} style={styles.SigninBtn}>
-                            <Text style={styles.SigninText} onPress={() => setshowLoginModal(true)}>Sign in</Text>
-                        </TouchableOpacity>
-                        <Text></Text>
-                        <TouchableOpacity>
-                            <Text style={styles.centeredView}>New to FINs?<Text> </Text>
-                                <Text style={styles.createAccount} onPress={() => setshowSignupModal(true)}>Create an account</Text>
-                            </Text>
-                        </TouchableOpacity>
-                        <Text></Text>
-                        <TouchableOpacity>
-                            <Text style={styles.continueGuest} onPress={() => {handleAnonymousLogin(); }}>Continue as Guest</Text>
-                        </TouchableOpacity>
+                        <View style={styles.container}>
+                            <TouchableOpacity onPress={() => setshowLoginModal(true)} style={styles.SigninBtn}>
+                                <Text style={styles.SigninText} onPress={() => setshowLoginModal(true)}>Sign in</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.centeredView}>New to FINs?<Text> </Text>
+                                    <Text style={styles.createAccount} onPress={() => setshowSignupModal(true)}>Create an account</Text>
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.continueGuest} onPress={() => {handleAnonymousLogin(); }}>Continue as Guest</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
                 </View>
             </View>
         );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -185,11 +184,11 @@ const styles = StyleSheet.create({
         color: '#080040',
         textAlign: 'left'
     },
-    navOptions: { 
-        flex: 5, 
+    navOptions: {  
         alignItems: 'center' 
     },
     centeredView: {
+        marginTop: 15,
         justifyContent: "center",
         alignItems: "center",
       },
@@ -215,6 +214,7 @@ const styles = StyleSheet.create({
         color: '#575757',
         textAlign: 'left',
         textDecorationLine: 'underline',
+        marginTop: 5,
         fontSize: 14
       },
       welcomeImage: {
