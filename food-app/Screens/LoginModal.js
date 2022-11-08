@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10
       },
       title: {
-        color: "#080040", 
+        color: '#080040', 
         fontSize: 25,
         paddingTop: 15,
         paddingBottom: 10

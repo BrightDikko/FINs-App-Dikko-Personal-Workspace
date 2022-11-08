@@ -29,7 +29,6 @@ const SignupModal = ({show, username, password, hidePassword,
                     </TouchableOpacity>
                 </View> 
                 <View style={styles.centeredView}>
-                    <Text></Text>
                     <Text style={{color: "#080040", fontSize: 25}}>Create FINs account</Text> 
                 </View>
                 <View>
@@ -87,7 +86,7 @@ const SignupModal = ({show, username, password, hidePassword,
                     </View>
                     <Text style={styles.PrivacyPolicy}>
                         <Text> By creating an account, you acknowledge you have read and agreed to our </Text>
-                        <Text style={{textDecorationLine: 'underline'}}> Terms of Use </Text>
+                        <Text style={{textDecorationLine: 'underline'}}>Terms of Use </Text>
                         <Text> and </Text>
                         <Text style={{textDecorationLine: 'underline'}}> Privacy Policy. </Text>
                     </Text>
@@ -95,7 +94,6 @@ const SignupModal = ({show, username, password, hidePassword,
                         <TouchableOpacity onPress={(event) => {handleRegistration(event)}} style={styles.createAcctBtn}>
                             <Text style={styles.loginText}>Create an Account</Text>
                         </TouchableOpacity>
-                        <Text></Text>
                         <TouchableOpacity onPress={() => {promptAsync();}}>
                             <Image style={styles.GoogleBtn} source={require('../assets/google-signin.png')}></Image>
                         </TouchableOpacity>
@@ -128,6 +126,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
+        marginBottom: 15,
         backgroundColor: '#70518A',
       },
       centeredView: {

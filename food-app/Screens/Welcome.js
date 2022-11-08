@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
 
@@ -36,12 +35,13 @@ const Welcome = () => {
 
     React.useEffect(() => {
         firebase.auth().on
-    }
-    )
+    })
+
     React.useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
         });
     }, []); 
+    
     React.useEffect(() => {
         if (response && response.type === "success") {
             const credential = new firebase.auth.GoogleAuthProvider.credential(
