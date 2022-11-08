@@ -139,7 +139,8 @@ const SetGoals = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20
+        padding: 20,
+        paddingBottom: 88
     },
     scrollContainer: {
         flex: 1
@@ -170,7 +171,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#70518A',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginBottom: 20
     },
     continueText: {
         color: '#FFFFFF',
