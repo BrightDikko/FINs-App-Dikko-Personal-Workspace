@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
+import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import firebase from "firebase";
 import {
     View,
@@ -10,10 +11,12 @@ import {
     ImageBackground,
 } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 import { ResponseType } from 'expo-auth-session';
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
 
+WebBrowser.maybeCompleteAuthSession();
 
 const Welcome = () => {
 
@@ -28,21 +31,12 @@ const Welcome = () => {
     const [request, response, promptAsync] = Google.useAuthRequest({
         reponseType: ResponseType.Token,
         expoClientId: "540945185583-4b8jmm81jnrp7l17fn4o5md2loknkcah.apps.googleusercontent.com",
-        webClientId: "540945185583-jtmvg8fq01oga48hubhg9han6numm4ko.apps.googleusercontent.com",
+        clientId: "540945185583-90mg1m68opdgdcnajope5u8gbnh5e1d7.apps.googleusercontent.com",
         scopes: ["openid", "profile"]
       });
 
 
-    React.useEffect(() => {
-        firebase.auth().on
-    })
-
-    React.useEffect(() => {
-        firebase.auth().onAuthStateChanged((user) => {
-        });
-    }, []); 
-    
-    React.useEffect(() => {
+      React.useEffect(() => {
         if (response && response.type === "success") {
             const credential = new firebase.auth.GoogleAuthProvider.credential(
             null, // Pass the access_token as the second property
@@ -52,7 +46,7 @@ const Welcome = () => {
         }
     }, [response]);
 
-      
+
     async function handleSubmit(event) {
         event.preventDefault();
 
