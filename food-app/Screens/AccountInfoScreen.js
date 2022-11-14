@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const FavoriteLists = () => {
+const AccountInfoScreen = () => {
   return (
     <View
       style={{
@@ -9,8 +9,8 @@ const FavoriteLists = () => {
         justifyContent: "center",
         alignItems: "center"
       }}>
-      <Text>Favorite Lists</Text>
+      <Text>Account Info</Text>
     </View>
   )
 }
-export default FavoriteLists;
+export default AccountInfoScreen;

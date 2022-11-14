@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import ProfileDrawer from './ProfileDrawer.js';
+import AccountStack from './AccountStack.js';
 import CartStack from './CartStack.js'
 import ListStack from './ListStack.js'
 
@@ -31,7 +31,7 @@ const MainTab = ({ isRegistered, existingUser }) => {
                             iconName = focused ? "home" : "home-outline";
                         } else if (route.name === "CartStack") {
                             iconName = focused ? "cart" : "cart-outline";
-                        } else if (route.name === "ProfileDrawer") {
+                        } else if (route.name === "Account Stack") {
                             iconName = focused ? "person-circle" : "person-circle-outline";
                         }
                         return <Ionicons name={iconName} size={size} color={focused ? "#F2AE2E" : "#2E3A59"}/>
@@ -48,8 +48,8 @@ const MainTab = ({ isRegistered, existingUser }) => {
                     component={CartStack}
                     initialParams={ { isRegistered: isRegistered, existingUser: existingUser } }
                 />
-                <BottomTab.Screen name="ProfileDrawer"
-                    component={ProfileDrawer}
+                <BottomTab.Screen name="Account Stack"
+                    component={AccountStack}
                     initialParams={ { existingUser: existingUser } }
                 />
             </BottomTab.Navigator >

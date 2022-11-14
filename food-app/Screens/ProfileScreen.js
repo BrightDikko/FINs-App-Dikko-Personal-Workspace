@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const FirstScreen = () => {
+const ProfileScreen = () => {
   return (
     <View
       style={{
@@ -9,8 +9,8 @@ const FirstScreen = () => {
         justifyContent: "center",
         alignItems: "center"
       }}>
-      <Text>First Screen</Text>
+      <Text>Profile</Text>
     </View>
   )
 }
-export default FirstScreen;
+export default ProfileScreen;
