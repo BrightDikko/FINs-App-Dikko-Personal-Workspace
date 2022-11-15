@@ -6,7 +6,6 @@ import LoginStack from './Navigators/LoginStack';
 import { MainTheme } from './Themes/MainTheme'
 
 import firebase from './firebase/FirebaseConfig';
-import FirestoreService from './firebase/FirestoreService';
 
 export default function App() {
 
