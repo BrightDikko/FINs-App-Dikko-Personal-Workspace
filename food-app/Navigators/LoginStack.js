@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import Welcome from '../Welcome.js'
+import Welcome from '../Screens/Welcome.js'
 
 const Stack = createNativeStackNavigator();
 

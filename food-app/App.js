@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 
-import MainTab from './Screens/Navigators/MainTab';
-import LoginStack from './Screens/Navigators/LoginStack';
+import MainTab from './Navigators/MainTab';
+import LoginStack from './Navigators/LoginStack';
+import { MainTheme } from './Themes/MainTheme'
 
 import firebase from './firebase/FirebaseConfig';
 
@@ -28,11 +30,13 @@ export default function App() {
     )
   } else {
     return (
-      <MainTab
-        name = "MainTab"
-        isRegistered={!user.isAnonymous}
-        existingUser={user.isAnonymous ? null : user}
-      />
+      <NavigationContainer theme={MainTheme}>
+        <MainTab
+          name = "MainTab"
+          isRegistered={!user.isAnonymous}
+          existingUser={user.isAnonymous ? null : user}
+        />
+       </NavigationContainer>
     );
   }
 }

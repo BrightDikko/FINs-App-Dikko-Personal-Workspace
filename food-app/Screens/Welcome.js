@@ -12,8 +12,8 @@ import {
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { ResponseType } from 'expo-auth-session';
-import LoginModal from './LoginModal'
-import SignupModal from './SignupModal'
+import LoginModal from '../Components/LoginModal'
+import SignupModal from '../Components/SignupModal'
 
 WebBrowser.maybeCompleteAuthSession();
 

@@ -5,12 +5,12 @@ import {
   DrawerItem
 } from '@react-navigation/drawer';
 
-import FirebaseAuthService from '../../firebase/FirebaseAuthService';
+import FirebaseAuthService from '../firebase/FirebaseAuthService';
 
-import UserInfo from '../UserInfo.js';
-import PastLists from '../PastLists.js'
-import FavoriteLists from '../FavoriteLists.js'
-import Preferences from '../Preferences.js'
+import UserInfo from '../Screens/UserInfo.js';
+import PastLists from '../Screens/PastLists.js'
+import FavoriteLists from '../Screens/FavoriteLists.js'
+import Preferences from '../Screens/Preferences.js'
 
 /*
 In this section:
