@@ -4,7 +4,6 @@ import MainTab from './Screens/Navigators/MainTab';
 import LoginStack from './Screens/Navigators/LoginStack';
 
 import firebase from './firebase/FirebaseConfig';
-import FirestoreService from './firebase/FirestoreService';
 
 export default function App() {
 

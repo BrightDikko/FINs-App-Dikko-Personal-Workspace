@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import FirebaseAuthSerivce from '../firebase/FirebaseAuthService';
-import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import firebase from "firebase";
 import {
     View,
