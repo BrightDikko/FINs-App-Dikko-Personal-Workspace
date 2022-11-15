@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AccountScreen from '../Screens/AccountScreen.js';
 import AccountInfoScreen from '../Screens/AccountInfoScreen.js';
 import ProfileScreen from '../Screens/ProfileScreen.js';
+import SetGoals from '../Screens/SetGoals.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,20 +19,39 @@ const AccountStack = ({ navigation, route }) => {
     return (
             <Stack.Navigator
                 screenOptions={{
-                    headerShown: false
                 }}
             >
                 <Stack.Screen
                     name="Account"
                     component={AccountScreen}
+                    options={{
+                        headerStyle: {
+                          backgroundColor: '#70518A',
+                        },
+                        headerTintColor: '#fff',
+                    }}
                 />
                 <Stack.Screen
                     name="Profile"
                     component={ProfileScreen}
+                    options={{
+                        headerShown: 'false'
+                    }}
                 />
                 <Stack.Screen
                     name="Account Information"
                     component={AccountInfoScreen}
+                />
+                <Stack.Screen
+                    name="Set Goals"
+                    component={SetGoals}
+                    initialParams={{ returnScreen: 'Account' }}
+                    options={{
+                        headerStyle: {
+                          backgroundColor: '#70518A',
+                        },
+                        headerTintColor: '#fff',
+                    }}
                 />
             </Stack.Navigator>
 

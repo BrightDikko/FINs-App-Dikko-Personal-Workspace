@@ -49,7 +49,7 @@ const ListStack = ({ navigation, route }) => {
       <Stack.Screen
         name="Set Goals"
         component={SetGoals}
-        initialParams={{ existingUser: route.params.existingUser, isRegistered: route.params.isRegistered }}
+        initialParams={{ returnScreen: 'Your List' }}
       />
     </Stack.Navigator>
   );
