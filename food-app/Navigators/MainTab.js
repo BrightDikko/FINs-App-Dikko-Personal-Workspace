@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import ProfileDrawer from './ProfileDrawer.js';
 import CartStack from './CartStack.js'
@@ -22,26 +21,14 @@ const MainTab = ({ isRegistered, existingUser }) => {
                     tabBarIcon: ({ focused }) => {
                       var image;
                       if (route.name === 'My List') {
-                        image = focused
-                          ? require('../assets/images/bottom-tab/UnselectedList.png')
-                          : require('../assets/images/bottom-tab/List.png');
+                        return <MaterialCommunityIcons style={styles.icon} name="format-list-bulleted" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'Deals') {
-                        image = focused 
-                            ? require('../assets/images/bottom-tab/UnselectedDeals.png' )
-                            : require('../assets/images/bottom-tab/Deals.png');
+                        return <MaterialCommunityIcons style={styles.icon} name="tag-multiple" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'My Cart') {
-                        image = focused 
-                            ? require('../assets/images/bottom-tab/UnselectedCart.png' )
-                            : require('../assets/images/bottom-tab/Cart.png');
+                        return <MaterialCommunityIcons style={styles.icon} name="cart" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'Profile') {
-                        image = focused 
-                            ? require('../assets/images/bottom-tab/UnselectedAccount.png' )
-                            : require('../assets/images/bottom-tab/Account.png');
+                        return <MaterialCommunityIcons style={styles.icon} name="account-circle" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       }
-                      return <Image 
-                        style={styles.icon}
-                        source={image} 
-                      />;
                     },
                     tabBarInactiveTintColor: '#222B45',
                     tabBarActiveTintColor: '#F2AE2E',
