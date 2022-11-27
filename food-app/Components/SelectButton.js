@@ -1,12 +1,12 @@
 import React from 'react';
 
 import {
-    StyleSheet,
-    TouchableOpacity
+    Pressable,
+    StyleSheet
 } from 'react-native';
 
-const SelectButton = ({ selected, handlePress }) => {
-    return <TouchableOpacity style={selected? styles.selected : styles.unselected} onPress={() => handlePress()}/>
+const SelectButton = ({ selected, handlePress, disabled=false }) => {
+    return <Pressable disabled={disabled} style={selected? styles.selected : styles.unselected} onPress={() => handlePress()}/>
 };
 
 const styles = StyleSheet.create({

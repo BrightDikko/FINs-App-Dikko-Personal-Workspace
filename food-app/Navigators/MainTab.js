@@ -25,7 +25,7 @@ const MainTab = ({ isRegistered, existingUser }) => {
                         return <MaterialCommunityIcons style={styles.icon} name="tag-multiple" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'My Cart') {
                         return <MaterialCommunityIcons style={styles.icon} name="cart" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
-                      } else if (route.name === 'Profile') {
+                      } else if (route.name === 'Account Stack') {
                         return <MaterialCommunityIcons style={styles.icon} name="account-circle" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       }
                     },
@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
             height: 1,
         },
         shadowOpacity: 0.25,
-        shadowRadius: 2
+        shadowRadius: 2, 
     }
 });

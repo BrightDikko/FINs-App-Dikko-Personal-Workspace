@@ -41,7 +41,7 @@ var goalConverter = {
     }
 };
 
-const SetGoals = ({ navigation, returnScreen }) => {
+const SetGoals = ({ navigation, route }) => {
     
     const [ userId, setUserId ] = useState()
     const [ payment, setPayment ] = useState()
@@ -89,7 +89,7 @@ const SetGoals = ({ navigation, returnScreen }) => {
         db.collection("user-goals").doc(userId)
             .withConverter(goalConverter)
             .set(updatedGoals).then(() => {
-                navigation.navigate(returnScreen)
+                navigation.navigate(route.params.returnScreen)
             })
         .catch((error) => {
             Alert.alert("An error occurred.", error.message);
