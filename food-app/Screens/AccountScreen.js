@@ -73,8 +73,8 @@ const AccountScreen = ({ navigation }) => {
               // determine which fields have been set
               if(doc.data().payment.cashCredit != 0 || doc.data().payment.pebt != 0 || doc.data().payment.snap != 0 || doc.data().payment.wic != 0){
                 setNoPayment(false)
-                setTotalPayment(doc.data().payment.cashCredit + doc.data().payment.pebt + doc.data().payment.snap + doc.data().payment.wic)
               } 
+              setTotalPayment(doc.data().payment.cashCredit + doc.data().payment.pebt + doc.data().payment.snap + doc.data().payment.wic)
               setLoading(false)
             } else {
               setNoPayment(true)
@@ -111,56 +111,11 @@ const AccountScreen = ({ navigation }) => {
     }
   }, [avoid])
 
-
-  // useEffect(() => {
-  //     if(userId){
-  //         db.collection("user-goals").doc(userId)
-  //             .withConverter(goalConverter)
-  //             .get().then((doc) => {
-  //                 if (doc.exists) {
-  //                   setPayment(doc.data().payment)
-  //                   setLess(Object.keys(doc.data().less).filter((choice) => doc.data().less[choice]))
-  //                   setMore(Object.keys(doc.data().more).filter((choice) => doc.data().more[choice]))
-  //                   setAvoid(Object.keys(doc.data().avoid).filter((choice) => doc.data().avoid[choice]))
-  //                   // determine which fields have been set
-  //                   if(doc.data().payment.cashCredit != 0 || doc.data().payment.pebt != 0 || doc.data().payment.snap != 0 || doc.data().payment.wic != 0){
-  //                     setNoPayment(false)
-  //                     setTotalPayment(doc.data().payment.cashCredit + doc.data().payment.pebt + doc.data().payment.snap + doc.data().payment.wic)
-  //                   } 
-  //                   for (var key in less){
-  //                     if(less[key]){
-  //                       setHasLess(true)
-  //                       setNoGoals(false)
-  //                       break;
-  //                     }
-  //                   }
-  //                   for (var key in more){
-  //                     if(more[key]){
-  //                       setHasMore(true)
-  //                       setNoGoals(false)
-  //                       break;
-  //                     }
-  //                   }
-  //                   for (var key in avoid){
-  //                     if(avoid[key]){
-  //                       setHasAvoid(true)
-  //                       setNoGoals(false)
-  //                       break;
-  //                     }
-  //                   }
-  //                 } else {
-  //                   setNoPayment(true)
-  //                   setNoGoals(true)
-  //                 }
-  //             }).catch((error) => {
-  //                 console.log("Error getting document:", error);
-  //                 setLoading(false)
-  //             }).finally(() => {
-  //               setLoading(false)
-  //             });
-  //     }
-  // }, [userId])
-
+  useEffect(() => {
+    if(totalPayment == 0){
+      setNoPayment(true)
+    }
+  }, [totalPayment])
 
   return loading ? <ActivityIndicator style={{ alignSelf: "center", justifySelf: "center"}}size="large">
 
@@ -209,7 +164,7 @@ const AccountScreen = ({ navigation }) => {
               <Text style={styles.goalText}>Budget</Text>
           </View>
           { noPayment ? <View style={styles.container}> 
-            <Text style={{alignSelf: 'center', padding: 10}}>You do not currently have any payments set.</Text>
+            <Text style={{...styles.noneLabel, marginTop: 7}}>You do not currently have any payments set.</Text>
           </View> : 
           <View style={styles.container}>
             <View style={styles.budgetHeaders}>
@@ -267,7 +222,7 @@ const AccountScreen = ({ navigation }) => {
                 </View>}
             <View style={styles.totalBudgetLabel}>
                 <Text style={styles.totalBudgetText}>
-                {`Total Budget - ${formatter.format(totalPayment)}`}
+                { totalPayment == 0 ? 'No payment methods saved' : `Total Budget - ${formatter.format(totalPayment)}`}
                 </Text>
             </View>
         </View> }
@@ -310,7 +265,7 @@ const AccountScreen = ({ navigation }) => {
                           <Text style={styles.choiceLabel}>{choice}</Text>
                       </Pressable>
                   )
-              }) : <Text style={{alignSelf: 'center'}}> None chosen </Text>
+              }) : <Text style={styles.noneLabel}> None chosen </Text>
             }
             </View>
             <View style={styles.horizontalLine}/>
@@ -327,7 +282,7 @@ const AccountScreen = ({ navigation }) => {
                           <Text style={styles.choiceLabel}>{choice}</Text>
                       </Pressable>
                   )
-              }) : <Text style={{alignSelf: 'center'}}> None chosen </Text>}
+              }) : <Text style={styles.noneLabel}> None chosen </Text>}
             </View>
           </View>}
         </View>
@@ -415,10 +370,13 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 2,  
+    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowOffset: {
+      width: 4,
+      height: 8
+    },
+    shadowRadius: 24,
+    shadowOpacity: 1,
     elevation: 5,
     borderRadius: 12,
     width: '90%',
