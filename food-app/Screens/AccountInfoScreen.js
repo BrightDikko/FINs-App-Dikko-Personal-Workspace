@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View, Image, StyleSheet, Modal, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
-// import {Icon as EntypoIcon} from 'react-native-vector-icons/Entypo';
-// import {Icon} from 'react-native-vector-icons/AntDesign'
+import { Text, View, Image, StyleSheet, Modal, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign'
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import firebase from '../firebase/FirebaseConfig'
 import "firebase/firestore";
 
-
-
-
 const AccountInfoScreen = ({ navigation }) => {
   const [ displayName, setDisplayName ] = useState('')
   const [ email, setEmail ] = useState('')
-  const [ photoURL, setPhotoURL ] = useState()
   const [ gotUserInfo, setGotUserInfo ] = useState(false)
+  const [ uploadingNewImage, setUploadingNewImage ] = useState(false)
+  const [ photo, setPhoto ] = useState(null)
+  const [ uploadingImage, setUploadingImage ] = useState(false)
+  const [ user, setUser ] = useState()
 
   useEffect(() => {
     const auth = firebase.auth();
@@ -24,15 +22,17 @@ const AccountInfoScreen = ({ navigation }) => {
     if (user) {
       setDisplayName(user.displayName)
       setEmail(user.email)
-      setPhotoURL(user.photoURL != null ? user.photoURL : false)
+      setPhoto(user.photoURL)
       setGotUserInfo(true)
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      // ...
-    } else {
-      // No user is signed in.
+      setUser(user)
     }
   }, [])
+
+  useEffect(() => {
+    if(uploadingNewImage){
+      uploadImage()
+    }
+  }, [photo])
 
   const signOut = () => {
     firebase.auth().signOut().then(() => {
@@ -40,6 +40,60 @@ const AccountInfoScreen = ({ navigation }) => {
     }).catch((error) => {
       console.log("Error: " + error)
     });
+  }
+
+  const pickImage = async () => {
+    setUploadingNewImage(true)
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // We can specify whether we need only Images or Videos
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,   // 0 means compress for small size, 1 means compress for maximum quality
+    })
+    if (!result.cancelled) {
+      setPhoto(result.uri);
+    }
+  };
+
+  const uploadImage = async () => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', photo, true);
+      xhr.send(null);
+    })
+    const ref = firebase.storage().ref(user.uid + '/profilePicture/profile.png')
+    const snapshot = ref.put(blob)
+    snapshot.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      ()=>{
+        setUploadingImage(true)
+      },
+      (error) => {
+        setUploadingImage(false)
+        setUploadingNewImage(false)
+        console.log(error)
+        blob.close()
+        return 
+      },
+      () => {
+        snapshot.snapshot.ref.getDownloadURL().then((url) => {
+          setUploadingImage(false)
+          setUploadingNewImage(false)
+          setPhoto(url)
+          user.updateProfile({
+            photoURL: url
+          })
+          blob.close()
+          return url
+        })
+      }
+      )
   }
 
   return (
@@ -53,17 +107,21 @@ const AccountInfoScreen = ({ navigation }) => {
       <TouchableOpacity style={{zIndex: 1}} onPress={()=>{}}>
         <Icon style={styles.more} name='ellipsis1' rotate={90} size={24} color="#fff"/>
       </TouchableOpacity>
-      {/* <EntypoIcon name="three-dots-vertical" style={styles.threeDots}/> */}
         <View style={styles.center}>
           <View style={styles.modal}>
           { gotUserInfo ? 
             <View style={{width: '100%'}}>
               <ImageBackground
                 style={styles.profilePic}
-                // defaultSource={require('../assets/images/account/profile.png')}
-                source={require('../assets/images/account/profile.png')}
+                imageStyle={{ borderRadius: '50%' }}
+                source={photo ? {uri: photo} : require('../assets/images/account/profile.png')}
               >
-                <Icon name="camera" style={styles.camera} size="sm" color="#fff" />
+                { uploadingImage ? <ActivityIndicator style={styles.camera} size={'small'} color='white'/> : 
+                <Icon 
+                  name="camera" 
+                  style={styles.camera} size="sm" 
+                  color="#fff" 
+                  onPress={() => {pickImage()}}/>}
               </ImageBackground>
               <Text style={styles.name}>{displayName}</Text>
               <Text style={styles.email}>{email}</Text>
@@ -99,9 +157,6 @@ const styles = StyleSheet.create({
     width: '100%',
     top: 0,
     left: 0
-  },
-  threeDots: {
-
   },
   center: {
     flex: 1,

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View, SafeAreaView, ScrollView, StyleSheet, Image, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { Icon as Iconify } from '@iconify/react';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Icon from 'react-native-vector-icons/Entypo';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import { Payment } from '../Classes/Payment'
 import { Goals } from '../Classes/Goals'
 import firebase from '../firebase/FirebaseConfig'
@@ -117,9 +117,8 @@ const AccountScreen = ({ navigation }) => {
     }
   }, [totalPayment])
 
-  return loading ? <ActivityIndicator style={{ alignSelf: "center", justifySelf: "center"}}size="large">
-
-  </ActivityIndicator> : 
+  return loading ? <ActivityIndicator style={{ alignSelf: "center", justifySelf: "center", marginTop: "40%"}}size="large"/>
+ : 
   
     <SafeAreaView
       style={{
@@ -138,7 +137,7 @@ const AccountScreen = ({ navigation }) => {
             style={{...styles.navView, 
               borderColor: 'rgba(119, 119, 119, .25)',
               borderBottomWidth: 1,}}>
-              <Ionicons name="person-circle" style={styles.leftIcon}/>
+              <Ionicons name="person-circle-outline" style={styles.leftIcon}/>
               <Text style={styles.navLabel}>Profile</Text>
               <Ionicons name="chevron-forward-circle-outline" style={styles.rightIcon}/>
           </TouchableOpacity>
@@ -147,7 +146,7 @@ const AccountScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Account Information')}
             style={styles.navView}
           >
-              <Ionicons name="settings-outline" style={styles.leftIcon}/>
+              <AntDesignIcon style={styles.leftIcon} name='idcard' size={14}/>
               <Text style={styles.navLabel}>Account Information</Text>
               <Ionicons name="chevron-forward-circle-outline" style={styles.rightIcon}/>
           </TouchableOpacity>
@@ -155,12 +154,12 @@ const AccountScreen = ({ navigation }) => {
             <Text style={styles.MyGoalsText}>My Goals</Text>
             <TouchableOpacity style={styles.editTouchable}
               onPress={() => navigation.navigate('Set Goals')}>
-              <Ionicons name="pencil-sharp" style={{...styles.rightIcon, color: '#2E3A59'}}/>
+              <EntypoIcon name="edit" style={styles.rightIcon}/>
               <Text style={{alignSelf: 'center', paddingHorizontal: 5, color: '#5148BB'}}>Edit</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.goalHeader}>
-              <Icon name="credit-card" size={25} style={styles.goalIcon}/>
+              <EntypoIcon name="credit-card" size={25} style={styles.goalIcon}/>
               <Text style={styles.goalText}>Budget</Text>
           </View>
           { noPayment ? <View style={styles.container}> 
@@ -311,11 +310,13 @@ const styles = StyleSheet.create({
   },
   leftIcon: {
     justifySelf: 'flex-start',
-    fontSize: 40
+    fontSize: 40,
+    color: '#2E3A59'
   },
   rightIcon: {
     justifySelf: 'flex-end',
-    fontSize: 24
+    fontSize: 24,
+    color: '#2E3A59'
   },
   editGoals: {
     flex: 1,
