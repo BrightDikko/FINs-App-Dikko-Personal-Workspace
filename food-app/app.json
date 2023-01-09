@@ -28,6 +28,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Give FINS access to your photo library for a profile picture.",
+          "cameraPermission": "Give FINS access to your camera for a profile picture."
+        }
+      ]
+    ]
   }
 }

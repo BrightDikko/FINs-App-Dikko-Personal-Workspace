@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import ProfileDrawer from './ProfileDrawer.js';
+import AccountStack from './AccountStack.js';
 import CartStack from './CartStack.js'
 import ListStack from './ListStack.js'
 import DealsStack from './DealsStack.js'
@@ -19,14 +19,13 @@ const MainTab = ({ isRegistered, existingUser }) => {
                     tabBarStyle: styles.tabBarStyle,
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {
-                      var image;
                       if (route.name === 'My List') {
                         return <MaterialCommunityIcons style={styles.icon} name="format-list-bulleted" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'Deals') {
                         return <MaterialCommunityIcons style={styles.icon} name="tag-multiple" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       } else if (route.name === 'My Cart') {
                         return <MaterialCommunityIcons style={styles.icon} name="cart" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
-                      } else if (route.name === 'Profile') {
+                      } else if (route.name === 'Account Stack') {
                         return <MaterialCommunityIcons style={styles.icon} name="account-circle" size={25} color={focused ? '#F2AE2E' : '#222B45'} />
                       }
                     },
@@ -57,8 +56,8 @@ const MainTab = ({ isRegistered, existingUser }) => {
                         tabBarButton: props => <CustomTabBarButton { ...props} />
                     }}
                 />
-                <BottomTab.Screen name="Profile"
-                    component={ProfileDrawer}
+                <BottomTab.Screen name="Account Stack"
+                    component={AccountStack}
                     initialParams={ { existingUser: existingUser } }
                     options={{
                         tabBarLabel: "Account",
@@ -90,6 +89,6 @@ const styles = StyleSheet.create({
             height: 1,
         },
         shadowOpacity: 0.25,
-        shadowRadius: 2
+        shadowRadius: 2, 
     }
 });
